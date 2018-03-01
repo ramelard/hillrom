@@ -1,0 +1,10 @@
+To finish Milestone 2:
+- Take acquisitions at 0, 10, 45, 60 deg, and at 2-3 different distances.
+- Incorporate into report
+
+Use GPU parallelization on TK1
+  It comes with nVidia's custom Linux flavour, so regular Linux CUDA won't work -- need to install it from an Ubuntu 14.? host computer?
+  Talk to Francis/Brendan if I need help
+  
+  
+Change weighting to account for mode of spectral peaks.
