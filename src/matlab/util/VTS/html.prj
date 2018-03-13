@@ -1,0 +1,92 @@
+<deployment-project plugin="plugin.toolbox" plugin-version="1.0">
+  <configuration file="C:\Users\hayakawa\Documents\Visual Studio 2013\Projects\vts\matlab\vts_wrapper\html.prj" location="C:\Users\hayakawa\Documents\Visual Studio 2013\Projects\vts\matlab\vts_wrapper" name="html" target="target.toolbox" target-name="Package Toolbox">
+    <param.appname>html</param.appname>
+    <param.authnamewatermark />
+    <param.email />
+    <param.company />
+    <param.summary />
+    <param.description />
+    <param.screenshot />
+    <param.version>1.0</param.version>
+    <param.output>${PROJECT_ROOT}\html.mltbx</param.output>
+    <param.products.name>
+      <item>MATLAB</item>
+    </param.products.name>
+    <param.products.id>
+      <item>1</item>
+    </param.products.id>
+    <param.products.version>
+      <item>8.4</item>
+    </param.products.version>
+    <param.platforms />
+    <param.guid />
+    <param.exclude.filters />
+    <param.examples>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;examples/&gt;</param.examples>
+    <param.demosxml />
+    <param.apps />
+    <param.docs />
+    <unset>
+      <param.authnamewatermark />
+      <param.email />
+      <param.company />
+      <param.summary />
+      <param.description />
+      <param.screenshot />
+      <param.version />
+      <param.output />
+      <param.platforms />
+      <param.guid />
+      <param.exclude.filters />
+      <param.demosxml />
+      <param.apps />
+      <param.docs />
+    </unset>
+    <fileset.rootdir>
+      <file>${PROJECT_ROOT}\html</file>
+    </fileset.rootdir>
+    <fileset.rootfiles>
+      <file>${PROJECT_ROOT}\html\demo</file>
+      <file>${PROJECT_ROOT}\html\demo.html</file>
+      <file>${PROJECT_ROOT}\html\demo.m</file>
+      <file>${PROJECT_ROOT}\html\function_categories.html</file>
+      <file>${PROJECT_ROOT}\html\function_categories.m</file>
+      <file>${PROJECT_ROOT}\html\getting_started.html</file>
+      <file>${PROJECT_ROOT}\html\getting_started.m</file>
+      <file>${PROJECT_ROOT}\html\helptoc.xml</file>
+      <file>${PROJECT_ROOT}\html\images</file>
+      <file>${PROJECT_ROOT}\html\monte_carlo</file>
+      <file>${PROJECT_ROOT}\html\Publish.m</file>
+      <file>${PROJECT_ROOT}\html\solvers</file>
+      <file>${PROJECT_ROOT}\html\spectroscopy</file>
+      <file>${PROJECT_ROOT}\html\user_guide.html</file>
+      <file>${PROJECT_ROOT}\html\user_guide.m</file>
+    </fileset.rootfiles>
+    <fileset.depfun.included />
+    <fileset.depfun.excluded />
+    <fileset.package />
+    <build-deliverables>
+      <file location="C:\Users\hayakawa\Documents\Visual Studio 2013\Projects\vts\matlab\vts_wrapper" name="html.mltbx" optional="false">C:\Users\hayakawa\Documents\Visual Studio 2013\Projects\vts\matlab\vts_wrapper\html.mltbx</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>C:\Program Files\MATLAB\R2014b</root>
+      <toolboxes />
+    </matlab>
+    <platform>
+      <unix>false</unix>
+      <mac>false</mac>
+      <windows>true</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>false</linux>
+      <solaris>false</solaris>
+      <osver>6.2</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>win64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>
