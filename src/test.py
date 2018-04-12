@@ -11,34 +11,40 @@ logging.basicConfig(level=logging.DEBUG,
                     format='(%(threadName)-10s) %(message)s',
                     )
 face_frames = []
+face_roi = []
 
 
 def worker(q):
   # TODO: speed this up by not doing facial tracking each time (xcorr? assume they're motionless?)
-  face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
   while True:
     frame, t = q.get(block=True)
     logging.debug('Extracted frame; q.size()=%u', q.qsize())
-    
+
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-    try:
-      faces = face_cascade.detectMultiScale(
-          gray,
-          scaleFactor=1.1,
-          minNeighbors=5,
-          minSize=(30, 30),
-          flags=cv2.CASCADE_SCALE_IMAGE
-      )
+    if not face_roi:
+      face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+      try:
+        faces = face_cascade.detectMultiScale(
+            gray,
+            scaleFactor=1.1,
+            minNeighbors=5,
+            minSize=(30, 30),
+            flags=cv2.CASCADE_SCALE_IMAGE
+        )
 
-      if faces.any():
-        (x, y, w, h) = faces[0, :]
-        subframe = gray[y:y+h, x:x+w]
-        face_frames.append((subframe, t))
-      else:
-        logging.warning('Could not detect any faces')
-    except:
-      logging.warning('Error detecting faces')
+        if faces.any():
+          (x, y, w, h) = faces[0, :]
+          face_roi = (range(y,y+h+1), range(x,x+w+1))
+        else:
+          logging.warning('Could not detect any faces')
+      except:
+        logging.warning('Error detecting faces')
+    else:
+      pass
+
+    subframe = gray[face_roi[0], face_roi[1]]
+    face_frames.append((subframe, t))
       
     q.task_done()
     
