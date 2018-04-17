@@ -1,5 +1,5 @@
-function [hr,rr] = extract_vitals(frames, block_size)
-
+function [hr,rr] = extract_vitals(frames, face_rect, block_size)
+%#codegen
 % assert(isa(frames,'double'))
 % assert(isa(block_size,'double'))
 
@@ -11,26 +11,25 @@ end
 % frames = imrotate(frames,180);
 % toc
 
-fprintf(1,'Finding face...')
-% Need to make face pointing up so it works with Viola-Jones.
-frame = flipud(frames(:,:,1));
-% Viola-Jones cascade face detector. Min size chosen empirically based on
-% optical setup.
-faceDetector = vision.CascadeObjectDetector('MinSize',[75 75]);
-% faceDetector = vision.CascadeObjectDetector('ProfileFace','MinSize',[75 75]);
-face_rect = step(faceDetector, frame);
-
-if isempty(face_rect)
+% fprintf(1,'Finding face...')
+% % Need to make face pointing up so it works with Viola-Jones.
+% frame = flipud(frames(:,:,1));
+% % Viola-Jones cascade face detector. Min size chosen empirically based on
+% % optical setup.
+% faceDetector = vision.CascadeObjectDetector('MinSize',[75 75]);
+% % faceDetector = vision.CascadeObjectDetector('ProfileFace','MinSize',[75 75]);
+% face_rect = step(faceDetector, frame);
+% 
+% if isempty(face_rect)
 %   warning('No face detected. Using coarse ROIs.')
-  body = frames(2:304,2:678,:);
-  head = frames(443:851, 110:521, :);
-else
+%   body = frames(2:304,2:678,:);
+%   head = frames(443:851, 110:521, :);
+% else
   [H,W,T] = size(frames);
   x = face_rect(1);
   y = H-face_rect(2);
   w = face_rect(3);
   h = face_rect(4);
-  fprintf(1,'Done\n')
 
   % Draw the returned bounding box around the detected face.
 %   videoOut = insertObjectAnnotation(frame,'rectangle',face_rect,'Face');
@@ -41,7 +40,7 @@ else
   head = frames(y-h : y, x:x+w, :);
   % The rest is body.
   body = frames(1 : y-h*2, 1 : end, :);
-end
+% end
   
 Bbody = imresize(body,1/block_size,'box');
 Rbody = reshape(permute(Bbody,[3 1 2]),size(Bbody,3),[]);
@@ -80,8 +79,8 @@ end
 
 % power = (a^2+b^2)/N
 % Should be same as 1/N*abs(Y)^2
-npts = size(Abody,2);
-Fheartrate = zeros(floor(npts/2), size(Abody,2));
+npts = size(Abody,1);
+Fheartrate = zeros(floor(npts/2), size(Ahead,2));
 Fbreathing = zeros(floor(npts/2), size(Abody,2));
 
 Y = fft(Abody, npts);
@@ -95,10 +94,8 @@ Fheartrate = Pyy(1:floor(npts/2),:);
 
 % [freq, Fbreathing] = plot_power_spectrum(Abody, 60);
 % [freq, Fheartrate] = plot_power_spectrum(Ahead_filt, 60);
-for i = 1:size(Fbreathing,2)
-  Fbreathing(1,i) = 0;
-  Fheartrate(1,i) = 0;
-end
+Fbreathing(1,:) = 0;
+Fheartrate(1,:) = 0;
 % Fbreathing(1,:) = zeros(1, size(Fbreathing,2));
 % Fheartrate(1,:) = zeros(1, size(Fheartrate,2));
 

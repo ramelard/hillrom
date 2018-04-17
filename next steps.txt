@@ -1,0 +1,22 @@
+Just generated extract_vitals.m using codegen. Link extract_vitals.dll into Python code. See example main at src/matlab/codegen/dll/extract_vitals/example. Try:
+  It's very easy to call a DLL function in Python. I have a self-made DLL file with two functions: add and sub which take two arguments.
+    add(a, b) returns addition of two numbers
+    sub(a, b) returns substraction of two numbers
+  The name of the DLL file will be "demo.dll"
+  Program:
+    from ctypes import*
+    # give location of dll
+    mydll = cdll.LoadLibrary("C:\\demo.dll")
+    result1= mydll.add(10,1)
+    result2= mydll.sub(10,1)
+    print "Addition value:-"+result1
+    print "Substraction:-"+result2
+
+
+
+Figure out how to put diffuser onto lens.
+
+
+Running into ELF header error
+  Try downloading python 64bit onto TK1.
+  If that doesn't work, may need to put Matlab on TK1 and use Coder to build it natively :( Or try setting up mingw properly for matlab
