@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Hill-Rom.iml" filepath="$PROJECT_DIR$/.idea/Hill-Rom.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/hillrom.iml" filepath="$PROJECT_DIR$/.idea/hillrom.iml" />
     </modules>
   </component>
 </project>

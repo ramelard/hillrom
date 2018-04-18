@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo "Copying codegen .c and .h"
+cp ../matlab/codegen/lib/extract_vitals/*.c ./
+cp ../matlab/codegen/lib/extract_vitals/*.h ./
+
+echo "Running make..."
+make
+
+echo "Removing source files"
+rm -f *.c *.h *.o
+
+echo "extract_vitals.so created"

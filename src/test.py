@@ -1,7 +1,8 @@
 import threading
 from Queue import Queue
 import numpy as np
-from extract_vitals import butter_bandpass
+# from extract_vitals import butter_bandpass
+from extract_vitals import extract_vitals
 import matplotlib.pyplot as plt
 import cv2
 from time import time
@@ -24,6 +25,8 @@ def worker(q, lock):
     # logging.debug('Extracted frame; q.size()=%u', q.qsize())
 
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    gray_64F = cv2.normalize(gray.astype(np.float64), alpha=0.0, beta=1.0,
+                         norm_type=cv2.NORM_MINMAX)
 
     if not face_roi:
       # We only want 1 thread to find a face. So prohibit multiple threads from getting in here at the beginning.
@@ -52,14 +55,14 @@ def worker(q, lock):
 
     if face_roi:
       (x, y, w, h) = face_roi
-      subframe = gray[y:y + h, x:x + w]
+      subframe = gray_64F[y:y + h, x:x + w]
       face_frames.append((subframe, t))
       
     q.task_done()
     
 
 def track_and_display():
-  video_capture = cv2.VideoCapture(1)
+  video_capture = cv2.VideoCapture(0)
 
   lock = threading.Lock()
   
@@ -73,7 +76,7 @@ def track_and_display():
 
   tstart = time()
   nframes = 0
-  while time()-tstart < 5:
+  while time()-tstart < 1:
     # Capture frame-by-frame
     ret, frame = video_capture.read()
     t0 = time()
@@ -101,7 +104,7 @@ def track_and_display():
   logging.debug('Processing speed: %.2f fps', nframes / (time() - tstart))
 
   tlast = tstart
-  # Need to sort since these may have been added out of order by workers
+  # Need to sort since these may have been added out of order by workers.
   face_frames.sort(key=lambda x:x[1])
   for (frame, t) in face_frames:
     # frame,t = face_frames.get()
@@ -110,9 +113,13 @@ def track_and_display():
     tlast = t
     cv2.waitKey(int(1./5*1000))
 
-  
-  
-  
+  frames = [frame for (frame, t) in face_frames]
+  block_size = 6
+  extract_vitals(frames, face_roi, block_size)
+
+
+
+
 if __name__ == '__main__':
   track_and_display()
   # t = np.arange(0,3,1/100.)
