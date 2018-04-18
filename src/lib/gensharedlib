@@ -1,8 +1,8 @@
 #!/bin/bash
 
 echo "Copying codegen .c and .h"
-cp ../matlab/codegen/lib/extract_vitals/*.c ./
-cp ../matlab/codegen/lib/extract_vitals/*.h ./
+cp ../matlab/codegen/lib/extract_vitals_tk1/*.c ./
+cp ../matlab/codegen/lib/extract_vitals_tk1/*.h ./
 
 echo "Running make..."
 make
@@ -10,4 +10,4 @@ make
 echo "Removing source files"
 rm -f *.c *.h *.o
 
-echo "extract_vitals.so created"
+echo "extract_vitals_tk1.so created"

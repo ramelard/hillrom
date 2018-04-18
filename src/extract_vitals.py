@@ -12,24 +12,26 @@ logging.basicConfig(level=logging.DEBUG,
                     format='(%(threadName)-10s) %(message)s',
                     )
 
-mydll = cdll.LoadLibrary('./lib/extract_vitals.so')
+mydll = cdll.LoadLibrary('./lib/extract_vitals_tk1.so')
 mydll.rt_InitInfAndNaN(c_size_t(8))
 
 
-def extract_vitals(frames, face_roi, block_size):
+def extract_vitals(frames_head, frames_body, block_size):
   # Transform frames (list of nparray) into emxArray_real_T
   # TODO: is face_roi proper for usage with extract_vitals?
 
-  c_face_roi = (c_double * 4)(*face_roi)
+  #c_face_roi = (c_double * 4)(*face_roi)
   c_block_size = c_double(block_size)
+  c_fps = c_double(30)
   hr_out = c_double(3)
   rr_out = c_double(3)
 
   logging.debug('Converting frames to emxarray...')
   tstart = time()
-  frames_emxarray_ptr = frames_to_emxarray(frames)
+  head_emxarray_ptr = frames_to_emxarray(frames_head)
+  body_emxarray_ptr = frames_to_emxarray(frames_head)
   logging.debug('Done (%.2fs)', time()-tstart)
-  mydll.extract_vitals(frames_emxarray_ptr, c_face_roi, c_block_size,
+  mydll.extract_vitals_tk1(head_emxarray_ptr, body_emxarray_ptr, c_fps, c_block_size,
                        byref(hr_out), byref(rr_out))
   logging.debug('HR=%.1f, RR=%.1f', hr_out.value, rr_out.value)
   pass

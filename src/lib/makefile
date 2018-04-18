@@ -2,7 +2,7 @@ SHELL = /bin/sh
 CC    = gcc
 CFLAGS       = -fPIC
 LDFLAGS = -shared
-NAME = extract_vitals
+NAME = extract_vitals_tk1
 TARGET  = $(NAME).so
 
 SOURCES = $(shell echo *.c)
