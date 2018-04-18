@@ -108,16 +108,16 @@ heartrate_best = -log(xhat+1);
 % title('Breathing weights')
 
 %% Find vitals
-[freq, Fbreathing] = plot_power_spectrum(breathing, 60);
-[freq, Fheartrate] = plot_power_spectrum(heartrate, 60);
+[freq, Fbreathing] = plot_power_spectrum(breathing, fs);
+[freq, Fheartrate] = plot_power_spectrum(heartrate, fs);
 
 Fbreathing(1,:) = 0;
 Fheartrate(1,:) = 0;
 
 [~,maxidx] = max(Fheartrate);
-hr = freq(maxidx);
+hr = 60*freq(maxidx);
 [~,maxidx] = max(Fbreathing);
-rr = freq(maxidx);
+rr = 60*freq(maxidx);
 
 % t = [0:numel(heartrate_best)-1] ./ 60;
 % figure;

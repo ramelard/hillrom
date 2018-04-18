@@ -11,25 +11,28 @@ end
 % frames = imrotate(frames,180);
 % toc
 
-% fprintf(1,'Finding face...')
-% % Need to make face pointing up so it works with Viola-Jones.
-% frame = flipud(frames(:,:,1));
-% % Viola-Jones cascade face detector. Min size chosen empirically based on
-% % optical setup.
-% faceDetector = vision.CascadeObjectDetector('MinSize',[75 75]);
-% % faceDetector = vision.CascadeObjectDetector('ProfileFace','MinSize',[75 75]);
-% face_rect = step(faceDetector, frame);
-% 
-% if isempty(face_rect)
-%   warning('No face detected. Using coarse ROIs.')
-%   body = frames(2:304,2:678,:);
-%   head = frames(443:851, 110:521, :);
-% else
+if isempty(face_rect)
+  fprintf(1,'Finding face...')
+  % Need to make face pointing up so it works with Viola-Jones.
+  frame = flipud(frames(:,:,1));
+  % Viola-Jones cascade face detector. Min size chosen empirically based on
+  % optical setup.
+  faceDetector = vision.CascadeObjectDetector('MinSize',[75 75]);
+  % faceDetector = vision.CascadeObjectDetector('ProfileFace','MinSize',[75 75]);
+  face_rect = step(faceDetector, frame);
+end
+
+if isempty(face_rect)
+  warning('No face detected. Using coarse ROIs.')
+  body = frames(2:304,2:678,:);
+  head = frames(443:851, 110:521, :);
+else
   [H,W,T] = size(frames);
   x = face_rect(1);
   y = H-face_rect(2);
   w = face_rect(3);
   h = face_rect(4);
+end
 
   % Draw the returned bounding box around the detected face.
 %   videoOut = insertObjectAnnotation(frame,'rectangle',face_rect,'Face');
