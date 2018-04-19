@@ -5,7 +5,7 @@
  * File: extract_vitals_tk1.c
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 18-Apr-2018 07:51:09
+ * C/C++ source code generated on  : 18-Apr-2018 17:29:29
  */
 
 /* Include Files */
@@ -822,7 +822,7 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
   }
 
   calclen = heartrate->size[1];
-  y = 60.0 / (double)calclen;
+  y = fs / (double)calclen;
   calclen = heartrate->size[1];
   calclen = (int)floor((double)calclen / 2.0);
   if (calclen - 1 < 0) {
@@ -910,7 +910,7 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
   }
 
   emxFree_creal_T(&c_Fheartrate);
-  *hr = xhat->data[itmp];
+  *hr = 60.0 * xhat->data[itmp];
   calclen = 1;
   sz_idx_0 = b_R->size[0];
   mtmp = b_R->data[0];
@@ -945,7 +945,7 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
   }
 
   emxFree_creal_T(&b_R);
-  *rr = xhat->data[itmp];
+  *rr = 60.0 * xhat->data[itmp];
 
   /*  t = [0:numel(heartrate_best)-1] ./ 60; */
   /*  figure; */

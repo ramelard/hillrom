@@ -5,7 +5,7 @@
  * File: extract_vitals_tk1_emxAPI.h
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 18-Apr-2018 07:51:09
+ * C/C++ source code generated on  : 18-Apr-2018 17:29:29
  */
 
 #ifndef EXTRACT_VITALS_TK1_EMXAPI_H

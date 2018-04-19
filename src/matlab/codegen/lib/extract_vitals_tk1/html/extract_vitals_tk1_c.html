@@ -17,7 +17,7 @@
 <a name="5"><font color="#888888 "><i>    5   </i></font></a><font color="#117755"><I> * File: extract_vitals_tk1.c</i></font>
 <a name="6"><font color="#888888 "><i>    6   </i></font></a><font color="#117755"><I> *</i></font>
 <a name="7"><font color="#888888 "><i>    7   </i></font></a><font color="#117755"><I> * MATLAB Coder version            : 3.2</i></font>
-<a name="8"><font color="#888888 "><i>    8   </i></font></a><font color="#117755"><I> * C/C++ source code generated on  : 18-Apr-2018 07:51:09</i></font>
+<a name="8"><font color="#888888 "><i>    8   </i></font></a><font color="#117755"><I> * C/C++ source code generated on  : 18-Apr-2018 17:29:29</i></font>
 <a name="9"><font color="#888888 "><i>    9   </i></font></a><font color="#117755"><I> */</i></font>
 <a name="10"><font color="#888888 "><i>   10   </i></font></a>
 <a name="11"><font color="#888888 "><i>   11   </i></font></a><font color="#117755"><i>/* Include Files */</i></font>
@@ -834,7 +834,7 @@
 <a name="822"><font color="#888888 "><i>  822   </i></font></a>  <b>}</b>
 <a name="823"><font color="#888888 "><i>  823   </i></font></a>
 <a name="824"><font color="#888888 "><i>  824   </i></font></a>  calclen = heartrate-&gt;size[1];
-<a name="825"><font color="#888888 "><i>  825   </i></font></a>  y = 60.0 / (<font color="#112266"><b>double</b></font>)calclen;
+<a name="825"><font color="#888888 "><i>  825   </i></font></a>  y = fs / (<font color="#112266"><b>double</b></font>)calclen;
 <a name="826"><font color="#888888 "><i>  826   </i></font></a>  calclen = heartrate-&gt;size[1];
 <a name="827"><font color="#888888 "><i>  827   </i></font></a>  calclen = (<font color="#112266"><b>int</b></font>)floor((<font color="#112266"><b>double</b></font>)calclen / 2.0);
 <a name="828"><font color="#888888 "><i>  828   </i></font></a>  <font color="#112266"><b>if</b></font> (calclen - 1 &lt; 0) <b>{</b>
@@ -922,7 +922,7 @@
 <a name="910"><font color="#888888 "><i>  910   </i></font></a>  <b>}</b>
 <a name="911"><font color="#888888 "><i>  911   </i></font></a>
 <a name="912"><font color="#888888 "><i>  912   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxFree_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxFree_creal_T');" target="_self"><font color="#1122aa">emxFree_creal_T</font></a>(&amp;c_Fheartrate);
-<a name="913"><font color="#888888 "><i>  913   </i></font></a>  *hr = xhat-&gt;data[itmp];
+<a name="913"><font color="#888888 "><i>  913   </i></font></a>  *hr = 60.0 * xhat-&gt;data[itmp];
 <a name="914"><font color="#888888 "><i>  914   </i></font></a>  calclen = 1;
 <a name="915"><font color="#888888 "><i>  915   </i></font></a>  sz_idx_0 = b_R-&gt;size[0];
 <a name="916"><font color="#888888 "><i>  916   </i></font></a>  mtmp = b_R-&gt;data[0];
@@ -957,7 +957,7 @@
 <a name="945"><font color="#888888 "><i>  945   </i></font></a>  <b>}</b>
 <a name="946"><font color="#888888 "><i>  946   </i></font></a>
 <a name="947"><font color="#888888 "><i>  947   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxFree_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxFree_creal_T');" target="_self"><font color="#1122aa">emxFree_creal_T</font></a>(&amp;b_R);
-<a name="948"><font color="#888888 "><i>  948   </i></font></a>  *rr = xhat-&gt;data[itmp];
+<a name="948"><font color="#888888 "><i>  948   </i></font></a>  *rr = 60.0 * xhat-&gt;data[itmp];
 <a name="949"><font color="#888888 "><i>  949   </i></font></a>
 <a name="950"><font color="#888888 "><i>  950   </i></font></a>  <font color="#117755"><i>/*  t = [0:numel(heartrate_best)-1] ./ 60; */</i></font>
 <a name="951"><font color="#888888 "><i>  951   </i></font></a>  <font color="#117755"><i>/*  figure; */</i></font>

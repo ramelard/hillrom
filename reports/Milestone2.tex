@@ -18,7 +18,7 @@ To simulate a hospital bed setting, the imaging system was mounted on the ceilin
 \section{Algorithm}
 
 \subsection{Face detection}
-The popular Viola-Jones facial detection algorithm~\cite{violajones} was used to detect the face region of interest (ROI). This method is a fast method used in many applications for detecting frontal faces based on a pre-trained classfication and regression tree model. This was implemented as a cascade object detector, where the image is successively downsampled so that the search window's relative scale is increased, making it robust to changes in scale. Figure~\ref{fig:cascade} demonstrates a graphical example of this process. One particularly useful characteristic about this method is the ability to choose a minimum object window size, which can be determined based on the optical setup. In our case, a $75 \times 75$ window was empirically determined to be a valid minimum window size for locating faces.
+The popular Viola-Jones facial detection algorithm was used to detect the face region of interest (ROI). This method is a fast method used in many applications for detecting frontal faces based on a pre-trained classfication and regression tree model. This was implemented as a cascade object detector, where the image is successively downsampled so that the search window's relative scale is increased, making it robust to changes in scale. Figure~\ref{fig:cascade} demonstrates a graphical example of this process. One particularly useful characteristic about this method is the ability to choose a minimum object window size, which can be determined based on the optical setup. In our case, a $75 \times 75$ window was empirically determined to be a valid minimum window size for locating faces.
 
 \begin{figure}[H]
 \centering
@@ -88,6 +88,13 @@ This PR and RR algorithm was evaluated using the setup discussed in Section~1. F
 \includegraphics[width=\textwidth]{Milestone2_FaceDetect}
 \caption{Frame with automatically detected facial region highlighted.}
 \label{fig:face}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[height=8in]{Milestone2_headandbody}
+\caption{Visual depiction of automatically separating the head from the body for analyzing pulse rate and respiratory rate.}
+\label{fig:headandbody}
 \end{figure}
 
 Note how the facial bounding box does not encompass the entire forehead and neck. This is a fundamental characteristic of the face detector, since it was trained to detect faces only. Thus, the bounding box was increased according to Equation~\ref{eq:bbox}. Then, the signal strength weights were computed according to Equation~\ref{eq:weights} in preparation for signal fusion. Figure~\ref{fig:weights} shows a visual depiction of this process. Brighter areas indicate stronger computed weights. On the left, we can see that the weights are strongest through the neck, cheek and forehead region, indicating that the algorithm identified pulsatility through the carotid and facial arteries. On the right, we can see that the weights are strongest around the chest cavity, indicating that the algorithm identified motion resulting from chest cavity expansion and contraction.
