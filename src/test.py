@@ -5,13 +5,15 @@ import numpy as np
 from extract_vitals import extract_vitals
 import matplotlib.pyplot as plt
 import cv2
-from time import time
+from time import time, strftime
 import logging
+import scipy.io
 
 logging.basicConfig(level=logging.DEBUG,
                     format='(%(threadName)-10s) %(message)s',
                     )
 face_frames = []
+body_frames = []
 face_roi = []  # shared between threads
 
 
@@ -25,8 +27,7 @@ def worker(q, lock):
     # logging.debug('Extracted frame; q.size()=%u', q.qsize())
 
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    gray_64F = cv2.normalize(gray.astype(np.float64), alpha=0.0, beta=1.0,
-                         norm_type=cv2.NORM_MINMAX)
+    gray_64F = np.divide(gray, 255.)
 
     if not face_roi:
       # We only want 1 thread to find a face. So prohibit multiple threads from getting in here at the beginning.
@@ -55,8 +56,19 @@ def worker(q, lock):
 
     if face_roi:
       (x, y, w, h) = face_roi
-      subframe = gray_64F[y:y + h, x:x + w]
+      head_hgt = h*1.5
+      subframe = gray_64F[y:y + head_hgt, x:x + w]
+      # if not face_frames:
+      #   face_frames = subframe
+      # else:
+      #   face_frames = np.dstack((face_frames, subframe))
       face_frames.append((subframe, t))
+      subframe = gray_64F[y+head_hgt:(y+head_hgt)+head_hgt*2, x:x + w]
+      body_frames.append((subframe, t))
+      # if not body_frames:
+      #   body_frames = subframe
+      # else:
+      #   body_frames = np.dstack((body_frames, subframe))
       
     q.task_done()
     
@@ -76,7 +88,10 @@ def track_and_display():
 
   tstart = time()
   nframes = 0
-  while time()-tstart < 1:
+  # TODO: need better resolution?
+  logging.warning('Frames seem to be 480x640; do not match ecam viewer settings. Does this mean exposure time is not the same too??')
+  logging.debug('Starting frame acquisition')
+  while time()-tstart < 5:
     # Capture frame-by-frame
     ret, frame = video_capture.read()
     t0 = time()
@@ -106,30 +121,47 @@ def track_and_display():
   tlast = tstart
   # Need to sort since these may have been added out of order by workers.
   face_frames.sort(key=lambda x:x[1])
-  for (frame, t) in face_frames:
+  body_frames.sort(key=lambda x:x[1])
+  #for (frame, t) in face_frames:
+  for i in xrange(len(face_frames)):
+    face = face_frames[i][0]
+    body = body_frames[i][0]
     # frame,t = face_frames.get()
-    cv2.imshow('video', frame)
-    print t-tlast
-    tlast = t
-    cv2.waitKey(int(1./5*1000))
+    cv2.imshow('face', face)
+    cv2.imshow('body', body)
+    # print t-tlast
+    # tlast = t
+    cv2.waitKey(32)
 
-  frames = [frame for (frame, t) in face_frames]
+  faces = [frame for (frame, t) in face_frames]
+  bodys = [frame for (frame, t) in body_frames]
   block_size = 6
-  extract_vitals(frames, face_roi, block_size)
+  (hr, rr) = extract_vitals(np.dstack(faces), np.dstack(bodys), block_size)
+
+  fileout = 'frames_%s-hr%u-rr%u' % (strftime('%H%M'), hr, rr)
+  logging.debug('Writing frames to ./output/%s', fileout)
+  write_frames_to_mat(faces, bodys, fileout)
+
+
+def write_frames_to_mat(face_frames, body_frames, filename='out'):
+  fullfile = './output/%s.mat' % filename
+  logging.debug('Saving frames to .mat file...')
+  t0 = time()
+  scipy.io.savemat(fullfile, {'face_frames': face_frames, 'body_frames': body_frames})
+  logging.debug('Done (%.1fs)' % (time()-t0))
+
+
+def write_video(frames, filename='out'):
+  """Save frames to be analyzed in Matlab"""
+  logging.warning('ffmpeg not installed. Cannot write video.')
+  fullfile = './output/%s.avi' % filename
+  out = cv2.VideoWriter(fullfile, -1, 30, frames[0].shape, False)
+  for frame in frames:
+    out.write(frame)
+  out.release()
 
 
 
 
 if __name__ == '__main__':
   track_and_display()
-  # t = np.arange(0,3,1/100.)
-  # pi = np.pi
-  # sig = np.cos(2*pi*3*t) + np.cos(2*pi*7*t)
-  # sig2 = butter_bandpass(sig, 100, 2,4)
-  
-  # plt.figure(1)
-  # plt.subplot(211)
-  # plt.plot(sig)
-  # plt.subplot(212)
-  # plt.plot(sig2)
-  # plt.show()
