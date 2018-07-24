@@ -1,0 +1,1 @@
+placeholder for ./gitignore to create /src/output folder

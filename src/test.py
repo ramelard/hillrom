@@ -77,7 +77,7 @@ def worker(q, lock):
 
 
 def track_and_display():
-  video_capture = cv2.VideoCapture(0)
+  video_capture = cv2.VideoCapture(1)
 
   lock = threading.Lock()
 

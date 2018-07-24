@@ -5,7 +5,7 @@ import logging
 
 if __name__ == '__main__':
   faceCascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-  video_capture = cv2.VideoCapture(0)
+  video_capture = cv2.VideoCapture(1)
   while True:
     ret, frame = video_capture.read()
 
