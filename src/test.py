@@ -56,7 +56,10 @@ def worker(q, lock):
 
     if face_roi:
       (x, y, w, h) = face_roi
-      head_hgt = h*1.5
+      head_hgt = int(np.floor(h*1.5))
+      x = int(np.floor(x))
+      w = int(np.floor(w))
+      y = int(np.floor(y))
       subframe = gray_64F[y:y + head_hgt, x:x + w]
       # if not face_frames:
       #   face_frames = subframe
@@ -69,15 +72,15 @@ def worker(q, lock):
       #   body_frames = subframe
       # else:
       #   body_frames = np.dstack((body_frames, subframe))
-      
+
     q.task_done()
-    
+
 
 def track_and_display():
   video_capture = cv2.VideoCapture(0)
 
   lock = threading.Lock()
-  
+
   q = Queue()
   num_workers = 5
   for i in xrange(num_workers):
@@ -95,17 +98,17 @@ def track_and_display():
     # Capture frame-by-frame
     ret, frame = video_capture.read()
     t0 = time()
-      
+
     # Put into our processing queue, to be read by extract_vitals
     q.put((frame, t0))
     nframes += 1
-    
+
     t1 = time()
     # logging.debug('%g fps', 1./min(1e-6,(t1-t0)))
 
     # # Display the resulting frame
     # cv2.imshow('Video', frame)
-    
+
 
     # if cv2.waitKey(1) & 0xFF == ord('q'):
       # break
@@ -114,7 +117,7 @@ def track_and_display():
   # When everything is done, release the capture
   video_capture.release()
   cv2.destroyAllWindows()
-  
+
   q.join()  # block until all tasks are done
   logging.debug('Processing speed: %.2f fps', nframes / (time() - tstart))
 

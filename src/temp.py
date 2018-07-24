@@ -5,10 +5,10 @@ import logging
 
 if __name__ == '__main__':
   faceCascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-  video_capture = cv2.VideoCapture(1)
+  video_capture = cv2.VideoCapture(0)
   while True:
     ret, frame = video_capture.read()
-    
+
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     try:
       faces = faceCascade.detectMultiScale(
@@ -25,6 +25,6 @@ if __name__ == '__main__':
       cv2.imshow('Video', frame)
     except:
       logging.warning('Error detecting faces')
-      
+
     if cv2.waitKey(1) & 0xFF == ord('q'):
       break
