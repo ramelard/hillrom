@@ -5,7 +5,7 @@ import numpy as np
 from extract_vitals import extract_vitals
 import matplotlib.pyplot as plt
 import cv2
-from time import time, strftime
+from time import time, strftime, localtime
 import logging
 import scipy.io
 
@@ -94,7 +94,7 @@ def track_and_display():
   # TODO: need better resolution?
   logging.warning('Frames seem to be 480x640; do not match ecam viewer settings. Does this mean exposure time is not the same too??')
   logging.debug('Starting frame acquisition')
-  while time()-tstart < 5:
+  while time()-tstart < 10:
     # Capture frame-by-frame
     ret, frame = video_capture.read()
     t0 = time()
@@ -144,6 +144,16 @@ def track_and_display():
   fileout = 'frames_%s-hr%u-rr%u' % (strftime('%H%M'), hr, rr)
   logging.debug('Writing frames to ./output/%s', fileout)
   write_frames_to_mat(faces, bodys, fileout)
+
+  save_unix_time_string = strftime('%Y-%m-%d %H:%M:%S', localtime(time()))
+
+  f = open('./output/hr.txt', 'a+')
+  f.write('Heart Rate @ %s: \t %s \n' % (save_unix_time_string, hr))
+  f.close()
+
+  f = open('./output/rr.txt', 'a+')
+  f.write('Respitory Rate @ %s: \t %s \n' % (save_unix_time_string, rr))
+  f.close()
 
 
 def write_frames_to_mat(face_frames, body_frames, filename='out'):
