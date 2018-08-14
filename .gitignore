@@ -1,3 +1,4 @@
 *.pyc
 src/lib/*.so
 src/output/*.mat
+*DS_Store

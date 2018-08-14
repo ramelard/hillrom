@@ -77,7 +77,7 @@ def worker(q, lock):
 
 
 def track_and_display():
-  video_capture = cv2.VideoCapture(1)
+  camera = cv2.VideoCapture(1)
 
   lock = threading.Lock()
 
@@ -96,7 +96,7 @@ def track_and_display():
   logging.debug('Starting frame acquisition')
   while time()-tstart < 10:
     # Capture frame-by-frame
-    ret, frame = video_capture.read()
+    ret, frame = camera.read()
     t0 = time()
 
     # Put into our processing queue, to be read by extract_vitals
@@ -114,9 +114,6 @@ def track_and_display():
       # break
 
   logging.debug('Acquisition speed: %.2f fps', nframes/(time()-tstart))
-  # When everything is done, release the capture
-  video_capture.release()
-  cv2.destroyAllWindows()
 
   q.join()  # block until all tasks are done
   logging.debug('Processing speed: %.2f fps', nframes / (time() - tstart))
@@ -154,6 +151,14 @@ def track_and_display():
   f = open('./output/rr.txt', 'a+')
   f.write('Respitory Rate @ %s: \t %s \n' % (save_unix_time_string, rr))
   f.close()
+
+  # Capture 1 frame at the end of test and save
+  ret, frame = camera.read()
+  cv2.imwrite('./output/frame_%s.png' % save_unix_time_string, frame)
+
+  # When everything is done, release the capture
+  camera.release()
+  cv2.destroyAllWindows()
 
 
 def write_frames_to_mat(face_frames, body_frames, filename='out'):
