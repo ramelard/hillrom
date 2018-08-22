@@ -1,4 +1,4 @@
-function [hr,rr] = extract_vitals_tk1(frames_head, frames_body, fs, block_size)
+function [hr,rr] = extract_vitals_tk1(frames_head, frames_body, fps, block_size)
 %#codegen
 % assert(isa(frames,'double'))
 % assert(isa(block_size,'double'))
@@ -22,17 +22,17 @@ Ahead = -log(1+Rhead);
 % heartrate = mean(Ahead,2);
 
 % Get rid of breathing component of heartrate signal.
-low_freq = 30/60;
-high_freq = 350/60;
+low_freq = 50/60; % low_freq = 30/60;
+high_freq = 80/60; % high_freq = 350/60;
 % x_ts = timeseries(Ahead, [0:T-1]./60);
 % x_filt = idealfilter(x_ts, [low_freq high_freq], 'pass');
 % Ahead_filt = x_filt.Data;
 
 % butter() requires constant valued inputs, so put in if statements.
-if abs(fs-30) < 0.1
+if abs(fps-30) < 0.1
   nyq = 15;
   [b,a] = butter(3,[low_freq high_freq]./nyq,'bandpass');
-elseif abs(fs-60) < 0.1
+elseif abs(fps-60) < 0.1
   nyq = 30;
   [b,a] = butter(3,[low_freq high_freq]./nyq,'bandpass');
 else
@@ -58,11 +58,11 @@ Fbreathing = zeros(floor(npts/2), size(Abody,2));
 
 Y = fft(Abody, npts);
 Pyy = Y.*conj(Y)/npts;
-freq = fs/npts * (0:floor(npts/2)-1);
+freq = fps/npts * (0:floor(npts/2)-1);
 Fbreathing = Pyy(1:floor(npts/2),:);
 Y = fft(Ahead, npts);
 Pyy = Y.*conj(Y)/npts;
-freq = fs/npts * (0:floor(npts/2)-1);
+freq = fps/npts * (0:floor(npts/2)-1);
 Fheartrate = Pyy(1:floor(npts/2),:);
 
 % [freq, Fbreathing] = plot_power_spectrum(Abody, 60);
@@ -96,7 +96,7 @@ heartrate_best = Ahead_filt(:,maxidx);
 R = exp(-heartrate_best)-1;
 xhat = kalmanfilt(R', sigmap, sigmam);
 heartrate_best = -log(xhat+1);
-% 
+%
 % figure;
 % subplot(1,2,1),
 % [H,W,~] = size(Bhead);
@@ -108,8 +108,8 @@ heartrate_best = -log(xhat+1);
 % title('Breathing weights')
 
 %% Find vitals
-[freq, Fbreathing] = plot_power_spectrum(breathing, fs);
-[freq, Fheartrate] = plot_power_spectrum(heartrate, fs);
+[freq, Fbreathing] = plot_power_spectrum(breathing, fps);
+[freq, Fheartrate] = plot_power_spectrum(heartrate, fps);
 
 Fbreathing(1,:) = 0;
 Fheartrate(1,:) = 0;
@@ -126,18 +126,18 @@ rr = 60*freq(maxidx);
 % xlabel('time (s)')
 % ylabel('blood volume (a.u.)')
 % legend('strongest signal','weighted average')
-% 
+%
 % subplot(2,2,2), plot(t,breathing), title('Breathing')
 % xlabel('time (s)')
 % ylabel('breathing amplitude (a.u.)')
-% 
+%
 % subplot(2,2,3), plot(60*freq,Fheartrate), title(sprintf('HR=%u bpm',round(hr*60)))
 % [~,maxidx] = max(Fheartrate);
 % hold on, plot(60*freq(maxidx),Fheartrate(maxidx),'or')
 % xlim([0 300])
 % xlabel('frequency (1/min)')
 % ylabel('spectral power (dB)')
-% 
+%
 % subplot(2,2,4), plot(60*freq,Fbreathing), title(sprintf('RR=%u bpm',round(rr*60)))
 % [~,maxidx] = max(Fbreathing);
 % hold on, plot(60*freq(maxidx),Fbreathing(maxidx),'or')
