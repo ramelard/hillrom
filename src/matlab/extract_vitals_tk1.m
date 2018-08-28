@@ -11,23 +11,29 @@ if nargin < 2
   block_size = 6;
 end
 
-c_interp = 100*30;
-timestamps = floor(timestamps * 100); % ???
+% c_interp = 100*30;
+% timestamps = floor(timestamps * 100); % ???
+c_interp = 100;
+timestamps = floor(timestamps * c_interp) / c_interp; % ???
 
 Bbody = imresize(frames_body,1/block_size,'box');
 Rbody = reshape(permute(Bbody,[3 1 2]),size(Bbody,3),[]);
+% Interpolate between uneven timestamed mesurements
 Rbody_interp = [];
 for i  = 1 : size(Rbody,2)
   Rbody_interp(:,i) = interp1(timestamps, Rbody(:,i), min(timestamps):1/c_interp:max(timestamps));
 end
+Rbody_interp = Rbody_interp(1:3:size(Rbody_interp,1),:); % take every 3rd row to get 30Hz (each row is 0.01 seconds)
 Abody = -log(1+Rbody_interp);
 
 Bhead = imresize(frames_head,1/block_size,'box');
 Rhead = reshape(permute(Bhead,[3 1 2]),size(Bhead,3),[]);
+% Interpolate between uneven timestamed mesurements
 Rhead_interp = [];
 for i  = 1 : size(Rhead,2)
   Rhead_interp(:,i) = interp1(timestamps, Rhead(:,i), min(timestamps):1/c_interp:max(timestamps));
 end
+Rhead_interp = Rhead_interp(1:3:size(Rhead_interp,1),:);
 Ahead = -log(1+Rhead_interp);
 
 [T,~] = size(Ahead);
