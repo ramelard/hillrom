@@ -102,8 +102,8 @@ def track_and_display():
   # ----------------------------------------------------------------------------
   #                                                                        Meta
   # ----------------------------------------------------------------------------
-  camera = cv2.VideoCapture(0)
-  # camera = cv2.VideoCapture(1)
+  # camera = cv2.VideoCapture(0)
+  camera = cv2.VideoCapture(1)
   lock = threading.Lock()
   q = Queue()
   num_workers = 5
@@ -116,7 +116,7 @@ def track_and_display():
   tstart = time()
   nframes = 0
   # TODO: need better resolution?
-  logging.warning('Frames seem to be 480x640; do not match ecam viewer settings. Does this mean exposure time is not the same too??')
+  # logging.warning('[WARNING] Frames seem to be 480x640; do not match ecam viewer settings. Does this mean exposure time is not the same too??')
   logging.debug('[INFO] Starting frame acquisition')
   while time() - tstart < acquisition_time:
     # Capture frame-by-frame
