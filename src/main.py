@@ -28,6 +28,31 @@ body_frames = []
 face_roi = [] # shared between threads
 
 
+def stack_uneven(arrays, fill_value=0.):
+    '''
+    Fits arrays into a single numpy array, even if they are
+    different sizes. `fill_value` is the default value.
+
+    Args:
+            arrays: list of np arrays of various sizes
+                (must be same rank, but not necessarily same size)
+            fill_value (float, optional):
+
+    Returns:
+            np.ndarray
+    '''
+    sizes = [a.shape for a in arrays]
+    max_sizes = np.max(list(zip(*sizes)), -1)
+    # The resultant array has stacked on the first dimension
+    result = np.full((len(arrays),) + tuple(max_sizes), fill_value)
+    for i, a in enumerate(arrays):
+      # The shape of this array `a`, turned into slices
+      slices = tuple(slice(0,s) for s in sizes[i])
+      # Overwrite a block slice of `result` with this array `a`
+      result[i][slices] = a
+    return result
+
+
 def worker(q, lock):
   # TODO: have to worry about thread safety? atomic blocks?
   global face_roi
@@ -77,7 +102,8 @@ def track_and_display():
   # ----------------------------------------------------------------------------
   #                                                                        Meta
   # ----------------------------------------------------------------------------
-  camera = cv2.VideoCapture(1)
+  camera = cv2.VideoCapture(0)
+  # camera = cv2.VideoCapture(1)
   lock = threading.Lock()
   q = Queue()
   num_workers = 5
@@ -138,8 +164,21 @@ def track_and_display():
   # ----------------------------------------------------------------------------
   faces = [frame for (frame, t) in face_frames]
   bodys = [frame for (frame, t) in body_frames]
+  timestamps = [t for (frame, t) in body_frames] # time is identical for faces and bodys as both are captured from same frame
   block_size = 6
-  (hr, rr) = extract_vitals(np.dstack(faces), np.dstack(bodys), block_size)
+  try:
+    (hr, rr) = extract_vitals( \
+      np.dstack(faces), \
+      np.dstack(bodys), \
+      np.dstack(timestamps), \
+      block_size)
+  except:
+    logging.debug('[WARNING] Camera captured different size frames!')
+    (hr, rr) = extract_vitals( \
+      stack_uneven(faces), \
+      stack_uneven(bodys), \
+      np.stack(timestamps), \
+      block_size)
 
 
   # ----------------------------------------------------------------------------

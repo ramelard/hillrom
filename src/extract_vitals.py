@@ -16,7 +16,7 @@ mydll = cdll.LoadLibrary('./lib/extract_vitals_tk1.so')
 mydll.rt_InitInfAndNaN(c_size_t(8))
 
 
-def extract_vitals(frames_head, frames_body, block_size):
+def extract_vitals(frames_head, frames_body, timestamps, block_size):
   """Transform frames (3D nparray) into emxArray_real_T and extract hr, rr"""
 
   c_block_size = c_double(block_size)
@@ -29,9 +29,16 @@ def extract_vitals(frames_head, frames_body, block_size):
   # Need to receive faces_flat and bodys_flat so the data in the emx pointers does not get freed.
   (head_emxarray_ptr, faces_flat) = framestack_to_emxarray(frames_head)
   (body_emxarray_ptr, bodys_flat) = framestack_to_emxarray(frames_body)
+  (time_emxarray_ptr, times_flat) = timesstack_to_emxarray(timestamps)
   logging.debug('Done (%.2fs)', time()-tstart)
-  mydll.extract_vitals_tk1(head_emxarray_ptr, body_emxarray_ptr, c_fps, c_block_size,
-                       byref(hr_out), byref(rr_out))
+  mydll.extract_vitals_tk1( \
+    head_emxarray_ptr, \
+    body_emxarray_ptr, \
+    time_emxarray_ptr, \
+    c_fps, \
+    c_block_size,
+    byref(hr_out), \
+    byref(rr_out))
   logging.debug('HR=%.1f, RR=%.1f', hr_out.value, rr_out.value)
 
   return (hr_out.value, rr_out.value)
@@ -43,6 +50,31 @@ def framestack_to_emxarray(frames):
 
   ndims_cint = c_int(3)
   dim_size = [h, w, nframes]
+  dim_size_carr = (c_int * 3)(*dim_size)
+
+  # Flatten column-wise to be compatible with Matlab-generated C code.
+  frames_flat = frames.flatten(order='F')
+  # Access the array as a pointer to double, as required by emxArray_real_T
+  data_c = frames_flat.ctypes.data_as(POINTER(c_double))
+  res = mydll.emxCreateWrapperND_real_T(data_c, ndims_cint, dim_size_carr)
+  emxarray_ptr = cast(res, POINTER(emxarray_real_T))
+
+  # # Test it out
+  # F = emxarray_ptr.contents.data[0:h*w]
+  # F2 = np.reshape(np.array(F, dtype=np.double), (h, w), order='F')
+  # cv2.imshow('f', F2)
+  # cv2.waitKey()
+
+  # Need to return frames_flat so the memory doesn't get freed.
+  return emxarray_ptr, frames_flat
+
+
+def timesstack_to_emxarray(frames):
+  # frames is a list of nparrays.
+  nframes = frames.shape[0]
+
+  ndims_cint = c_int(3)
+  dim_size = [1, nframes]
   dim_size_carr = (c_int * 3)(*dim_size)
 
   # Flatten column-wise to be compatible with Matlab-generated C code.

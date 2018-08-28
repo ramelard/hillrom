@@ -1,7 +1,11 @@
-function [hr,rr] = extract_vitals_tk1(frames_head, frames_body, fps, block_size)
+function [hr,rr] = extract_vitals_tk1(frames_head, frames_body, timestamps, fps, block_size)
 %#codegen
 % assert(isa(frames,'double'))
 % assert(isa(block_size,'double'))
+
+% fprintf('%d,%d',size(frames_head, 1), size(frames_head, 2));
+% fprintf('%d,%d',size(frames_body, 1), size(frames_body, 2));
+% fprintf('%d,%d',size(timestamps, 1), size(timestamps, 2));
 
 if nargin < 2
   block_size = 6;
