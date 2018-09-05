@@ -5,7 +5,7 @@
  * File: permute.c
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 05-Sep-2018 11:34:41
+ * C/C++ source code generated on  : 05-Sep-2018 12:32:31
  */
 
 /* Include Files */
@@ -31,10 +31,10 @@ void permute(const emxArray_real_T *a, emxArray_real_T *b)
   int iwork[3];
   boolean_T exitg2;
   boolean_T guard1 = false;
-  static const signed char iv1[3] = { 2, 3, 1 };
+  static const signed char iv1[3] = { 3, 1, 2 };
 
   int inc[3];
-  static const signed char iv2[3] = { 1, 2, 0 };
+  static const signed char iv2[3] = { 2, 0, 1 };
 
   int isrc;
   int exitg1;
@@ -42,13 +42,13 @@ void permute(const emxArray_real_T *a, emxArray_real_T *b)
     insz[plast] = (unsigned int)a->size[plast];
   }
 
-  outsz[0] = insz[1];
-  outsz[1] = insz[2];
-  outsz[2] = insz[0];
+  outsz[0] = insz[2];
+  outsz[1] = insz[0];
+  outsz[2] = insz[1];
   plast = b->size[0] * b->size[1] * b->size[2];
-  b->size[0] = (int)insz[1];
-  b->size[1] = (int)insz[2];
-  b->size[2] = (int)insz[0];
+  b->size[0] = (int)insz[2];
+  b->size[1] = (int)insz[0];
+  b->size[2] = (int)insz[1];
   emxEnsureCapacity((emxArray__common *)b, plast, (int)sizeof(double));
   b_b = true;
   if (!((a->size[0] == 0) || (a->size[1] == 0) || (a->size[2] == 0))) {

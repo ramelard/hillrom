@@ -5,7 +5,7 @@
  * File: extract_vitals_tk1.c
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 05-Sep-2018 11:34:41
+ * C/C++ source code generated on  : 05-Sep-2018 12:32:31
  */
 
 /* Include Files */
@@ -25,8 +25,8 @@
 #include "rdivide.h"
 #include "sum.h"
 #include "get_spectral_entropy.h"
-#include "imresize.h"
 #include "permute.h"
+#include "imresize.h"
 #include "floor.h"
 
 /* Function Declarations */
@@ -79,8 +79,8 @@ static int div_s32(int numerator, int denominator)
 /*
  * assert(isa(frames,'double'))
  *  assert(isa(block_size,'double'))
- * Arguments    : emxArray_real_T *frames_head
- *                emxArray_real_T *frames_body
+ * Arguments    : const emxArray_real_T *frames_head
+ *                const emxArray_real_T *frames_body
  *                emxArray_real_T *timestamps
  *                double fps
  *                double block_size
@@ -88,16 +88,16 @@ static int div_s32(int numerator, int denominator)
  *                double *rr
  * Return Type  : void
  */
-void extract_vitals_tk1(emxArray_real_T *frames_head, emxArray_real_T
-  *frames_body, emxArray_real_T *timestamps, double fps, double block_size,
-  double *hr, double *rr)
+void extract_vitals_tk1(const emxArray_real_T *frames_head, const
+  emxArray_real_T *frames_body, emxArray_real_T *timestamps, double fps, double
+  block_size, double *hr, double *rr)
 {
   int i0;
   int calclen;
   int sz_idx_0;
   int n;
-  emxArray_real_T *b_frames_body;
   emxArray_real_T *Bbody;
+  emxArray_real_T *x;
   int nx;
   emxArray_real_T *Rbody;
   double mtmp;
@@ -115,7 +115,6 @@ void extract_vitals_tk1(emxArray_real_T *frames_head, emxArray_real_T
   emxArray_int32_T *r0;
   emxArray_real_T *b_Rbody;
   boolean_T exitg9;
-  emxArray_real_T *b_frames_head;
   boolean_T exitg8;
   boolean_T exitg7;
   boolean_T exitg6;
@@ -180,10 +179,10 @@ void extract_vitals_tk1(emxArray_real_T *frames_head, emxArray_real_T
   emxArray_creal_T *R;
   emxArray_creal_T *b_R;
   creal_T b_mtmp;
-  emxArray_real_T *x;
-  boolean_T exitg3;
   emxArray_real_T *b_x;
+  boolean_T exitg3;
   emxArray_real_T *c_x;
+  emxArray_real_T *d_x;
   emxArray_real_T *b_xhat;
   emxArray_creal_T *d_Fbreathing;
   emxArray_real_T *c_xhat;
@@ -202,7 +201,7 @@ void extract_vitals_tk1(emxArray_real_T *frames_head, emxArray_real_T
   sz_idx_0 = timestamps->size[1];
   n = calclen * sz_idx_0;
   for (i0 = 0; i0 < n; i0++) {
-    timestamps->data[i0] *= 100.0;
+    timestamps->data[i0] *= 1000.0;
   }
 
   b_floor(timestamps);
@@ -213,27 +212,16 @@ void extract_vitals_tk1(emxArray_real_T *frames_head, emxArray_real_T
   sz_idx_0 = timestamps->size[1];
   n = calclen * sz_idx_0;
   for (i0 = 0; i0 < n; i0++) {
-    timestamps->data[i0] /= 100.0;
-  }
-
-  emxInit_real_T(&b_frames_body, 3);
-
-  /*  ??? */
-  i0 = b_frames_body->size[0] * b_frames_body->size[1] * b_frames_body->size[2];
-  b_frames_body->size[0] = frames_body->size[0];
-  b_frames_body->size[1] = frames_body->size[1];
-  b_frames_body->size[2] = frames_body->size[2];
-  emxEnsureCapacity((emxArray__common *)b_frames_body, i0, (int)sizeof(double));
-  n = frames_body->size[0] * frames_body->size[1] * frames_body->size[2];
-  for (i0 = 0; i0 < n; i0++) {
-    b_frames_body->data[i0] = frames_body->data[i0];
+    timestamps->data[i0] /= 1000.0;
   }
 
   emxInit_real_T(&Bbody, 3);
-  permute(b_frames_body, frames_body);
+  emxInit_real_T(&x, 3);
+
+  /*  ??? */
   imresize(frames_body, 1.0 / block_size, Bbody);
-  nx = Bbody->size[0] * Bbody->size[1] * Bbody->size[2];
-  emxFree_real_T(&b_frames_body);
+  permute(Bbody, x);
+  nx = x->size[0] * x->size[1] * x->size[2];
   if (Bbody->size[2] > 0) {
     calclen = div_s32(nx, Bbody->size[2]);
   } else {
@@ -247,7 +235,7 @@ void extract_vitals_tk1(emxArray_real_T *frames_head, emxArray_real_T
   Rbody->size[1] = calclen;
   emxEnsureCapacity((emxArray__common *)Rbody, i0, (int)sizeof(double));
   for (sz_idx_0 = 0; sz_idx_0 + 1 <= nx; sz_idx_0++) {
-    Rbody->data[sz_idx_0] = Bbody->data[sz_idx_0];
+    Rbody->data[sz_idx_0] = x->data[sz_idx_0];
   }
 
   /*  Interpolate between uneven timestamped measurements */
@@ -567,21 +555,9 @@ void extract_vitals_tk1(emxArray_real_T *frames_head, emxArray_real_T
     Rbody_interp->data[i0] = -Rbody_interp->data[i0];
   }
 
-  emxInit_real_T(&b_frames_head, 3);
-  i0 = b_frames_head->size[0] * b_frames_head->size[1] * b_frames_head->size[2];
-  b_frames_head->size[0] = frames_head->size[0];
-  b_frames_head->size[1] = frames_head->size[1];
-  b_frames_head->size[2] = frames_head->size[2];
-  emxEnsureCapacity((emxArray__common *)b_frames_head, i0, (int)sizeof(double));
-  n = frames_head->size[0] * frames_head->size[1] * frames_head->size[2];
-  for (i0 = 0; i0 < n; i0++) {
-    b_frames_head->data[i0] = frames_head->data[i0];
-  }
-
-  permute(b_frames_head, frames_head);
   imresize(frames_head, 1.0 / block_size, Bbody);
-  nx = Bbody->size[0] * Bbody->size[1] * Bbody->size[2];
-  emxFree_real_T(&b_frames_head);
+  permute(Bbody, x);
+  nx = x->size[0] * x->size[1] * x->size[2];
   if (Bbody->size[2] > 0) {
     calclen = div_s32(nx, Bbody->size[2]);
   } else {
@@ -593,11 +569,14 @@ void extract_vitals_tk1(emxArray_real_T *frames_head, emxArray_real_T
   Rbody->size[0] = sz_idx_0;
   Rbody->size[1] = calclen;
   emxEnsureCapacity((emxArray__common *)Rbody, i0, (int)sizeof(double));
-  for (sz_idx_0 = 0; sz_idx_0 + 1 <= nx; sz_idx_0++) {
-    Rbody->data[sz_idx_0] = Bbody->data[sz_idx_0];
+  sz_idx_0 = 0;
+  emxFree_real_T(&Bbody);
+  while (sz_idx_0 + 1 <= nx) {
+    Rbody->data[sz_idx_0] = x->data[sz_idx_0];
+    sz_idx_0++;
   }
 
-  emxFree_real_T(&Bbody);
+  emxFree_real_T(&x);
 
   /*  Interpolate between uneven timestamped measurements */
   calclen = 1;
@@ -1384,49 +1363,49 @@ void extract_vitals_tk1(emxArray_real_T *frames_head, emxArray_real_T
   }
 
   emxFree_creal_T(&HRentr);
-  emxInit_real_T2(&x, 1);
+  emxInit_real_T2(&b_x, 1);
   n = Ahead_filt->size[0];
-  i0 = x->size[0];
-  x->size[0] = n;
-  emxEnsureCapacity((emxArray__common *)x, i0, (int)sizeof(double));
+  i0 = b_x->size[0];
+  b_x->size[0] = n;
+  emxEnsureCapacity((emxArray__common *)b_x, i0, (int)sizeof(double));
   for (i0 = 0; i0 < n; i0++) {
-    x->data[i0] = -Ahead_filt->data[i0 + Ahead_filt->size[0] * nx];
+    b_x->data[i0] = -Ahead_filt->data[i0 + Ahead_filt->size[0] * nx];
   }
 
   emxFree_real_T(&Ahead_filt);
-  emxInit_real_T2(&b_x, 1);
-  i0 = b_x->size[0];
-  b_x->size[0] = x->size[0];
-  emxEnsureCapacity((emxArray__common *)b_x, i0, (int)sizeof(double));
-  n = x->size[0];
-  for (i0 = 0; i0 < n; i0++) {
-    b_x->data[i0] = x->data[i0];
-  }
-
-  for (sz_idx_0 = 0; sz_idx_0 + 1 <= x->size[0]; sz_idx_0++) {
-    b_x->data[sz_idx_0] = exp(b_x->data[sz_idx_0]);
-  }
-
-  emxFree_real_T(&x);
-  emxInit_real_T1(&c_x, 2);
-  i0 = c_x->size[0] * c_x->size[1];
-  c_x->size[0] = 1;
-  c_x->size[1] = b_x->size[0];
+  emxInit_real_T2(&c_x, 1);
+  i0 = c_x->size[0];
+  c_x->size[0] = b_x->size[0];
   emxEnsureCapacity((emxArray__common *)c_x, i0, (int)sizeof(double));
   n = b_x->size[0];
   for (i0 = 0; i0 < n; i0++) {
-    c_x->data[c_x->size[0] * i0] = b_x->data[i0] - 1.0;
+    c_x->data[i0] = b_x->data[i0];
+  }
+
+  for (sz_idx_0 = 0; sz_idx_0 + 1 <= b_x->size[0]; sz_idx_0++) {
+    c_x->data[sz_idx_0] = exp(c_x->data[sz_idx_0]);
   }
 
   emxFree_real_T(&b_x);
+  emxInit_real_T1(&d_x, 2);
+  i0 = d_x->size[0] * d_x->size[1];
+  d_x->size[0] = 1;
+  d_x->size[1] = c_x->size[0];
+  emxEnsureCapacity((emxArray__common *)d_x, i0, (int)sizeof(double));
+  n = c_x->size[0];
+  for (i0 = 0; i0 < n; i0++) {
+    d_x->data[d_x->size[0] * i0] = c_x->data[i0] - 1.0;
+  }
+
+  emxFree_real_T(&c_x);
   emxInit_real_T1(&b_xhat, 2);
-  b_kalmanfilt(c_x, xhat);
+  b_kalmanfilt(d_x, xhat);
   i0 = b_xhat->size[0] * b_xhat->size[1];
   b_xhat->size[0] = 1;
   b_xhat->size[1] = xhat->size[1];
   emxEnsureCapacity((emxArray__common *)b_xhat, i0, (int)sizeof(double));
   n = xhat->size[0] * xhat->size[1];
-  emxFree_real_T(&c_x);
+  emxFree_real_T(&d_x);
   for (i0 = 0; i0 < n; i0++) {
     b_xhat->data[i0] = xhat->data[i0] + 1.0;
   }

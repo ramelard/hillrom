@@ -13,13 +13,12 @@ end
 
 % c_interp = 100*30;
 % timestamps = floor(timestamps * 100); % ???
-c_interp = 100;
+c_interp = 1000;
 fps_target = 30;
 timestamps = floor(timestamps * c_interp) / c_interp; % ???
 
-frames_body = permute(frames_body, [2 3 1]);
 Bbody = imresize(frames_body,1/block_size,'box');
-Rbody = reshape(Bbody,size(Bbody,3),[]);
+Rbody = reshape(permute(Bbody, [3 1 2]),size(Bbody,3),[]);
 % Interpolate between uneven timestamped measurements
 Rbody_interp = zeros(numel(min(timestamps):1/fps_target:max(timestamps)), size(Rbody,2));
 for i  = 1 : size(Rbody,2)
@@ -27,9 +26,8 @@ for i  = 1 : size(Rbody,2)
 end
 Abody = -log(1+Rbody_interp);
 
-frames_head = permute(frames_head, [2 3 1]);
 Bhead = imresize(frames_head,1/block_size,'box');
-Rhead = reshape(Bhead,size(Bhead,3),[]);
+Rhead = reshape(permute(Bhead, [3 1 2]),size(Bhead,3),[]);
 % Interpolate between uneven timestamped measurements
 Rhead_interp = zeros(numel(min(timestamps):1/fps_target:max(timestamps)), size(Rhead,2));
 for i  = 1 : size(Rhead,2)

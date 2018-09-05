@@ -2,7 +2,7 @@
 ## Makefile generated for MATLAB file/project 'extract_vitals_tk1'. 
 ## 
 ## Makefile     : extract_vitals_tk1_rtw.mk
-## Generated on : Wed Sep 05 11:35:05 2018
+## Generated on : Wed Sep 05 12:32:51 2018
 ## MATLAB Coder version: 3.2 (R2016b)
 ## 
 ## Build Info:
@@ -31,7 +31,7 @@ MATLAB_ROOT               = C:/PROGRA~1/MATLAB/R2016b
 MATLAB_BIN                = C:/PROGRA~1/MATLAB/R2016b/bin
 MATLAB_ARCH_BIN           = C:/PROGRA~1/MATLAB/R2016b/bin/win64
 MASTER_ANCHOR_DIR         = 
-START_DIR                 = C:/Users/ramelard/Desktop/hillrom_git/src/matlab
+START_DIR                 = C:/Users/ramelard/Desktop/hillrom_git2/hillrom/src/matlab
 ARCH                      = win64
 RELATIVE_PATH_TO_ANCHOR   = .
 PERL                      = $(MATLAB_ROOT)/sys/perl/win32/bin/perl.exe
@@ -168,7 +168,7 @@ DEFINES = $(DEFINES_STANDARD)
 ## SOURCE FILES
 ###########################################################################
 
-SRCS = $(START_DIR)/codegen/lib/extract_vitals_tk1/extract_vitals_tk1_rtwutil.c $(START_DIR)/codegen/lib/extract_vitals_tk1/extract_vitals_tk1_initialize.c $(START_DIR)/codegen/lib/extract_vitals_tk1/extract_vitals_tk1_terminate.c $(START_DIR)/codegen/lib/extract_vitals_tk1/extract_vitals_tk1.c $(START_DIR)/codegen/lib/extract_vitals_tk1/floor.c $(START_DIR)/codegen/lib/extract_vitals_tk1/rdivide.c $(START_DIR)/codegen/lib/extract_vitals_tk1/permute.c $(START_DIR)/codegen/lib/extract_vitals_tk1/imresize.c $(START_DIR)/codegen/lib/extract_vitals_tk1/sort1.c $(START_DIR)/codegen/lib/extract_vitals_tk1/relop.c $(START_DIR)/codegen/lib/extract_vitals_tk1/bsxfun.c $(START_DIR)/codegen/lib/extract_vitals_tk1/sum.c $(START_DIR)/codegen/lib/extract_vitals_tk1/abs1.c $(START_DIR)/codegen/lib/extract_vitals_tk1/interp1.c $(START_DIR)/codegen/lib/extract_vitals_tk1/log.c $(START_DIR)/codegen/lib/extract_vitals_tk1/filter.c $(START_DIR)/codegen/lib/extract_vitals_tk1/fft.c $(START_DIR)/codegen/lib/extract_vitals_tk1/bluestein_setup.c $(START_DIR)/codegen/lib/extract_vitals_tk1/exp.c $(START_DIR)/codegen/lib/extract_vitals_tk1/get_spectral_entropy.c $(START_DIR)/codegen/lib/extract_vitals_tk1/log21.c $(START_DIR)/codegen/lib/extract_vitals_tk1/ifft.c $(START_DIR)/codegen/lib/extract_vitals_tk1/kalmanfilt.c $(START_DIR)/codegen/lib/extract_vitals_tk1/pinv.c $(START_DIR)/codegen/lib/extract_vitals_tk1/plot_power_spectrum.c $(START_DIR)/codegen/lib/extract_vitals_tk1/extract_vitals_tk1_emxutil.c $(START_DIR)/codegen/lib/extract_vitals_tk1/extract_vitals_tk1_emxAPI.c $(START_DIR)/codegen/lib/extract_vitals_tk1/rt_nonfinite.c $(START_DIR)/codegen/lib/extract_vitals_tk1/rtGetNaN.c $(START_DIR)/codegen/lib/extract_vitals_tk1/rtGetInf.c
+SRCS = $(START_DIR)/codegen/lib/extract_vitals_tk1/extract_vitals_tk1_rtwutil.c $(START_DIR)/codegen/lib/extract_vitals_tk1/extract_vitals_tk1_initialize.c $(START_DIR)/codegen/lib/extract_vitals_tk1/extract_vitals_tk1_terminate.c $(START_DIR)/codegen/lib/extract_vitals_tk1/extract_vitals_tk1.c $(START_DIR)/codegen/lib/extract_vitals_tk1/floor.c $(START_DIR)/codegen/lib/extract_vitals_tk1/rdivide.c $(START_DIR)/codegen/lib/extract_vitals_tk1/imresize.c $(START_DIR)/codegen/lib/extract_vitals_tk1/sort1.c $(START_DIR)/codegen/lib/extract_vitals_tk1/relop.c $(START_DIR)/codegen/lib/extract_vitals_tk1/bsxfun.c $(START_DIR)/codegen/lib/extract_vitals_tk1/sum.c $(START_DIR)/codegen/lib/extract_vitals_tk1/permute.c $(START_DIR)/codegen/lib/extract_vitals_tk1/abs1.c $(START_DIR)/codegen/lib/extract_vitals_tk1/interp1.c $(START_DIR)/codegen/lib/extract_vitals_tk1/log.c $(START_DIR)/codegen/lib/extract_vitals_tk1/filter.c $(START_DIR)/codegen/lib/extract_vitals_tk1/fft.c $(START_DIR)/codegen/lib/extract_vitals_tk1/bluestein_setup.c $(START_DIR)/codegen/lib/extract_vitals_tk1/exp.c $(START_DIR)/codegen/lib/extract_vitals_tk1/get_spectral_entropy.c $(START_DIR)/codegen/lib/extract_vitals_tk1/log21.c $(START_DIR)/codegen/lib/extract_vitals_tk1/ifft.c $(START_DIR)/codegen/lib/extract_vitals_tk1/kalmanfilt.c $(START_DIR)/codegen/lib/extract_vitals_tk1/pinv.c $(START_DIR)/codegen/lib/extract_vitals_tk1/plot_power_spectrum.c $(START_DIR)/codegen/lib/extract_vitals_tk1/extract_vitals_tk1_emxutil.c $(START_DIR)/codegen/lib/extract_vitals_tk1/extract_vitals_tk1_emxAPI.c $(START_DIR)/codegen/lib/extract_vitals_tk1/rt_nonfinite.c $(START_DIR)/codegen/lib/extract_vitals_tk1/rtGetNaN.c $(START_DIR)/codegen/lib/extract_vitals_tk1/rtGetInf.c
 
 ALL_SRCS = $(SRCS)
 
@@ -176,7 +176,7 @@ ALL_SRCS = $(SRCS)
 ## OBJECTS
 ###########################################################################
 
-OBJS = extract_vitals_tk1_rtwutil.obj extract_vitals_tk1_initialize.obj extract_vitals_tk1_terminate.obj extract_vitals_tk1.obj floor.obj rdivide.obj permute.obj imresize.obj sort1.obj relop.obj bsxfun.obj sum.obj abs1.obj interp1.obj log.obj filter.obj fft.obj bluestein_setup.obj exp.obj get_spectral_entropy.obj log21.obj ifft.obj kalmanfilt.obj pinv.obj plot_power_spectrum.obj extract_vitals_tk1_emxutil.obj extract_vitals_tk1_emxAPI.obj rt_nonfinite.obj rtGetNaN.obj rtGetInf.obj
+OBJS = extract_vitals_tk1_rtwutil.obj extract_vitals_tk1_initialize.obj extract_vitals_tk1_terminate.obj extract_vitals_tk1.obj floor.obj rdivide.obj imresize.obj sort1.obj relop.obj bsxfun.obj sum.obj permute.obj abs1.obj interp1.obj log.obj filter.obj fft.obj bluestein_setup.obj exp.obj get_spectral_entropy.obj log21.obj ifft.obj kalmanfilt.obj pinv.obj plot_power_spectrum.obj extract_vitals_tk1_emxutil.obj extract_vitals_tk1_emxAPI.obj rt_nonfinite.obj rtGetNaN.obj rtGetInf.obj
 
 ALL_OBJS = $(OBJS)
 
