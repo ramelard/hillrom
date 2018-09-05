@@ -5,7 +5,7 @@
  * File: bsxfun.c
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 18-Apr-2018 17:29:29
+ * C/C++ source code generated on  : 05-Sep-2018 11:34:41
  */
 
 /* Include Files */
@@ -130,7 +130,7 @@ void bsxfun(const emxArray_int32_T *a, const emxArray_int32_T *b,
   c->size[1] = csz_idx_1;
   emxEnsureCapacity((emxArray__common *)c, i3, (int)sizeof(int));
   if (!((c->size[0] == 0) || (c->size[1] == 0))) {
-    emxInit_int32_T1(&av, 1);
+    emxInit_int32_T(&av, 1);
     a_idx_0 = (unsigned int)a->size[0];
     i3 = av->size[0];
     av->size[0] = (int)a_idx_0;
@@ -140,7 +140,7 @@ void bsxfun(const emxArray_int32_T *a, const emxArray_int32_T *b,
     nc1 = c->size[0];
     i3 = c->size[0] * c->size[1] - c->size[0];
     ck = 0;
-    emxInit_int32_T1(&cv, 1);
+    emxInit_int32_T(&cv, 1);
     while (ck <= i3) {
       for (csz_idx_0 = 0; csz_idx_0 + 1 <= a->size[0]; csz_idx_0++) {
         av->data[csz_idx_0] = a->data[csz_idx_0];

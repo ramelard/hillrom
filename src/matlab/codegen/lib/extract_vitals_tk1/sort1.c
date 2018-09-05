@@ -5,7 +5,7 @@
  * File: sort1.c
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 18-Apr-2018 17:29:29
+ * C/C++ source code generated on  : 05-Sep-2018 11:34:41
  */
 
 /* Include Files */
@@ -23,10 +23,10 @@
 void sort(double x[2], int idx[2])
 {
   double b_x[2];
-  int i10;
+  int i12;
   boolean_T p;
-  for (i10 = 0; i10 < 2; i10++) {
-    b_x[i10] = x[i10];
+  for (i12 = 0; i12 < 2; i12++) {
+    b_x[i12] = x[i12];
   }
 
   if ((x[0] <= x[1]) || rtIsNaN(x[1])) {
@@ -45,8 +45,8 @@ void sort(double x[2], int idx[2])
     b_x[1] = x[0];
   }
 
-  for (i10 = 0; i10 < 2; i10++) {
-    x[i10] = b_x[i10];
+  for (i12 = 0; i12 < 2; i12++) {
+    x[i12] = b_x[i12];
   }
 }
 

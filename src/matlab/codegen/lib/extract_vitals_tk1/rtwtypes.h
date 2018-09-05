@@ -5,7 +5,7 @@
  * File: rtwtypes.h
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 18-Apr-2018 17:29:29
+ * C/C++ source code generated on  : 05-Sep-2018 11:34:41
  */
 
 #ifndef RTWTYPES_H
@@ -15,7 +15,7 @@
 
 /*=======================================================================*
  * Target hardware information
- *   Device type: ARM Compatible->ARM 7
+ *   Device type: ARM Compatible->ARM Cortex
  *   Number of bits:     char:   8    short:   16    int:  32
  *                       long:  32
  *                       native word size:  32

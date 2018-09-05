@@ -5,7 +5,7 @@
  * File: imresize.c
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 18-Apr-2018 17:29:29
+ * C/C++ source code generated on  : 05-Sep-2018 11:34:41
  */
 
 /* Include Files */
@@ -140,7 +140,7 @@ static void contributions(int in_length, double out_length, double scale,
     n = P;
   }
 
-  emxInit_int32_T(&aux, 2);
+  emxInit_int32_T1(&aux, 2);
   i1 = aux->size[0] * aux->size[1];
   aux->size[0] = 1;
   aux->size[1] = n;
@@ -154,7 +154,7 @@ static void contributions(int in_length, double out_length, double scale,
     }
   }
 
-  emxInit_int32_T1(&b_bv, 1);
+  emxInit_int32_T(&b_bv, 1);
   i1 = b_bv->size[0];
   b_bv->size[0] = bv->size[0];
   emxEnsureCapacity((emxArray__common *)b_bv, i1, (int)sizeof(int));
@@ -438,7 +438,7 @@ static void contributions(int in_length, double out_length, double scale,
   }
 
   emxFree_boolean_T(&copyCols);
-  emxInit_int32_T(&c_indices, 2);
+  emxInit_int32_T1(&c_indices, 2);
   P = indices->size[0];
   i1 = c_indices->size[0] * c_indices->size[1];
   c_indices->size[0] = aux->size[1];
@@ -586,7 +586,7 @@ void imresize(const emxArray_real_T *Ain, double varargin_1, emxArray_real_T
 
   emxInit_real_T(&APartialResize, 3);
   emxInit_real_T1(&weights, 2);
-  emxInit_int32_T(&indices, 2);
+  emxInit_int32_T1(&indices, 2);
 
   /*  Resize first dimension */
   contributions(Ain->size[(int)scaleOrSize[0] - 1], outputSize[(int)scaleOrSize

@@ -14,26 +14,27 @@ end
 % c_interp = 100*30;
 % timestamps = floor(timestamps * 100); % ???
 c_interp = 100;
+fps_target = 30;
 timestamps = floor(timestamps * c_interp) / c_interp; % ???
 
+frames_body = permute(frames_body, [2 3 1]);
 Bbody = imresize(frames_body,1/block_size,'box');
-Rbody = reshape(permute(Bbody,[3 1 2]),size(Bbody,3),[]);
+Rbody = reshape(Bbody,size(Bbody,3),[]);
 % Interpolate between uneven timestamped measurements
-Rbody_interp = [];
+Rbody_interp = zeros(numel(min(timestamps):1/fps_target:max(timestamps)), size(Rbody,2));
 for i  = 1 : size(Rbody,2)
-  Rbody_interp(:,i) = interp1(timestamps, Rbody(:,i), min(timestamps):1/c_interp:max(timestamps));
+  Rbody_interp(:,i) = interp1(timestamps, Rbody(:,i)', min(timestamps):1/fps_target:max(timestamps));
 end
-Rbody_interp = Rbody_interp(1:3:size(Rbody_interp,1),:); % take every 3rd row to get 33.3Hz (each row is 0.01 seconds)
 Abody = -log(1+Rbody_interp);
 
+frames_head = permute(frames_head, [2 3 1]);
 Bhead = imresize(frames_head,1/block_size,'box');
-Rhead = reshape(permute(Bhead,[3 1 2]),size(Bhead,3),[]);
+Rhead = reshape(Bhead,size(Bhead,3),[]);
 % Interpolate between uneven timestamped measurements
-Rhead_interp = [];
+Rhead_interp = zeros(numel(min(timestamps):1/fps_target:max(timestamps)), size(Rhead,2));
 for i  = 1 : size(Rhead,2)
-  Rhead_interp(:,i) = interp1(timestamps, Rhead(:,i), min(timestamps):1/c_interp:max(timestamps));
+  Rhead_interp(:,i) = interp1(timestamps, Rhead(:,i)', min(timestamps):1/fps_target:max(timestamps));
 end
-Rhead_interp = Rhead_interp(1:3:size(Rhead_interp,1),:);
 Ahead = -log(1+Rhead_interp);
 
 [T,~] = size(Ahead);
@@ -59,10 +60,25 @@ elseif abs(fps-60) < 0.1
 else
   error('Unsupported frame rate needed for constant nyq criterion in butter(). Please update if statements in the code.');
 end
-
 Ahead_filt = zeros(size(Ahead));
 for i = 1:size(Ahead_filt,2)
   Ahead_filt(:,i) = filter(b, a, Ahead(:,i));
+end
+
+low_freq = 5/60;
+high_freq = 25/60;
+if abs(fps-30) < 0.1
+  nyq = 15;
+  [b,a] = butter(3,[low_freq high_freq]./nyq,'bandpass');
+elseif abs(fps-60) < 0.1
+  nyq = 30;
+  [b,a] = butter(3,[low_freq high_freq]./nyq,'bandpass');
+else
+  error('Unsupported frame rate needed for constant nyq criterion in butter(). Please update if statements in the code.');
+end
+Abody = zeros(size(Abody));
+for i = 1:size(Abody,2)
+  Abody(:,i) = filter(b, a, Abody(:,i));
 end
 
 

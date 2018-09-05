@@ -5,7 +5,7 @@
  * File: _coder_extract_vitals_tk1_mex.c
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 18-Apr-2018 17:29:29
+ * C/C++ source code generated on  : 05-Sep-2018 11:34:41
  */
 
 /* Include Files */
@@ -14,7 +14,7 @@
 
 /* Function Declarations */
 static void extract_vitals_tk1_mexFunction(int32_T nlhs, mxArray *plhs[2],
-  int32_T nrhs, const mxArray *prhs[4]);
+  int32_T nrhs, const mxArray *prhs[5]);
 
 /* Function Definitions */
 
@@ -22,14 +22,14 @@ static void extract_vitals_tk1_mexFunction(int32_T nlhs, mxArray *plhs[2],
  * Arguments    : int32_T nlhs
  *                const mxArray *plhs[2]
  *                int32_T nrhs
- *                const mxArray *prhs[4]
+ *                const mxArray *prhs[5]
  * Return Type  : void
  */
 static void extract_vitals_tk1_mexFunction(int32_T nlhs, mxArray *plhs[2],
-  int32_T nrhs, const mxArray *prhs[4])
+  int32_T nrhs, const mxArray *prhs[5])
 {
   int32_T n;
-  const mxArray *inputs[4];
+  const mxArray *inputs[5];
   const mxArray *outputs[2];
   int32_T b_nlhs;
   emlrtStack st = { NULL,              /* site */
@@ -40,8 +40,8 @@ static void extract_vitals_tk1_mexFunction(int32_T nlhs, mxArray *plhs[2],
   st.tls = emlrtRootTLSGlobal;
 
   /* Check for proper number of arguments. */
-  if (nrhs != 4) {
-    emlrtErrMsgIdAndTxt(&st, "EMLRT:runTime:WrongNumberOfInputs", 5, 12, 4, 4,
+  if (nrhs != 5) {
+    emlrtErrMsgIdAndTxt(&st, "EMLRT:runTime:WrongNumberOfInputs", 5, 12, 5, 4,
                         18, "extract_vitals_tk1");
   }
 

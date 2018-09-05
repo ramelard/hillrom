@@ -5,7 +5,7 @@
  * File: _coder_extract_vitals_tk1_info.h 
  *  
  * MATLAB Coder version            : 3.2 
- * C/C++ source code generated on  : 18-Apr-2018 17:29:29 
+ * C/C++ source code generated on  : 05-Sep-2018 11:34:41 
  */
 
 #ifndef _CODER_EXTRACT_VITALS_TK1_INFO_H

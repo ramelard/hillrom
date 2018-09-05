@@ -5,7 +5,7 @@
  * File: get_spectral_entropy.h
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 18-Apr-2018 17:29:29
+ * C/C++ source code generated on  : 05-Sep-2018 11:34:41
  */
 
 #ifndef GET_SPECTRAL_ENTROPY_H
