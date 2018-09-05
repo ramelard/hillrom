@@ -107,7 +107,7 @@ def track_and_display():
   lock = threading.Lock()
   q = Queue()
   num_workers = 5
-  acquisition_time = 4
+  acquisition_time = 10
 
 
   # ----------------------------------------------------------------------------

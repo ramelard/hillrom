@@ -18,7 +18,7 @@ timestamps = floor(timestamps * c_interp) / c_interp; % ???
 
 Bbody = imresize(frames_body,1/block_size,'box');
 Rbody = reshape(permute(Bbody,[3 1 2]),size(Bbody,3),[]);
-% Interpolate between uneven timestamed mesurements
+% Interpolate between uneven timestamped measurements
 Rbody_interp = [];
 for i  = 1 : size(Rbody,2)
   Rbody_interp(:,i) = interp1(timestamps, Rbody(:,i), min(timestamps):1/c_interp:max(timestamps));
@@ -28,7 +28,7 @@ Abody = -log(1+Rbody_interp);
 
 Bhead = imresize(frames_head,1/block_size,'box');
 Rhead = reshape(permute(Bhead,[3 1 2]),size(Bhead,3),[]);
-% Interpolate between uneven timestamed mesurements
+% Interpolate between uneven timestamped measurements
 Rhead_interp = [];
 for i  = 1 : size(Rhead,2)
   Rhead_interp(:,i) = interp1(timestamps, Rhead(:,i), min(timestamps):1/c_interp:max(timestamps));
