@@ -3,3 +3,4 @@ src/lib/*.so
 src/output/*.mat
 *DS_Store
 src/lib/extract_vitals_tk1.so
+*.png

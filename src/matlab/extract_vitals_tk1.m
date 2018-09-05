@@ -23,7 +23,7 @@ Rbody_interp = [];
 for i  = 1 : size(Rbody,2)
   Rbody_interp(:,i) = interp1(timestamps, Rbody(:,i), min(timestamps):1/c_interp:max(timestamps));
 end
-Rbody_interp = Rbody_interp(1:3:size(Rbody_interp,1),:); % take every 3rd row to get 30Hz (each row is 0.01 seconds)
+Rbody_interp = Rbody_interp(1:3:size(Rbody_interp,1),:); % take every 3rd row to get 33.3Hz (each row is 0.01 seconds)
 Abody = -log(1+Rbody_interp);
 
 Bhead = imresize(frames_head,1/block_size,'box');
