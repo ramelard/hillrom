@@ -65,24 +65,25 @@ def worker(q, lock):
     if not face_roi:
       # We only want 1 thread to find a face. So prohibit multiple threads from getting in here at the beginning.
       lock.acquire()
-      face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-      assert(not face_cascade.empty())
-      try:
-        faces = face_cascade.detectMultiScale(
-            gray,
-            scaleFactor=1.1,
-            minNeighbors=5,
-            minSize=(30, 30),
-            flags=cv2.CASCADE_SCALE_IMAGE
-        )
-        if faces.any():
-          logging.debug('Found face! %d items left in queue.' % q.qsize())
-          (x, y, w, h) = faces[0, :]
-          face_roi = (x, y, w, h)
-        else:
-          logging.warning('Could not detect any faces. %d items left in queue.' % q.qsize())
-      except:
-        logging.warning('Error detecting faces. %d items left in queue.' % q.qsize())
+      if not face_roi:
+        face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+        assert(not face_cascade.empty())
+        try:
+          faces = face_cascade.detectMultiScale(
+              gray,
+              scaleFactor=1.1,
+              minNeighbors=5,
+              minSize=(30, 30),
+              flags=cv2.CASCADE_SCALE_IMAGE
+          )
+          if faces.any():
+            logging.debug('Found face! %d items left in queue.' % q.qsize())
+            (x, y, w, h) = faces[0, :]
+            face_roi = (x, y, w, h)
+          else:
+            logging.warning('Could not detect any faces. %d items left in queue.' % q.qsize())
+        except:
+          logging.warning('Error detecting faces. %d items left in queue.' % q.qsize())
       lock.release()
     if face_roi:
       (x, y, w, h) = face_roi
