@@ -2,7 +2,7 @@
 ## Makefile generated for MATLAB file/project 'extract_vitals_tk1'. 
 ## 
 ## Makefile     : extract_vitals_tk1_rtw.mk
-## Generated on : Wed Sep 05 12:32:51 2018
+## Generated on : Thu Sep 06 09:33:52 2018
 ## MATLAB Coder version: 3.2 (R2016b)
 ## 
 ## Build Info:
@@ -31,7 +31,7 @@ MATLAB_ROOT               = C:/PROGRA~1/MATLAB/R2016b
 MATLAB_BIN                = C:/PROGRA~1/MATLAB/R2016b/bin
 MATLAB_ARCH_BIN           = C:/PROGRA~1/MATLAB/R2016b/bin/win64
 MASTER_ANCHOR_DIR         = 
-START_DIR                 = C:/Users/ramelard/Desktop/hillrom_git2/hillrom/src/matlab
+START_DIR                 = C:/Users/ramelard/Dropbox/RESEARCH/PROJEC~2/Hill-Rom/src/matlab
 ARCH                      = win64
 RELATIVE_PATH_TO_ANCHOR   = .
 PERL                      = $(MATLAB_ROOT)/sys/perl/win32/bin/perl.exe

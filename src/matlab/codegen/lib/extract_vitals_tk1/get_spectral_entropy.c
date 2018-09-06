@@ -5,7 +5,7 @@
  * File: get_spectral_entropy.c
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 05-Sep-2018 12:32:31
+ * C/C++ source code generated on  : 06-Sep-2018 09:33:28
  */
 
 /* Include Files */
@@ -37,20 +37,20 @@ void get_spectral_entropy(emxArray_creal_T *power_range, emxArray_creal_T *entr)
   int k;
   int na1;
   emxArray_creal_T *av;
-  emxArray_boolean_T *r3;
+  emxArray_boolean_T *r2;
   int bsub;
   int ak;
   int bk;
   int nc1;
   int ck;
-  emxArray_boolean_T *r4;
+  emxArray_boolean_T *r3;
   emxArray_creal_T *cv;
   double y_re;
   double y_im;
   double av_re;
   double av_im;
   double brm;
-  emxArray_int32_T *r5;
+  emxArray_int32_T *r4;
   unsigned int uv0[2];
 
   /*  Get normalized entropy from spectral power range. */
@@ -223,76 +223,76 @@ void get_spectral_entropy(emxArray_creal_T *power_range, emxArray_creal_T *entr)
   }
 
   emxFree_creal_T(&y);
-  emxInit_boolean_T(&r3, 2);
+  emxInit_boolean_T(&r2, 2);
 
   /*  Happens when whole spectrum range has 0 power. */
+  i7 = r2->size[0] * r2->size[1];
+  r2->size[0] = power_range->size[0];
+  r2->size[1] = power_range->size[1];
+  emxEnsureCapacity((emxArray__common *)r2, i7, (int)sizeof(boolean_T));
+  vlen = power_range->size[0] * power_range->size[1];
+  for (i7 = 0; i7 < vlen; i7++) {
+    r2->data[i7] = rtIsNaN(power_range->data[i7].re);
+  }
+
+  emxInit_boolean_T(&r3, 2);
   i7 = r3->size[0] * r3->size[1];
   r3->size[0] = power_range->size[0];
   r3->size[1] = power_range->size[1];
   emxEnsureCapacity((emxArray__common *)r3, i7, (int)sizeof(boolean_T));
   vlen = power_range->size[0] * power_range->size[1];
   for (i7 = 0; i7 < vlen; i7++) {
-    r3->data[i7] = rtIsNaN(power_range->data[i7].re);
+    r3->data[i7] = rtIsNaN(power_range->data[i7].im);
   }
 
-  emxInit_boolean_T(&r4, 2);
-  i7 = r4->size[0] * r4->size[1];
-  r4->size[0] = power_range->size[0];
-  r4->size[1] = power_range->size[1];
-  emxEnsureCapacity((emxArray__common *)r4, i7, (int)sizeof(boolean_T));
-  vlen = power_range->size[0] * power_range->size[1];
+  i7 = r2->size[0] * r2->size[1];
+  emxEnsureCapacity((emxArray__common *)r2, i7, (int)sizeof(boolean_T));
+  i7 = r2->size[0];
+  xoffset = r2->size[1];
+  vlen = i7 * xoffset;
   for (i7 = 0; i7 < vlen; i7++) {
-    r4->data[i7] = rtIsNaN(power_range->data[i7].im);
+    r2->data[i7] = (r2->data[i7] || r3->data[i7]);
   }
 
   i7 = r3->size[0] * r3->size[1];
+  r3->size[0] = power_range->size[0];
+  r3->size[1] = power_range->size[1];
   emxEnsureCapacity((emxArray__common *)r3, i7, (int)sizeof(boolean_T));
-  i7 = r3->size[0];
-  xoffset = r3->size[1];
-  vlen = i7 * xoffset;
-  for (i7 = 0; i7 < vlen; i7++) {
-    r3->data[i7] = (r3->data[i7] || r4->data[i7]);
-  }
-
-  i7 = r4->size[0] * r4->size[1];
-  r4->size[0] = power_range->size[0];
-  r4->size[1] = power_range->size[1];
-  emxEnsureCapacity((emxArray__common *)r4, i7, (int)sizeof(boolean_T));
   vlen = power_range->size[0] * power_range->size[1];
   for (i7 = 0; i7 < vlen; i7++) {
-    r4->data[i7] = ((power_range->data[i7].re == 0.0) && (power_range->data[i7].
+    r3->data[i7] = ((power_range->data[i7].re == 0.0) && (power_range->data[i7].
       im == 0.0));
   }
 
-  emxInit_int32_T(&r5, 1);
-  xoffset = r3->size[0] * r3->size[1] - 1;
+  emxInit_int32_T(&r4, 1);
+  xoffset = r2->size[0] * r2->size[1] - 1;
   vlen = 0;
   for (asub = 0; asub <= xoffset; asub++) {
-    if (r3->data[asub] || r4->data[asub]) {
+    if (r2->data[asub] || r3->data[asub]) {
       vlen++;
     }
   }
 
-  i7 = r5->size[0];
-  r5->size[0] = vlen;
-  emxEnsureCapacity((emxArray__common *)r5, i7, (int)sizeof(int));
+  i7 = r4->size[0];
+  r4->size[0] = vlen;
+  emxEnsureCapacity((emxArray__common *)r4, i7, (int)sizeof(int));
   vlen = 0;
   for (asub = 0; asub <= xoffset; asub++) {
-    if (r3->data[asub] || r4->data[asub]) {
-      r5->data[vlen] = asub + 1;
+    if (r2->data[asub] || r3->data[asub]) {
+      r4->data[vlen] = asub + 1;
       vlen++;
     }
   }
 
-  emxFree_boolean_T(&r4);
   emxFree_boolean_T(&r3);
-  vlen = r5->size[0];
+  emxFree_boolean_T(&r2);
+  vlen = r4->size[0];
   for (i7 = 0; i7 < vlen; i7++) {
-    power_range->data[r5->data[i7] - 1].re = 1.0E-100;
-    power_range->data[r5->data[i7] - 1].im = 0.0;
+    power_range->data[r4->data[i7] - 1].re = 1.0E-100;
+    power_range->data[r4->data[i7] - 1].im = 0.0;
   }
 
-  emxFree_int32_T(&r5);
+  emxFree_int32_T(&r4);
 
   /*  Use normalized entropy. */
   for (i7 = 0; i7 < 2; i7++) {

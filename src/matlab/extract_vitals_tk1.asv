@@ -146,10 +146,9 @@ heartrate_best = -log(xhat+1);
 [freq, Fbreathing] = plot_power_spectrum(breathing, fps);
 [freq, Fheartrate] = plot_power_spectrum(heartrate, fps);
 
-idx1 = find(freq<5/60, 1, 'first');
-idx2 = find(freq>25/60, 1, 'first');
+idx1 = find
 
-Fbreathing(1,[1:idx1, idx2:end]) = 0;
+Fbreathing(1,:) = 0;
 Fheartrate(1,:) = 0;
 
 [~,maxidx] = max(Fheartrate);
