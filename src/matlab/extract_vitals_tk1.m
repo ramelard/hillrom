@@ -102,7 +102,9 @@ Fheartrate = Pyy(1:floor(npts/2),:);
 
 % [freq, Fbreathing] = plot_power_spectrum(Abody, 60);
 % [freq, Fheartrate] = plot_power_spectrum(Ahead_filt, 60);
-Fbreathing(1,:) = 0;
+idx1 = find(freq<5/60, 1, 'first');
+idx2 = find(freq>25/60, 1, 'first');
+Fbreathing([1:idx1, idx2:end],:) = 0;
 Fheartrate(1,:) = 0;
 % Fbreathing(1,:) = zeros(1, size(Fbreathing,2));
 % Fheartrate(1,:) = zeros(1, size(Fheartrate,2));
@@ -148,8 +150,7 @@ heartrate_best = -log(xhat+1);
 
 idx1 = find(freq<5/60, 1, 'first');
 idx2 = find(freq>25/60, 1, 'first');
-
-Fbreathing(1,[1:idx1, idx2:end]) = 0;
+Fbreathing([1:idx1, idx2:end],:) = 0;
 Fheartrate(1,:) = 0;
 
 [~,maxidx] = max(Fheartrate);
