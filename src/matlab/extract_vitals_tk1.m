@@ -15,9 +15,9 @@ c_interp = 1000;
 fps_target = 30;
 timestamps = floor(timestamps * c_interp) / c_interp; % ???
 
-Bbody = permute(frames_body, [2 3 1]);  % make it h x w x t
+% Bbody = permute(frames_body, [2 3 1]);  % make it h x w x t
+Bbody = frames_body;
 Bbody = imresize(Bbody, 1/block_size, 'box');
-% Rbody = reshape(permute(Bbody, [3 1 2]),size(Bbody,3),[]);
 assert(size(Bbody,3) == length(timestamps))
 Rbody = reshape(permute(Bbody, [3 1 2]), numel(timestamps), []);
 % Interpolate between uneven timestamped measurements
@@ -27,7 +27,8 @@ for i  = 1 : size(Rbody,2)
 end
 Abody = -log(1+Rbody_interp);
 
-Bhead = permute(frames_head, [2 3 1]);  % make it h x w x t
+% Bhead = permute(frames_head, [2 3 1]);  % make it h x w x t
+Bhead = frames_head;
 Bhead = imresize(Bhead, 1/block_size, 'box');
 assert(size(Bhead,3) == length(timestamps))
 Rhead = reshape(permute(Bhead, [3 1 2]), numel(timestamps), []);
@@ -116,12 +117,13 @@ HRentr = get_spectral_entropy(Fheartrate);
 whr = 1-HRentr;
 whr = whr./sum(whr);
 heartrate = Ahead_filt * whr';
-% trust neighborhoods of high weight
+
 RRentr = get_spectral_entropy(Fbreathing);
 wrr = 1-RRentr;
 wrr = wrr./sum(wrr);
+% trust neighborhoods of high weight
 B = 1-reshape(wrr,size(Bbody(:,:,1)));
-% B2 = nlfilter(B,[2 2],'sliding',@min);
+% B2 = colfilt(B,[2 2],'sliding',@min);
 % B(1:end-1,1:end-1) = B2(1:end-1,1:end-1);
 for i = 2:2:size(B,1)-1
   for j = 2:2:size(B,2)-1
@@ -130,6 +132,8 @@ for i = 2:2:size(B,1)-1
   end
 end
 wrr = B(:);
+% !!
+wrr = ones(size(wrr))./numel(wrr);
 
 
 % Use fft to get rid of phase differences between signals.
@@ -170,7 +174,7 @@ heartrate_best = -log(xhat+1);
 % idx2 = find(freq>25/60, 1, 'first');
 % Fbreathing([1:idx1, idx2:end],:) = 0;
 Fbreathing = breathing(1:floor(numel(breathing)/2));
-Fheartrate(1,:) = 0;
+Fheartrate(1) = 0;
 
 [~,maxidx] = max(Fheartrate);
 hr = 60*freq(maxidx);

@@ -1,1 +1,1 @@
-[hr,rr] = extract_vitals_tk1(ones(600,400,300), ones(600,400,300), linspace(0,1,600), 30, 6);
+[hr,rr] = extract_vitals_tk1(ones(600,400,300), ones(600,400,300), linspace(0,1,300), 30, 6);

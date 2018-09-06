@@ -5,7 +5,7 @@
  * File: permute.h
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 06-Sep-2018 14:56:40
+ * C/C++ source code generated on  : 06-Sep-2018 15:49:36
  */
 
 #ifndef PERMUTE_H
@@ -22,7 +22,6 @@
 #include "extract_vitals_tk1_types.h"
 
 /* Function Declarations */
-extern void b_permute(const emxArray_real_T *a, emxArray_real_T *b);
 extern void permute(const emxArray_real_T *a, emxArray_real_T *b);
 
 #endif

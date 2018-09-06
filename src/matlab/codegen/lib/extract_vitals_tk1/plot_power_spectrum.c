@@ -5,7 +5,7 @@
  * File: plot_power_spectrum.c
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 06-Sep-2018 14:56:40
+ * C/C++ source code generated on  : 06-Sep-2018 15:49:36
  */
 
 /* Include Files */

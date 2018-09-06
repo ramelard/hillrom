@@ -1,7 +1,7 @@
 <deployment-project plugin="plugin.coder" plugin-version="R2016a">
-  <configuration build-checksum="3404473362" file="C:\Users\ramelard\Dropbox\RESEARCH\PROJECTS - ACTIVE\Hill-Rom\src\matlab\extract_vitals_tk1.prj" location="C:\Users\ramelard\Dropbox\RESEARCH\PROJECTS - ACTIVE\Hill-Rom\src\matlab" name="extract_vitals_tk1" target="target.unifiedcoder" target-name="MATLAB Coder">
+  <configuration build-checksum="666037771" file="C:\Users\ramelard\Dropbox\RESEARCH\PROJECTS - ACTIVE\Hill-Rom\src\matlab\extract_vitals_tk1.prj" location="C:\Users\ramelard\Dropbox\RESEARCH\PROJECTS - ACTIVE\Hill-Rom\src\matlab" name="extract_vitals_tk1" target="target.unifiedcoder" target-name="MATLAB Coder">
     <profile key="profile.mex">
-      <param.BuiltInstrumentedMex />
+      <param.BuiltInstrumentedMex>false</param.BuiltInstrumentedMex>
       <param.RanInstrumentedMex>false</param.RanInstrumentedMex>
       <param.WorkingFolder>option.WorkingFolder.Project</param.WorkingFolder>
       <param.SpecifiedWorkingFolder />
@@ -27,7 +27,7 @@
       <param.DefaultTestFile />
       <param.MergeInstrumentationResults>false</param.MergeInstrumentationResults>
       <param.VerificationMode>option.VerificationMode.None</param.VerificationMode>
-      <param.VerificationStatus>option.VerificationStatus.Inactive</param.VerificationStatus>
+      <param.VerificationStatus>option.VerificationStatus.Passed</param.VerificationStatus>
       <param.CustomSourceCode />
       <param.CustomHeaderCode />
       <param.CustomInitializer />
@@ -53,7 +53,7 @@
       <param.ConstantInputs>option.ConstantInputs.CheckValues</param.ConstantInputs>
       <param.EnableCRICodeCoverage>true</param.EnableCRICodeCoverage>
       <param.EnableJIT>false</param.EnableJIT>
-      <param.EnableJITSilentBailOut />
+      <param.EnableJITSilentBailOut>false</param.EnableJITSilentBailOut>
       <param.CheckForIssuesJIT>true</param.CheckForIssuesJIT>
       <unset>
         <param.BuiltInstrumentedMex />
@@ -82,7 +82,6 @@
         <param.DefaultTestFile />
         <param.MergeInstrumentationResults />
         <param.VerificationMode />
-        <param.VerificationStatus />
         <param.CustomSourceCode />
         <param.CustomHeaderCode />
         <param.CustomInitializer />
@@ -742,7 +741,7 @@
     <param.AutoInferUnboundedSizeThreshold>2048</param.AutoInferUnboundedSizeThreshold>
     <param.EnableFixedPointStep>false</param.EnableFixedPointStep>
     <param.EnableScreener>true</param.EnableScreener>
-    <param.AnnotationChecksum>866290517</param.AnnotationChecksum>
+    <param.AnnotationChecksum>3630691854</param.AnnotationChecksum>
     <var.LegacyTarget />
     <var.MirrorOnOpen>false</var.MirrorOnOpen>
     <param.FixedPointEnabled>false</param.FixedPointEnabled>
@@ -751,11 +750,12 @@
     <param.unifiedParamStorage />
     <var.gc.lastOutputRoot>codegen\lib\extract_vitals_tk1</var.gc.lastOutputRoot>
     <var.gc.lastOutputType>C_CODE</var.gc.lastOutputType>
-    <var.gc.preBuildChecksum>3822096823</var.gc.preBuildChecksum>
-    <var.cfi.lastOutputRoot />
-    <var.cfi.preBuildChecksum />
+    <var.gc.preBuildChecksum>278323548</var.gc.preBuildChecksum>
+    <var.cfi.lastOutputRoot>codegen\mex\extract_vitals_tk1</var.cfi.lastOutputRoot>
+    <var.cfi.preBuildChecksum>3749268527</var.cfi.preBuildChecksum>
+    <var.lastCfiTestSnippet>extract_vitals_tk1_demo</var.lastCfiTestSnippet>
     <var.outdatedOnRestore>false</var.outdatedOnRestore>
-    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;C:\Users\ramelard\Dropbox\RESEARCH\PROJECTS - ACTIVE\Hill-Rom\src\matlab\extract_vitals_tk1.m&lt;/file&gt;&lt;file&gt;C:\Users\ramelard\Dropbox\RESEARCH\PROJECTS - ACTIVE\Hill-Rom\src\matlab\get_spectral_entropy.m&lt;/file&gt;&lt;file&gt;C:\Users\ramelard\Dropbox\RESEARCH\PROJECTS - ACTIVE\Hill-Rom\src\matlab\kalmanfilt.m&lt;/file&gt;&lt;file&gt;C:\Users\ramelard\Dropbox\RESEARCH\PROJECTS - ACTIVE\Hill-Rom\src\matlab\plot_power_spectrum.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;1712519801&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
+    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;C:\Users\ramelard\Dropbox\RESEARCH\PROJECTS - ACTIVE\Hill-Rom\src\matlab\extract_vitals_tk1.m&lt;/file&gt;&lt;file&gt;C:\Users\ramelard\Dropbox\RESEARCH\PROJECTS - ACTIVE\Hill-Rom\src\matlab\get_spectral_entropy.m&lt;/file&gt;&lt;file&gt;C:\Users\ramelard\Dropbox\RESEARCH\PROJECTS - ACTIVE\Hill-Rom\src\matlab\kalmanfilt.m&lt;/file&gt;&lt;file&gt;C:\Users\ramelard\Dropbox\RESEARCH\PROJECTS - ACTIVE\Hill-Rom\src\matlab\plot_power_spectrum.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;3918059941&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
     <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;C:\Users\ramelard\Dropbox\RESEARCH\PROJECTS - ACTIVE\Hill-Rom\src\matlab\extract_vitals_tk1.m&lt;/file&gt;&lt;file&gt;C:\Users\ramelard\Dropbox\RESEARCH\PROJECTS - ACTIVE\Hill-Rom\src\matlab\get_spectral_entropy.m&lt;/file&gt;&lt;file&gt;C:\Users\ramelard\Dropbox\RESEARCH\PROJECTS - ACTIVE\Hill-Rom\src\matlab\kalmanfilt.m&lt;/file&gt;&lt;file&gt;C:\Users\ramelard\Dropbox\RESEARCH\PROJECTS - ACTIVE\Hill-Rom\src\matlab\plot_power_spectrum.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
     <param.forceMexBuild>false</param.forceMexBuild>
     <param.configImportActive>false</param.configImportActive>
@@ -832,8 +832,6 @@
       <param.FixedPointEnabled />
       <var.redirectedInputTypeData />
       <param.unifiedParamStorage />
-      <var.cfi.lastOutputRoot />
-      <var.cfi.preBuildChecksum />
       <var.outdatedOnRestore />
       <param.forceMexBuild />
       <param.configImportActive />
@@ -886,7 +884,7 @@
     </unset>
     <fileset.entrypoints>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}\extract_vitals_tk1.m">
-        <Marker>1536260185027</Marker>
+        <Marker>1536263305336</Marker>
       </file>
     </fileset.entrypoints>
     <fileset.testbench>

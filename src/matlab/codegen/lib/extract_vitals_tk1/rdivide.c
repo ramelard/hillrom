@@ -5,7 +5,7 @@
  * File: rdivide.c
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 06-Sep-2018 14:56:40
+ * C/C++ source code generated on  : 06-Sep-2018 15:49:36
  */
 
 /* Include Files */
@@ -22,7 +22,7 @@
  *                emxArray_creal_T *z
  * Return Type  : void
  */
-void rdivide(const emxArray_creal_T *x, const creal_T y, emxArray_creal_T *z)
+void b_rdivide(const emxArray_creal_T *x, const creal_T y, emxArray_creal_T *z)
 {
   int i9;
   int loop_ub;
@@ -91,6 +91,25 @@ void rdivide(const emxArray_creal_T *x, const creal_T y, emxArray_creal_T *z)
         z->data[i9].im = (bim * x_im - x_re) / d;
       }
     }
+  }
+}
+
+/*
+ * Arguments    : const emxArray_real_T *x
+ *                double y
+ *                emxArray_real_T *z
+ * Return Type  : void
+ */
+void rdivide(const emxArray_real_T *x, double y, emxArray_real_T *z)
+{
+  int i3;
+  int loop_ub;
+  i3 = z->size[0];
+  z->size[0] = x->size[0];
+  emxEnsureCapacity((emxArray__common *)z, i3, (int)sizeof(double));
+  loop_ub = x->size[0];
+  for (i3 = 0; i3 < loop_ub; i3++) {
+    z->data[i3] = x->data[i3] / y;
   }
 }
 
