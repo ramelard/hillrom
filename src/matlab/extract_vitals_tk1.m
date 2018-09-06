@@ -8,17 +8,18 @@ function [hr,rr] = extract_vitals_tk1(frames_head, frames_body, timestamps, fps,
 % fprintf('%d,%d',size(timestamps, 1), size(timestamps, 2));
 
 if nargin < 2
-  block_size = 6;
+  block_size = 4;
 end
 
-% c_interp = 100*30;
-% timestamps = floor(timestamps * 100); % ???
 c_interp = 1000;
 fps_target = 30;
 timestamps = floor(timestamps * c_interp) / c_interp; % ???
 
-Bbody = imresize(frames_body,1/block_size,'box');
-Rbody = reshape(permute(Bbody, [3 1 2]),size(Bbody,3),[]);
+Bbody = permute(frames_body, [2 3 1]);  % make it h x w x t
+Bbody = imresize(Bbody, 1/block_size, 'box');
+% Rbody = reshape(permute(Bbody, [3 1 2]),size(Bbody,3),[]);
+assert(size(Bbody,3) == length(timestamps))
+Rbody = reshape(permute(Bbody, [3 1 2]), numel(timestamps), []);
 % Interpolate between uneven timestamped measurements
 Rbody_interp = zeros(numel(min(timestamps):1/fps_target:max(timestamps)), size(Rbody,2));
 for i  = 1 : size(Rbody,2)
@@ -26,8 +27,10 @@ for i  = 1 : size(Rbody,2)
 end
 Abody = -log(1+Rbody_interp);
 
-Bhead = imresize(frames_head,1/block_size,'box');
-Rhead = reshape(permute(Bhead, [3 1 2]),size(Bhead,3),[]);
+Bhead = permute(frames_head, [2 3 1]);  % make it h x w x t
+Bhead = imresize(Bhead, 1/block_size, 'box');
+assert(size(Bhead,3) == length(timestamps))
+Rhead = reshape(permute(Bhead, [3 1 2]), numel(timestamps), []);
 % Interpolate between uneven timestamped measurements
 Rhead_interp = zeros(numel(min(timestamps):1/fps_target:max(timestamps)), size(Rhead,2));
 for i  = 1 : size(Rhead,2)
@@ -119,8 +122,10 @@ wrr = 1-RRentr;
 wrr = wrr./sum(wrr);
 % Use fft to get rid of phase differences between signals.
 F = abs(fft(Abody));
-F(1,:) = 0;
+F(1) = 0;
+F([1:idx1, idx2:end],:) = 0;
 breathing = ifft(F * wrr');
+% breathing = Abody * wrr';
 
 sigmam = 1.4e-3;
 sigmap = 2.3e-5;

@@ -5,7 +5,7 @@
  * File: extract_vitals_tk1_rtwutil.h
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 06-Sep-2018 09:43:33
+ * C/C++ source code generated on  : 06-Sep-2018 13:47:30
  */
 
 #ifndef EXTRACT_VITALS_TK1_RTWUTIL_H

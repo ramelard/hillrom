@@ -5,7 +5,7 @@
  * File: sort1.h
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 06-Sep-2018 09:43:33
+ * C/C++ source code generated on  : 06-Sep-2018 13:47:30
  */
 
 #ifndef SORT1_H

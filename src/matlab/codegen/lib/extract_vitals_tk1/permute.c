@@ -5,7 +5,7 @@
  * File: permute.c
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 06-Sep-2018 09:43:33
+ * C/C++ source code generated on  : 06-Sep-2018 13:47:30
  */
 
 /* Include Files */
@@ -14,55 +14,36 @@
 #include "permute.h"
 #include "extract_vitals_tk1_emxutil.h"
 
+/* Function Declarations */
+static boolean_T nomovement(const double p[3], const emxArray_real_T *a);
+
 /* Function Definitions */
 
 /*
- * Arguments    : const emxArray_real_T *a
- *                emxArray_real_T *b
- * Return Type  : void
+ * Arguments    : const double p[3]
+ *                const emxArray_real_T *a
+ * Return Type  : boolean_T
  */
-void permute(const emxArray_real_T *a, emxArray_real_T *b)
+static boolean_T nomovement(const double p[3], const emxArray_real_T *a)
 {
-  unsigned int insz[3];
-  int plast;
-  unsigned int outsz[3];
-  boolean_T b_b;
+  boolean_T b;
+  double plast;
   int k;
-  int iwork[3];
-  boolean_T exitg2;
+  boolean_T exitg1;
   boolean_T guard1 = false;
-  static const signed char iv1[3] = { 3, 1, 2 };
-
-  int inc[3];
-  static const signed char iv2[3] = { 2, 0, 1 };
-
-  int isrc;
-  int exitg1;
-  for (plast = 0; plast < 3; plast++) {
-    insz[plast] = (unsigned int)a->size[plast];
-  }
-
-  outsz[0] = insz[2];
-  outsz[1] = insz[0];
-  outsz[2] = insz[1];
-  plast = b->size[0] * b->size[1] * b->size[2];
-  b->size[0] = (int)insz[2];
-  b->size[1] = (int)insz[0];
-  b->size[2] = (int)insz[1];
-  emxEnsureCapacity((emxArray__common *)b, plast, (int)sizeof(double));
-  b_b = true;
+  b = true;
   if (!((a->size[0] == 0) || (a->size[1] == 0) || (a->size[2] == 0))) {
-    plast = 0;
+    plast = 0.0;
     k = 0;
-    exitg2 = false;
-    while ((!exitg2) && (k + 1 < 4)) {
+    exitg1 = false;
+    while ((!exitg1) && (k + 1 < 4)) {
       guard1 = false;
-      if (a->size[iv1[k] - 1] != 1) {
-        if (plast > iv1[k]) {
-          b_b = false;
-          exitg2 = true;
+      if (a->size[(int)p[k] - 1] != 1) {
+        if (plast > p[k]) {
+          b = false;
+          exitg1 = true;
         } else {
-          plast = iv1[k];
+          plast = p[k];
           guard1 = true;
         }
       } else {
@@ -75,29 +56,63 @@ void permute(const emxArray_real_T *a, emxArray_real_T *b)
     }
   }
 
-  if (b_b) {
-    plast = a->size[0] * a->size[1] * a->size[2];
-    for (k = 0; k + 1 <= plast; k++) {
+  return b;
+}
+
+/*
+ * Arguments    : const emxArray_real_T *a
+ *                emxArray_real_T *b
+ * Return Type  : void
+ */
+void b_permute(const emxArray_real_T *a, emxArray_real_T *b)
+{
+  unsigned int insz[3];
+  int idest;
+  unsigned int outsz[3];
+  static const double dv1[3] = { 3.0, 1.0, 2.0 };
+
+  int iwork[3];
+  int k;
+  int inc[3];
+  static const signed char iv2[3] = { 2, 0, 1 };
+
+  int isrc;
+  int exitg1;
+  for (idest = 0; idest < 3; idest++) {
+    insz[idest] = (unsigned int)a->size[idest];
+  }
+
+  outsz[0] = insz[2];
+  outsz[1] = insz[0];
+  outsz[2] = insz[1];
+  idest = b->size[0] * b->size[1] * b->size[2];
+  b->size[0] = (int)insz[2];
+  b->size[1] = (int)insz[0];
+  b->size[2] = (int)insz[1];
+  emxEnsureCapacity((emxArray__common *)b, idest, (int)sizeof(double));
+  if (nomovement(dv1, a)) {
+    idest = a->size[0] * a->size[1] * a->size[2];
+    for (k = 0; k + 1 <= idest; k++) {
       b->data[k] = a->data[k];
     }
   } else {
-    for (plast = 0; plast < 3; plast++) {
-      iwork[plast] = 1;
+    for (idest = 0; idest < 3; idest++) {
+      iwork[idest] = 1;
     }
 
     for (k = 0; k < 2; k++) {
       iwork[k + 1] = iwork[k] * (int)insz[k];
     }
 
-    for (plast = 0; plast < 3; plast++) {
-      inc[plast] = iwork[iv2[plast]];
+    for (idest = 0; idest < 3; idest++) {
+      inc[idest] = iwork[iv2[idest]];
     }
 
-    for (plast = 0; plast < 3; plast++) {
-      iwork[plast] = 0;
+    for (idest = 0; idest < 3; idest++) {
+      iwork[idest] = 0;
     }
 
-    plast = 0;
+    idest = 0;
     do {
       isrc = 0;
       for (k = 0; k < 2; k++) {
@@ -105,8 +120,91 @@ void permute(const emxArray_real_T *a, emxArray_real_T *b)
       }
 
       for (k = 1; k <= (int)outsz[0]; k++) {
-        b->data[plast] = a->data[isrc];
-        plast++;
+        b->data[idest] = a->data[isrc];
+        idest++;
+        isrc += inc[0];
+      }
+
+      k = 1;
+      do {
+        exitg1 = 0;
+        iwork[k]++;
+        if (iwork[k] < (int)outsz[k]) {
+          exitg1 = 2;
+        } else if (k + 1 == 3) {
+          exitg1 = 1;
+        } else {
+          iwork[1] = 0;
+          k = 2;
+        }
+      } while (exitg1 == 0);
+    } while (!(exitg1 == 1));
+  }
+}
+
+/*
+ * Arguments    : const emxArray_real_T *a
+ *                emxArray_real_T *b
+ * Return Type  : void
+ */
+void permute(const emxArray_real_T *a, emxArray_real_T *b)
+{
+  unsigned int insz[3];
+  int idest;
+  unsigned int outsz[3];
+  static const double dv0[3] = { 2.0, 3.0, 1.0 };
+
+  int iwork[3];
+  int k;
+  int inc[3];
+  static const signed char iv1[3] = { 1, 2, 0 };
+
+  int isrc;
+  int exitg1;
+  for (idest = 0; idest < 3; idest++) {
+    insz[idest] = (unsigned int)a->size[idest];
+  }
+
+  outsz[0] = insz[1];
+  outsz[1] = insz[2];
+  outsz[2] = insz[0];
+  idest = b->size[0] * b->size[1] * b->size[2];
+  b->size[0] = (int)insz[1];
+  b->size[1] = (int)insz[2];
+  b->size[2] = (int)insz[0];
+  emxEnsureCapacity((emxArray__common *)b, idest, (int)sizeof(double));
+  if (nomovement(dv0, a)) {
+    idest = a->size[0] * a->size[1] * a->size[2];
+    for (k = 0; k + 1 <= idest; k++) {
+      b->data[k] = a->data[k];
+    }
+  } else {
+    for (idest = 0; idest < 3; idest++) {
+      iwork[idest] = 1;
+    }
+
+    for (k = 0; k < 2; k++) {
+      iwork[k + 1] = iwork[k] * (int)insz[k];
+    }
+
+    for (idest = 0; idest < 3; idest++) {
+      inc[idest] = iwork[iv1[idest]];
+    }
+
+    for (idest = 0; idest < 3; idest++) {
+      iwork[idest] = 0;
+    }
+
+    idest = 0;
+    do {
+      isrc = 0;
+      for (k = 0; k < 2; k++) {
+        isrc += iwork[k + 1] * inc[k + 1];
+      }
+
+      for (k = 1; k <= (int)outsz[0]; k++) {
+        b->data[idest] = a->data[isrc];
+        idest++;
         isrc += inc[0];
       }
 
