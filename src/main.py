@@ -215,7 +215,10 @@ def write_frames_to_mat(face_frames, body_frames, timestamps, filename='out'):
   fullfile = './output/%s.mat' % filename
   logging.debug('Saving frames to .mat file...')
   t0 = time()
-  scipy.io.savemat(fullfile, {'face_frames': face_frames, 'body_frames': body_frames, 'timestamps': timestamps})
+  scipy.io.savemat(fullfile, { \
+    'face_frames': np.dstack(face_frames), \
+    'body_frames': np.dstack(body_frames), \
+    'timestamps': np.stack(timestamps)})
   logging.debug('Done (%.1fs)' % (time()-t0))
 
 
