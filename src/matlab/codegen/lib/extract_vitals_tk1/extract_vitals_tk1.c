@@ -5,7 +5,7 @@
  * File: extract_vitals_tk1.c
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 06-Sep-2018 13:47:30
+ * C/C++ source code generated on  : 06-Sep-2018 14:56:40
  */
 
 /* Include Files */
@@ -19,7 +19,6 @@
 #include "log.h"
 #include "kalmanfilt.h"
 #include "exp.h"
-#include "ifft.h"
 #include "abs1.h"
 #include "fft.h"
 #include "rdivide.h"
@@ -93,41 +92,44 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
   block_size, double *hr, double *rr)
 {
   int i0;
-  int sz_idx_0;
+  int nm1d2;
   int calclen;
-  int loop_ub;
   emxArray_real_T *Bbody;
   emxArray_real_T *b_Bbody;
   emxArray_real_T *x;
   int nx;
   emxArray_real_T *Rbody;
-  int n;
+  int sz[2];
+  int k;
+  int ixstart;
   double mtmp;
-  boolean_T exitg15;
-  double b_mtmp;
-  emxArray_real_T *xhat;
+  int ix;
   boolean_T exitg14;
+  double b_mtmp;
+  emxArray_real_T *freq;
+  boolean_T exitg13;
   double ndbl;
   double apnd;
   double cdiff;
   double absa;
   double absb;
   emxArray_real_T *Rbody_interp;
+  int i;
   emxArray_real_T *heartrate;
   emxArray_int32_T *r0;
   emxArray_real_T *b_Rbody;
-  boolean_T exitg13;
-  emxArray_real_T *c_Bbody;
   boolean_T exitg12;
+  emxArray_real_T *Bhead;
+  emxArray_real_T *b_Bhead;
   boolean_T exitg11;
   boolean_T exitg10;
+  boolean_T exitg9;
   emxArray_real_T *Rhead_interp;
   emxArray_real_T *c_Rbody;
-  boolean_T exitg9;
   boolean_T exitg8;
+  boolean_T exitg7;
   double b[7];
   double a[7];
-  int iv0[2];
   static const double b_b[7] = { 0.00012962453960508764, -0.0,
     -0.00038887361881526295, -0.0, 0.00038887361881526295, -0.0,
     -0.00012962453960508764 };
@@ -149,36 +151,38 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
   emxArray_real_T *r1;
   emxArray_creal_T *Y;
   emxArray_creal_T *Fbreathing;
-  emxArray_real_T *freq;
+  int i1;
   emxArray_creal_T *Fheartrate;
   emxArray_boolean_T *b_x;
   int ii_data[1];
-  boolean_T exitg7;
-  int idx1_data[1];
   boolean_T exitg6;
+  double idx1_data[1];
+  boolean_T exitg5;
   int idx2_data[1];
   emxArray_creal_T *b_Fheartrate;
   emxArray_creal_T *HRentr;
   emxArray_creal_T *b_HRentr;
   emxArray_creal_T *b_Fbreathing;
-  creal_T c_Fbreathing;
+  creal_T R;
   emxArray_creal_T *RRentr;
   emxArray_creal_T *b_RRentr;
+  emxArray_real_T *c_Bbody;
+  emxArray_creal_T *r2;
+  int j;
+  creal_T patch[9];
+  creal_T c_mtmp;
+  boolean_T exitg4;
   emxArray_creal_T *d_Rbody;
-  emxArray_creal_T *e_Rbody;
   emxArray_creal_T *breathing;
   emxArray_creal_T *b_Ahead_filt;
-  emxArray_creal_T *R;
   emxArray_creal_T *b_R;
-  creal_T c_mtmp;
-  emxArray_real_T *c_R;
-  boolean_T exitg5;
+  emxArray_creal_T *c_R;
   emxArray_real_T *d_R;
-  emxArray_real_T *b_xhat;
-  emxArray_creal_T *d_Fbreathing;
-  emxArray_real_T *c_xhat;
-  boolean_T exitg4;
   boolean_T exitg3;
+  emxArray_real_T *e_R;
+  emxArray_real_T *b_freq;
+  emxArray_creal_T *c_Fheartrate;
+  emxArray_real_T *c_freq;
   boolean_T exitg2;
   boolean_T exitg1;
 
@@ -188,10 +192,10 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
   i0 = timestamps->size[0] * timestamps->size[1];
   timestamps->size[0] = 1;
   emxEnsureCapacity((emxArray__common *)timestamps, i0, (int)sizeof(double));
-  sz_idx_0 = timestamps->size[0];
+  nm1d2 = timestamps->size[0];
   calclen = timestamps->size[1];
-  loop_ub = sz_idx_0 * calclen;
-  for (i0 = 0; i0 < loop_ub; i0++) {
+  nm1d2 *= calclen;
+  for (i0 = 0; i0 < nm1d2; i0++) {
     timestamps->data[i0] *= 1000.0;
   }
 
@@ -199,10 +203,10 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
   i0 = timestamps->size[0] * timestamps->size[1];
   timestamps->size[0] = 1;
   emxEnsureCapacity((emxArray__common *)timestamps, i0, (int)sizeof(double));
-  sz_idx_0 = timestamps->size[0];
+  nm1d2 = timestamps->size[0];
   calclen = timestamps->size[1];
-  loop_ub = sz_idx_0 * calclen;
-  for (i0 = 0; i0 < loop_ub; i0++) {
+  nm1d2 *= calclen;
+  for (i0 = 0; i0 < nm1d2; i0++) {
     timestamps->data[i0] /= 1000.0;
   }
 
@@ -218,8 +222,8 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
   b_Bbody->size[1] = Bbody->size[1];
   b_Bbody->size[2] = Bbody->size[2];
   emxEnsureCapacity((emxArray__common *)b_Bbody, i0, (int)sizeof(double));
-  loop_ub = Bbody->size[0] * Bbody->size[1] * Bbody->size[2];
-  for (i0 = 0; i0 < loop_ub; i0++) {
+  nm1d2 = Bbody->size[0] * Bbody->size[1] * Bbody->size[2];
+  for (i0 = 0; i0 < nm1d2; i0++) {
     b_Bbody->data[i0] = Bbody->data[i0];
   }
 
@@ -237,92 +241,92 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
   }
 
   emxInit_real_T1(&Rbody, 2);
-  sz_idx_0 = timestamps->size[1];
+  sz[0] = timestamps->size[1];
   i0 = Rbody->size[0] * Rbody->size[1];
-  Rbody->size[0] = sz_idx_0;
+  Rbody->size[0] = sz[0];
   Rbody->size[1] = calclen;
   emxEnsureCapacity((emxArray__common *)Rbody, i0, (int)sizeof(double));
-  for (loop_ub = 0; loop_ub + 1 <= nx; loop_ub++) {
-    Rbody->data[loop_ub] = x->data[loop_ub];
+  for (k = 0; k + 1 <= nx; k++) {
+    Rbody->data[k] = x->data[k];
   }
 
   /*  Interpolate between uneven timestamped measurements */
-  calclen = 1;
-  n = timestamps->size[1];
+  ixstart = 1;
+  nx = timestamps->size[1];
   mtmp = timestamps->data[0];
   if (timestamps->size[1] > 1) {
     if (rtIsNaN(timestamps->data[0])) {
-      sz_idx_0 = 2;
-      exitg15 = false;
-      while ((!exitg15) && (sz_idx_0 <= n)) {
-        calclen = sz_idx_0;
-        if (!rtIsNaN(timestamps->data[sz_idx_0 - 1])) {
-          mtmp = timestamps->data[sz_idx_0 - 1];
-          exitg15 = true;
+      ix = 2;
+      exitg14 = false;
+      while ((!exitg14) && (ix <= nx)) {
+        ixstart = ix;
+        if (!rtIsNaN(timestamps->data[ix - 1])) {
+          mtmp = timestamps->data[ix - 1];
+          exitg14 = true;
         } else {
-          sz_idx_0++;
+          ix++;
         }
       }
     }
 
-    if (calclen < timestamps->size[1]) {
-      while (calclen + 1 <= n) {
-        if (timestamps->data[calclen] < mtmp) {
-          mtmp = timestamps->data[calclen];
+    if (ixstart < timestamps->size[1]) {
+      while (ixstart + 1 <= nx) {
+        if (timestamps->data[ixstart] < mtmp) {
+          mtmp = timestamps->data[ixstart];
         }
 
-        calclen++;
+        ixstart++;
       }
     }
   }
 
-  calclen = 1;
-  n = timestamps->size[1];
+  ixstart = 1;
+  nx = timestamps->size[1];
   b_mtmp = timestamps->data[0];
   if (timestamps->size[1] > 1) {
     if (rtIsNaN(timestamps->data[0])) {
-      sz_idx_0 = 2;
-      exitg14 = false;
-      while ((!exitg14) && (sz_idx_0 <= n)) {
-        calclen = sz_idx_0;
-        if (!rtIsNaN(timestamps->data[sz_idx_0 - 1])) {
-          b_mtmp = timestamps->data[sz_idx_0 - 1];
-          exitg14 = true;
+      ix = 2;
+      exitg13 = false;
+      while ((!exitg13) && (ix <= nx)) {
+        ixstart = ix;
+        if (!rtIsNaN(timestamps->data[ix - 1])) {
+          b_mtmp = timestamps->data[ix - 1];
+          exitg13 = true;
         } else {
-          sz_idx_0++;
+          ix++;
         }
       }
     }
 
-    if (calclen < timestamps->size[1]) {
-      while (calclen + 1 <= n) {
-        if (timestamps->data[calclen] > b_mtmp) {
-          b_mtmp = timestamps->data[calclen];
+    if (ixstart < timestamps->size[1]) {
+      while (ixstart + 1 <= nx) {
+        if (timestamps->data[ixstart] > b_mtmp) {
+          b_mtmp = timestamps->data[ixstart];
         }
 
-        calclen++;
+        ixstart++;
       }
     }
   }
 
-  emxInit_real_T1(&xhat, 2);
+  emxInit_real_T1(&freq, 2);
   if (rtIsNaN(mtmp) || rtIsNaN(b_mtmp)) {
-    i0 = xhat->size[0] * xhat->size[1];
-    xhat->size[0] = 1;
-    xhat->size[1] = 1;
-    emxEnsureCapacity((emxArray__common *)xhat, i0, (int)sizeof(double));
-    xhat->data[0] = rtNaN;
+    i0 = freq->size[0] * freq->size[1];
+    freq->size[0] = 1;
+    freq->size[1] = 1;
+    emxEnsureCapacity((emxArray__common *)freq, i0, (int)sizeof(double));
+    freq->data[0] = rtNaN;
   } else if (b_mtmp < mtmp) {
-    i0 = xhat->size[0] * xhat->size[1];
-    xhat->size[0] = 1;
-    xhat->size[1] = 0;
-    emxEnsureCapacity((emxArray__common *)xhat, i0, (int)sizeof(double));
+    i0 = freq->size[0] * freq->size[1];
+    freq->size[0] = 1;
+    freq->size[1] = 0;
+    emxEnsureCapacity((emxArray__common *)freq, i0, (int)sizeof(double));
   } else if ((rtIsInf(mtmp) || rtIsInf(b_mtmp)) && (mtmp == b_mtmp)) {
-    i0 = xhat->size[0] * xhat->size[1];
-    xhat->size[0] = 1;
-    xhat->size[1] = 1;
-    emxEnsureCapacity((emxArray__common *)xhat, i0, (int)sizeof(double));
-    xhat->data[0] = rtNaN;
+    i0 = freq->size[0] * freq->size[1];
+    freq->size[0] = 1;
+    freq->size[1] = 1;
+    emxEnsureCapacity((emxArray__common *)freq, i0, (int)sizeof(double));
+    freq->data[0] = rtNaN;
   } else {
     ndbl = floor((b_mtmp - mtmp) / 0.033333333333333333 + 0.5);
     apnd = mtmp + ndbl * 0.033333333333333333;
@@ -343,32 +347,32 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
     }
 
     if (ndbl >= 0.0) {
-      n = (int)ndbl;
+      nx = (int)ndbl;
     } else {
-      n = 0;
+      nx = 0;
     }
 
-    i0 = xhat->size[0] * xhat->size[1];
-    xhat->size[0] = 1;
-    xhat->size[1] = n;
-    emxEnsureCapacity((emxArray__common *)xhat, i0, (int)sizeof(double));
-    if (n > 0) {
-      xhat->data[0] = mtmp;
-      if (n > 1) {
-        xhat->data[n - 1] = apnd;
-        calclen = (n - 1) / 2;
-        for (loop_ub = 1; loop_ub < calclen; loop_ub++) {
-          ndbl = (double)loop_ub * 0.033333333333333333;
-          xhat->data[loop_ub] = mtmp + ndbl;
-          xhat->data[(n - loop_ub) - 1] = apnd - ndbl;
+    i0 = freq->size[0] * freq->size[1];
+    freq->size[0] = 1;
+    freq->size[1] = nx;
+    emxEnsureCapacity((emxArray__common *)freq, i0, (int)sizeof(double));
+    if (nx > 0) {
+      freq->data[0] = mtmp;
+      if (nx > 1) {
+        freq->data[nx - 1] = apnd;
+        nm1d2 = (nx - 1) / 2;
+        for (k = 1; k < nm1d2; k++) {
+          ndbl = (double)k * 0.033333333333333333;
+          freq->data[k] = mtmp + ndbl;
+          freq->data[(nx - k) - 1] = apnd - ndbl;
         }
 
-        if (calclen << 1 == n - 1) {
-          xhat->data[calclen] = (mtmp + apnd) / 2.0;
+        if (nm1d2 << 1 == nx - 1) {
+          freq->data[nm1d2] = (mtmp + apnd) / 2.0;
         } else {
-          ndbl = (double)calclen * 0.033333333333333333;
-          xhat->data[calclen] = mtmp + ndbl;
-          xhat->data[calclen + 1] = apnd - ndbl;
+          ndbl = (double)nm1d2 * 0.033333333333333333;
+          freq->data[nm1d2] = mtmp + ndbl;
+          freq->data[nm1d2 + 1] = apnd - ndbl;
         }
       }
     }
@@ -376,81 +380,81 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
 
   emxInit_real_T1(&Rbody_interp, 2);
   i0 = Rbody_interp->size[0] * Rbody_interp->size[1];
-  Rbody_interp->size[0] = xhat->size[1];
+  Rbody_interp->size[0] = freq->size[1];
   Rbody_interp->size[1] = Rbody->size[1];
   emxEnsureCapacity((emxArray__common *)Rbody_interp, i0, (int)sizeof(double));
-  loop_ub = xhat->size[1] * Rbody->size[1];
-  for (i0 = 0; i0 < loop_ub; i0++) {
+  nm1d2 = freq->size[1] * Rbody->size[1];
+  for (i0 = 0; i0 < nm1d2; i0++) {
     Rbody_interp->data[i0] = 0.0;
   }
 
-  nx = 0;
+  i = 0;
   emxInit_real_T1(&heartrate, 2);
   emxInit_int32_T(&r0, 1);
   emxInit_real_T1(&b_Rbody, 2);
-  while (nx <= Rbody->size[1] - 1) {
-    loop_ub = Rbody_interp->size[0];
+  while (i <= Rbody->size[1] - 1) {
+    nm1d2 = Rbody_interp->size[0];
     i0 = r0->size[0];
-    r0->size[0] = loop_ub;
+    r0->size[0] = nm1d2;
     emxEnsureCapacity((emxArray__common *)r0, i0, (int)sizeof(int));
-    for (i0 = 0; i0 < loop_ub; i0++) {
+    for (i0 = 0; i0 < nm1d2; i0++) {
       r0->data[i0] = i0;
     }
 
-    calclen = 1;
-    n = timestamps->size[1];
+    ixstart = 1;
+    nx = timestamps->size[1];
     mtmp = timestamps->data[0];
     if (timestamps->size[1] > 1) {
       if (rtIsNaN(timestamps->data[0])) {
-        sz_idx_0 = 2;
-        exitg13 = false;
-        while ((!exitg13) && (sz_idx_0 <= n)) {
-          calclen = sz_idx_0;
-          if (!rtIsNaN(timestamps->data[sz_idx_0 - 1])) {
-            mtmp = timestamps->data[sz_idx_0 - 1];
-            exitg13 = true;
+        ix = 2;
+        exitg12 = false;
+        while ((!exitg12) && (ix <= nx)) {
+          ixstart = ix;
+          if (!rtIsNaN(timestamps->data[ix - 1])) {
+            mtmp = timestamps->data[ix - 1];
+            exitg12 = true;
           } else {
-            sz_idx_0++;
+            ix++;
           }
         }
       }
 
-      if (calclen < timestamps->size[1]) {
-        while (calclen + 1 <= n) {
-          if (timestamps->data[calclen] < mtmp) {
-            mtmp = timestamps->data[calclen];
+      if (ixstart < timestamps->size[1]) {
+        while (ixstart + 1 <= nx) {
+          if (timestamps->data[ixstart] < mtmp) {
+            mtmp = timestamps->data[ixstart];
           }
 
-          calclen++;
+          ixstart++;
         }
       }
     }
 
-    calclen = 1;
-    n = timestamps->size[1];
+    ixstart = 1;
+    nx = timestamps->size[1];
     b_mtmp = timestamps->data[0];
     if (timestamps->size[1] > 1) {
       if (rtIsNaN(timestamps->data[0])) {
-        sz_idx_0 = 2;
-        exitg12 = false;
-        while ((!exitg12) && (sz_idx_0 <= n)) {
-          calclen = sz_idx_0;
-          if (!rtIsNaN(timestamps->data[sz_idx_0 - 1])) {
-            b_mtmp = timestamps->data[sz_idx_0 - 1];
-            exitg12 = true;
+        ix = 2;
+        exitg11 = false;
+        while ((!exitg11) && (ix <= nx)) {
+          ixstart = ix;
+          if (!rtIsNaN(timestamps->data[ix - 1])) {
+            b_mtmp = timestamps->data[ix - 1];
+            exitg11 = true;
           } else {
-            sz_idx_0++;
+            ix++;
           }
         }
       }
 
-      if (calclen < timestamps->size[1]) {
-        while (calclen + 1 <= n) {
-          if (timestamps->data[calclen] > b_mtmp) {
-            b_mtmp = timestamps->data[calclen];
+      if (ixstart < timestamps->size[1]) {
+        while (ixstart + 1 <= nx) {
+          if (timestamps->data[ixstart] > b_mtmp) {
+            b_mtmp = timestamps->data[ixstart];
           }
 
-          calclen++;
+          ixstart++;
         }
       }
     }
@@ -492,189 +496,189 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
       }
 
       if (ndbl >= 0.0) {
-        n = (int)ndbl;
+        nx = (int)ndbl;
       } else {
-        n = 0;
+        nx = 0;
       }
 
       i0 = heartrate->size[0] * heartrate->size[1];
       heartrate->size[0] = 1;
-      heartrate->size[1] = n;
+      heartrate->size[1] = nx;
       emxEnsureCapacity((emxArray__common *)heartrate, i0, (int)sizeof(double));
-      if (n > 0) {
+      if (nx > 0) {
         heartrate->data[0] = mtmp;
-        if (n > 1) {
-          heartrate->data[n - 1] = apnd;
-          calclen = (n - 1) / 2;
-          for (loop_ub = 1; loop_ub < calclen; loop_ub++) {
-            ndbl = (double)loop_ub * 0.033333333333333333;
-            heartrate->data[loop_ub] = mtmp + ndbl;
-            heartrate->data[(n - loop_ub) - 1] = apnd - ndbl;
+        if (nx > 1) {
+          heartrate->data[nx - 1] = apnd;
+          nm1d2 = (nx - 1) / 2;
+          for (k = 1; k < nm1d2; k++) {
+            ndbl = (double)k * 0.033333333333333333;
+            heartrate->data[k] = mtmp + ndbl;
+            heartrate->data[(nx - k) - 1] = apnd - ndbl;
           }
 
-          if (calclen << 1 == n - 1) {
-            heartrate->data[calclen] = (mtmp + apnd) / 2.0;
+          if (nm1d2 << 1 == nx - 1) {
+            heartrate->data[nm1d2] = (mtmp + apnd) / 2.0;
           } else {
-            ndbl = (double)calclen * 0.033333333333333333;
-            heartrate->data[calclen] = mtmp + ndbl;
-            heartrate->data[calclen + 1] = apnd - ndbl;
+            ndbl = (double)nm1d2 * 0.033333333333333333;
+            heartrate->data[nm1d2] = mtmp + ndbl;
+            heartrate->data[nm1d2 + 1] = apnd - ndbl;
           }
         }
       }
     }
 
-    loop_ub = Rbody->size[0];
+    nm1d2 = Rbody->size[0];
     i0 = b_Rbody->size[0] * b_Rbody->size[1];
     b_Rbody->size[0] = 1;
-    b_Rbody->size[1] = loop_ub;
+    b_Rbody->size[1] = nm1d2;
     emxEnsureCapacity((emxArray__common *)b_Rbody, i0, (int)sizeof(double));
-    for (i0 = 0; i0 < loop_ub; i0++) {
-      b_Rbody->data[b_Rbody->size[0] * i0] = Rbody->data[i0 + Rbody->size[0] *
-        nx];
+    for (i0 = 0; i0 < nm1d2; i0++) {
+      b_Rbody->data[b_Rbody->size[0] * i0] = Rbody->data[i0 + Rbody->size[0] * i];
     }
 
-    interp1(timestamps, b_Rbody, heartrate, xhat);
+    interp1(timestamps, b_Rbody, heartrate, freq);
     calclen = r0->size[0];
     for (i0 = 0; i0 < calclen; i0++) {
-      Rbody_interp->data[r0->data[i0] + Rbody_interp->size[0] * nx] = xhat->
+      Rbody_interp->data[r0->data[i0] + Rbody_interp->size[0] * i] = freq->
         data[i0];
     }
 
-    nx++;
+    i++;
   }
 
   emxFree_real_T(&b_Rbody);
   i0 = Rbody_interp->size[0] * Rbody_interp->size[1];
   emxEnsureCapacity((emxArray__common *)Rbody_interp, i0, (int)sizeof(double));
-  sz_idx_0 = Rbody_interp->size[0];
+  nm1d2 = Rbody_interp->size[0];
   calclen = Rbody_interp->size[1];
-  loop_ub = sz_idx_0 * calclen;
-  for (i0 = 0; i0 < loop_ub; i0++) {
+  nm1d2 *= calclen;
+  for (i0 = 0; i0 < nm1d2; i0++) {
     Rbody_interp->data[i0]++;
   }
 
   c_log(Rbody_interp);
   i0 = Rbody_interp->size[0] * Rbody_interp->size[1];
   emxEnsureCapacity((emxArray__common *)Rbody_interp, i0, (int)sizeof(double));
-  sz_idx_0 = Rbody_interp->size[0];
+  nm1d2 = Rbody_interp->size[0];
   calclen = Rbody_interp->size[1];
-  loop_ub = sz_idx_0 * calclen;
-  for (i0 = 0; i0 < loop_ub; i0++) {
+  nm1d2 *= calclen;
+  for (i0 = 0; i0 < nm1d2; i0++) {
     Rbody_interp->data[i0] = -Rbody_interp->data[i0];
   }
 
-  emxInit_real_T(&c_Bbody, 3);
-  permute(frames_head, Bbody);
+  emxInit_real_T(&Bhead, 3);
+  emxInit_real_T(&b_Bhead, 3);
+  permute(frames_head, Bhead);
 
   /*  make it h x w x t */
-  i0 = c_Bbody->size[0] * c_Bbody->size[1] * c_Bbody->size[2];
-  c_Bbody->size[0] = Bbody->size[0];
-  c_Bbody->size[1] = Bbody->size[1];
-  c_Bbody->size[2] = Bbody->size[2];
-  emxEnsureCapacity((emxArray__common *)c_Bbody, i0, (int)sizeof(double));
-  loop_ub = Bbody->size[0] * Bbody->size[1] * Bbody->size[2];
-  for (i0 = 0; i0 < loop_ub; i0++) {
-    c_Bbody->data[i0] = Bbody->data[i0];
+  i0 = b_Bhead->size[0] * b_Bhead->size[1] * b_Bhead->size[2];
+  b_Bhead->size[0] = Bhead->size[0];
+  b_Bhead->size[1] = Bhead->size[1];
+  b_Bhead->size[2] = Bhead->size[2];
+  emxEnsureCapacity((emxArray__common *)b_Bhead, i0, (int)sizeof(double));
+  nm1d2 = Bhead->size[0] * Bhead->size[1] * Bhead->size[2];
+  for (i0 = 0; i0 < nm1d2; i0++) {
+    b_Bhead->data[i0] = Bhead->data[i0];
   }
 
-  imresize(c_Bbody, 1.0 / block_size, Bbody);
-  b_permute(Bbody, x);
+  imresize(b_Bhead, 1.0 / block_size, Bhead);
+  b_permute(Bhead, x);
   nx = x->size[0] * x->size[1] * x->size[2];
-  emxFree_real_T(&c_Bbody);
-  emxFree_real_T(&Bbody);
+  emxFree_real_T(&b_Bhead);
+  emxFree_real_T(&Bhead);
   if (timestamps->size[1] > 0) {
     calclen = div_s32(nx, timestamps->size[1]);
   } else {
     calclen = 0;
   }
 
-  sz_idx_0 = timestamps->size[1];
+  nm1d2 = timestamps->size[1];
   i0 = Rbody->size[0] * Rbody->size[1];
-  Rbody->size[0] = sz_idx_0;
+  Rbody->size[0] = nm1d2;
   Rbody->size[1] = calclen;
   emxEnsureCapacity((emxArray__common *)Rbody, i0, (int)sizeof(double));
-  for (loop_ub = 0; loop_ub + 1 <= nx; loop_ub++) {
-    Rbody->data[loop_ub] = x->data[loop_ub];
+  for (k = 0; k + 1 <= nx; k++) {
+    Rbody->data[k] = x->data[k];
   }
 
   emxFree_real_T(&x);
 
   /*  Interpolate between uneven timestamped measurements */
-  calclen = 1;
-  n = timestamps->size[1];
+  ixstart = 1;
+  nx = timestamps->size[1];
   mtmp = timestamps->data[0];
   if (timestamps->size[1] > 1) {
     if (rtIsNaN(timestamps->data[0])) {
-      sz_idx_0 = 2;
-      exitg11 = false;
-      while ((!exitg11) && (sz_idx_0 <= n)) {
-        calclen = sz_idx_0;
-        if (!rtIsNaN(timestamps->data[sz_idx_0 - 1])) {
-          mtmp = timestamps->data[sz_idx_0 - 1];
-          exitg11 = true;
+      ix = 2;
+      exitg10 = false;
+      while ((!exitg10) && (ix <= nx)) {
+        ixstart = ix;
+        if (!rtIsNaN(timestamps->data[ix - 1])) {
+          mtmp = timestamps->data[ix - 1];
+          exitg10 = true;
         } else {
-          sz_idx_0++;
+          ix++;
         }
       }
     }
 
-    if (calclen < timestamps->size[1]) {
-      while (calclen + 1 <= n) {
-        if (timestamps->data[calclen] < mtmp) {
-          mtmp = timestamps->data[calclen];
+    if (ixstart < timestamps->size[1]) {
+      while (ixstart + 1 <= nx) {
+        if (timestamps->data[ixstart] < mtmp) {
+          mtmp = timestamps->data[ixstart];
         }
 
-        calclen++;
+        ixstart++;
       }
     }
   }
 
-  calclen = 1;
-  n = timestamps->size[1];
+  ixstart = 1;
+  nx = timestamps->size[1];
   b_mtmp = timestamps->data[0];
   if (timestamps->size[1] > 1) {
     if (rtIsNaN(timestamps->data[0])) {
-      sz_idx_0 = 2;
-      exitg10 = false;
-      while ((!exitg10) && (sz_idx_0 <= n)) {
-        calclen = sz_idx_0;
-        if (!rtIsNaN(timestamps->data[sz_idx_0 - 1])) {
-          b_mtmp = timestamps->data[sz_idx_0 - 1];
-          exitg10 = true;
+      ix = 2;
+      exitg9 = false;
+      while ((!exitg9) && (ix <= nx)) {
+        ixstart = ix;
+        if (!rtIsNaN(timestamps->data[ix - 1])) {
+          b_mtmp = timestamps->data[ix - 1];
+          exitg9 = true;
         } else {
-          sz_idx_0++;
+          ix++;
         }
       }
     }
 
-    if (calclen < timestamps->size[1]) {
-      while (calclen + 1 <= n) {
-        if (timestamps->data[calclen] > b_mtmp) {
-          b_mtmp = timestamps->data[calclen];
+    if (ixstart < timestamps->size[1]) {
+      while (ixstart + 1 <= nx) {
+        if (timestamps->data[ixstart] > b_mtmp) {
+          b_mtmp = timestamps->data[ixstart];
         }
 
-        calclen++;
+        ixstart++;
       }
     }
   }
 
   if (rtIsNaN(mtmp) || rtIsNaN(b_mtmp)) {
-    i0 = xhat->size[0] * xhat->size[1];
-    xhat->size[0] = 1;
-    xhat->size[1] = 1;
-    emxEnsureCapacity((emxArray__common *)xhat, i0, (int)sizeof(double));
-    xhat->data[0] = rtNaN;
+    i0 = freq->size[0] * freq->size[1];
+    freq->size[0] = 1;
+    freq->size[1] = 1;
+    emxEnsureCapacity((emxArray__common *)freq, i0, (int)sizeof(double));
+    freq->data[0] = rtNaN;
   } else if (b_mtmp < mtmp) {
-    i0 = xhat->size[0] * xhat->size[1];
-    xhat->size[0] = 1;
-    xhat->size[1] = 0;
-    emxEnsureCapacity((emxArray__common *)xhat, i0, (int)sizeof(double));
+    i0 = freq->size[0] * freq->size[1];
+    freq->size[0] = 1;
+    freq->size[1] = 0;
+    emxEnsureCapacity((emxArray__common *)freq, i0, (int)sizeof(double));
   } else if ((rtIsInf(mtmp) || rtIsInf(b_mtmp)) && (mtmp == b_mtmp)) {
-    i0 = xhat->size[0] * xhat->size[1];
-    xhat->size[0] = 1;
-    xhat->size[1] = 1;
-    emxEnsureCapacity((emxArray__common *)xhat, i0, (int)sizeof(double));
-    xhat->data[0] = rtNaN;
+    i0 = freq->size[0] * freq->size[1];
+    freq->size[0] = 1;
+    freq->size[1] = 1;
+    emxEnsureCapacity((emxArray__common *)freq, i0, (int)sizeof(double));
+    freq->data[0] = rtNaN;
   } else {
     ndbl = floor((b_mtmp - mtmp) / 0.033333333333333333 + 0.5);
     apnd = mtmp + ndbl * 0.033333333333333333;
@@ -695,32 +699,32 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
     }
 
     if (ndbl >= 0.0) {
-      n = (int)ndbl;
+      nx = (int)ndbl;
     } else {
-      n = 0;
+      nx = 0;
     }
 
-    i0 = xhat->size[0] * xhat->size[1];
-    xhat->size[0] = 1;
-    xhat->size[1] = n;
-    emxEnsureCapacity((emxArray__common *)xhat, i0, (int)sizeof(double));
-    if (n > 0) {
-      xhat->data[0] = mtmp;
-      if (n > 1) {
-        xhat->data[n - 1] = apnd;
-        calclen = (n - 1) / 2;
-        for (loop_ub = 1; loop_ub < calclen; loop_ub++) {
-          ndbl = (double)loop_ub * 0.033333333333333333;
-          xhat->data[loop_ub] = mtmp + ndbl;
-          xhat->data[(n - loop_ub) - 1] = apnd - ndbl;
+    i0 = freq->size[0] * freq->size[1];
+    freq->size[0] = 1;
+    freq->size[1] = nx;
+    emxEnsureCapacity((emxArray__common *)freq, i0, (int)sizeof(double));
+    if (nx > 0) {
+      freq->data[0] = mtmp;
+      if (nx > 1) {
+        freq->data[nx - 1] = apnd;
+        nm1d2 = (nx - 1) / 2;
+        for (k = 1; k < nm1d2; k++) {
+          ndbl = (double)k * 0.033333333333333333;
+          freq->data[k] = mtmp + ndbl;
+          freq->data[(nx - k) - 1] = apnd - ndbl;
         }
 
-        if (calclen << 1 == n - 1) {
-          xhat->data[calclen] = (mtmp + apnd) / 2.0;
+        if (nm1d2 << 1 == nx - 1) {
+          freq->data[nm1d2] = (mtmp + apnd) / 2.0;
         } else {
-          ndbl = (double)calclen * 0.033333333333333333;
-          xhat->data[calclen] = mtmp + ndbl;
-          xhat->data[calclen + 1] = apnd - ndbl;
+          ndbl = (double)nm1d2 * 0.033333333333333333;
+          freq->data[nm1d2] = mtmp + ndbl;
+          freq->data[nm1d2 + 1] = apnd - ndbl;
         }
       }
     }
@@ -728,79 +732,79 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
 
   emxInit_real_T1(&Rhead_interp, 2);
   i0 = Rhead_interp->size[0] * Rhead_interp->size[1];
-  Rhead_interp->size[0] = xhat->size[1];
+  Rhead_interp->size[0] = freq->size[1];
   Rhead_interp->size[1] = Rbody->size[1];
   emxEnsureCapacity((emxArray__common *)Rhead_interp, i0, (int)sizeof(double));
-  loop_ub = xhat->size[1] * Rbody->size[1];
-  for (i0 = 0; i0 < loop_ub; i0++) {
+  nm1d2 = freq->size[1] * Rbody->size[1];
+  for (i0 = 0; i0 < nm1d2; i0++) {
     Rhead_interp->data[i0] = 0.0;
   }
 
-  nx = 0;
+  i = 0;
   emxInit_real_T1(&c_Rbody, 2);
-  while (nx <= Rbody->size[1] - 1) {
-    loop_ub = Rhead_interp->size[0];
+  while (i <= Rbody->size[1] - 1) {
+    nm1d2 = Rhead_interp->size[0];
     i0 = r0->size[0];
-    r0->size[0] = loop_ub;
+    r0->size[0] = nm1d2;
     emxEnsureCapacity((emxArray__common *)r0, i0, (int)sizeof(int));
-    for (i0 = 0; i0 < loop_ub; i0++) {
+    for (i0 = 0; i0 < nm1d2; i0++) {
       r0->data[i0] = i0;
     }
 
-    calclen = 1;
-    n = timestamps->size[1];
+    ixstart = 1;
+    nx = timestamps->size[1];
     mtmp = timestamps->data[0];
     if (timestamps->size[1] > 1) {
       if (rtIsNaN(timestamps->data[0])) {
-        sz_idx_0 = 2;
-        exitg9 = false;
-        while ((!exitg9) && (sz_idx_0 <= n)) {
-          calclen = sz_idx_0;
-          if (!rtIsNaN(timestamps->data[sz_idx_0 - 1])) {
-            mtmp = timestamps->data[sz_idx_0 - 1];
-            exitg9 = true;
+        ix = 2;
+        exitg8 = false;
+        while ((!exitg8) && (ix <= nx)) {
+          ixstart = ix;
+          if (!rtIsNaN(timestamps->data[ix - 1])) {
+            mtmp = timestamps->data[ix - 1];
+            exitg8 = true;
           } else {
-            sz_idx_0++;
+            ix++;
           }
         }
       }
 
-      if (calclen < timestamps->size[1]) {
-        while (calclen + 1 <= n) {
-          if (timestamps->data[calclen] < mtmp) {
-            mtmp = timestamps->data[calclen];
+      if (ixstart < timestamps->size[1]) {
+        while (ixstart + 1 <= nx) {
+          if (timestamps->data[ixstart] < mtmp) {
+            mtmp = timestamps->data[ixstart];
           }
 
-          calclen++;
+          ixstart++;
         }
       }
     }
 
-    calclen = 1;
-    n = timestamps->size[1];
+    ixstart = 1;
+    nx = timestamps->size[1];
     b_mtmp = timestamps->data[0];
     if (timestamps->size[1] > 1) {
       if (rtIsNaN(timestamps->data[0])) {
-        sz_idx_0 = 2;
-        exitg8 = false;
-        while ((!exitg8) && (sz_idx_0 <= n)) {
-          calclen = sz_idx_0;
-          if (!rtIsNaN(timestamps->data[sz_idx_0 - 1])) {
-            b_mtmp = timestamps->data[sz_idx_0 - 1];
-            exitg8 = true;
+        ix = 2;
+        exitg7 = false;
+        while ((!exitg7) && (ix <= nx)) {
+          ixstart = ix;
+          if (!rtIsNaN(timestamps->data[ix - 1])) {
+            b_mtmp = timestamps->data[ix - 1];
+            exitg7 = true;
           } else {
-            sz_idx_0++;
+            ix++;
           }
         }
       }
 
-      if (calclen < timestamps->size[1]) {
-        while (calclen + 1 <= n) {
-          if (timestamps->data[calclen] > b_mtmp) {
-            b_mtmp = timestamps->data[calclen];
+      if (ixstart < timestamps->size[1]) {
+        while (ixstart + 1 <= nx) {
+          if (timestamps->data[ixstart] > b_mtmp) {
+            b_mtmp = timestamps->data[ixstart];
           }
 
-          calclen++;
+          ixstart++;
         }
       }
     }
@@ -842,74 +846,73 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
       }
 
       if (ndbl >= 0.0) {
-        n = (int)ndbl;
+        nx = (int)ndbl;
       } else {
-        n = 0;
+        nx = 0;
       }
 
       i0 = heartrate->size[0] * heartrate->size[1];
       heartrate->size[0] = 1;
-      heartrate->size[1] = n;
+      heartrate->size[1] = nx;
       emxEnsureCapacity((emxArray__common *)heartrate, i0, (int)sizeof(double));
-      if (n > 0) {
+      if (nx > 0) {
         heartrate->data[0] = mtmp;
-        if (n > 1) {
-          heartrate->data[n - 1] = apnd;
-          calclen = (n - 1) / 2;
-          for (loop_ub = 1; loop_ub < calclen; loop_ub++) {
-            ndbl = (double)loop_ub * 0.033333333333333333;
-            heartrate->data[loop_ub] = mtmp + ndbl;
-            heartrate->data[(n - loop_ub) - 1] = apnd - ndbl;
+        if (nx > 1) {
+          heartrate->data[nx - 1] = apnd;
+          nm1d2 = (nx - 1) / 2;
+          for (k = 1; k < nm1d2; k++) {
+            ndbl = (double)k * 0.033333333333333333;
+            heartrate->data[k] = mtmp + ndbl;
+            heartrate->data[(nx - k) - 1] = apnd - ndbl;
           }
 
-          if (calclen << 1 == n - 1) {
-            heartrate->data[calclen] = (mtmp + apnd) / 2.0;
+          if (nm1d2 << 1 == nx - 1) {
+            heartrate->data[nm1d2] = (mtmp + apnd) / 2.0;
           } else {
-            ndbl = (double)calclen * 0.033333333333333333;
-            heartrate->data[calclen] = mtmp + ndbl;
-            heartrate->data[calclen + 1] = apnd - ndbl;
+            ndbl = (double)nm1d2 * 0.033333333333333333;
+            heartrate->data[nm1d2] = mtmp + ndbl;
+            heartrate->data[nm1d2 + 1] = apnd - ndbl;
           }
         }
       }
     }
 
-    loop_ub = Rbody->size[0];
+    nm1d2 = Rbody->size[0];
     i0 = c_Rbody->size[0] * c_Rbody->size[1];
     c_Rbody->size[0] = 1;
-    c_Rbody->size[1] = loop_ub;
+    c_Rbody->size[1] = nm1d2;
     emxEnsureCapacity((emxArray__common *)c_Rbody, i0, (int)sizeof(double));
-    for (i0 = 0; i0 < loop_ub; i0++) {
-      c_Rbody->data[c_Rbody->size[0] * i0] = Rbody->data[i0 + Rbody->size[0] *
-        nx];
+    for (i0 = 0; i0 < nm1d2; i0++) {
+      c_Rbody->data[c_Rbody->size[0] * i0] = Rbody->data[i0 + Rbody->size[0] * i];
     }
 
-    interp1(timestamps, c_Rbody, heartrate, xhat);
+    interp1(timestamps, c_Rbody, heartrate, freq);
     calclen = r0->size[0];
     for (i0 = 0; i0 < calclen; i0++) {
-      Rhead_interp->data[r0->data[i0] + Rhead_interp->size[0] * nx] = xhat->
+      Rhead_interp->data[r0->data[i0] + Rhead_interp->size[0] * i] = freq->
         data[i0];
     }
 
-    nx++;
+    i++;
   }
 
   emxFree_real_T(&c_Rbody);
   i0 = Rhead_interp->size[0] * Rhead_interp->size[1];
   emxEnsureCapacity((emxArray__common *)Rhead_interp, i0, (int)sizeof(double));
-  sz_idx_0 = Rhead_interp->size[0];
+  nm1d2 = Rhead_interp->size[0];
   calclen = Rhead_interp->size[1];
-  loop_ub = sz_idx_0 * calclen;
-  for (i0 = 0; i0 < loop_ub; i0++) {
+  nm1d2 *= calclen;
+  for (i0 = 0; i0 < nm1d2; i0++) {
     Rhead_interp->data[i0]++;
   }
 
   c_log(Rhead_interp);
   i0 = Rhead_interp->size[0] * Rhead_interp->size[1];
   emxEnsureCapacity((emxArray__common *)Rhead_interp, i0, (int)sizeof(double));
-  sz_idx_0 = Rhead_interp->size[0];
+  nm1d2 = Rhead_interp->size[0];
   calclen = Rhead_interp->size[1];
-  loop_ub = sz_idx_0 * calclen;
-  for (i0 = 0; i0 < loop_ub; i0++) {
+  nm1d2 *= calclen;
+  for (i0 = 0; i0 < nm1d2; i0++) {
     Rhead_interp->data[i0] = -Rhead_interp->data[i0];
   }
 
@@ -938,39 +941,39 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
   }
 
   for (i0 = 0; i0 < 2; i0++) {
-    iv0[i0] = Rhead_interp->size[i0];
+    sz[i0] = Rhead_interp->size[i0];
   }
 
   emxInit_real_T1(&Ahead_filt, 2);
   i0 = Ahead_filt->size[0] * Ahead_filt->size[1];
-  Ahead_filt->size[0] = iv0[0];
-  Ahead_filt->size[1] = iv0[1];
+  Ahead_filt->size[0] = sz[0];
+  Ahead_filt->size[1] = sz[1];
   emxEnsureCapacity((emxArray__common *)Ahead_filt, i0, (int)sizeof(double));
-  loop_ub = iv0[0] * iv0[1];
-  for (i0 = 0; i0 < loop_ub; i0++) {
+  nm1d2 = sz[0] * sz[1];
+  for (i0 = 0; i0 < nm1d2; i0++) {
     Ahead_filt->data[i0] = 0.0;
   }
 
-  nx = 0;
+  i = 0;
   emxInit_real_T2(&b_Rhead_interp, 1);
   emxInit_real_T2(&r1, 1);
-  while (nx <= iv0[1] - 1) {
-    loop_ub = Rhead_interp->size[0];
+  while (i <= sz[1] - 1) {
+    nm1d2 = Rhead_interp->size[0];
     i0 = b_Rhead_interp->size[0];
-    b_Rhead_interp->size[0] = loop_ub;
+    b_Rhead_interp->size[0] = nm1d2;
     emxEnsureCapacity((emxArray__common *)b_Rhead_interp, i0, (int)sizeof(double));
-    for (i0 = 0; i0 < loop_ub; i0++) {
+    for (i0 = 0; i0 < nm1d2; i0++) {
       b_Rhead_interp->data[i0] = Rhead_interp->data[i0 + Rhead_interp->size[0] *
-        nx];
+        i];
     }
 
     filter(b, a, b_Rhead_interp, r1);
-    loop_ub = r1->size[0];
-    for (i0 = 0; i0 < loop_ub; i0++) {
-      Ahead_filt->data[i0 + Ahead_filt->size[0] * nx] = r1->data[i0];
+    nm1d2 = r1->size[0];
+    for (i0 = 0; i0 < nm1d2; i0++) {
+      Ahead_filt->data[i0 + Ahead_filt->size[0] * i] = r1->data[i0];
     }
 
-    nx++;
+    i++;
   }
 
   emxFree_real_T(&r1);
@@ -988,11 +991,11 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
   fft(Rbody_interp, Rbody_interp->size[0], Y);
   i0 = Y->size[0] * Y->size[1];
   emxEnsureCapacity((emxArray__common *)Y, i0, (int)sizeof(creal_T));
-  sz_idx_0 = Y->size[0];
+  nm1d2 = Y->size[0];
   calclen = Y->size[1];
   nx = Rbody_interp->size[0];
-  loop_ub = sz_idx_0 * calclen;
-  for (i0 = 0; i0 < loop_ub; i0++) {
+  nm1d2 *= calclen;
+  for (i0 = 0; i0 < nm1d2; i0++) {
     b_mtmp = Y->data[i0].re;
     ndbl = -Y->data[i0].im;
     cdiff = Y->data[i0].re * b_mtmp - Y->data[i0].im * ndbl;
@@ -1011,33 +1014,33 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
 
   i0 = (int)floor((double)Rbody_interp->size[0] / 2.0);
   if (1 > i0) {
-    loop_ub = 0;
+    nm1d2 = 0;
   } else {
-    loop_ub = i0;
+    nm1d2 = i0;
   }
 
   emxInit_creal_T(&Fbreathing, 2);
   calclen = Y->size[1];
   i0 = Fbreathing->size[0] * Fbreathing->size[1];
-  Fbreathing->size[0] = loop_ub;
+  Fbreathing->size[0] = nm1d2;
   Fbreathing->size[1] = calclen;
   emxEnsureCapacity((emxArray__common *)Fbreathing, i0, (int)sizeof(creal_T));
   for (i0 = 0; i0 < calclen; i0++) {
-    for (sz_idx_0 = 0; sz_idx_0 < loop_ub; sz_idx_0++) {
-      Fbreathing->data[sz_idx_0 + Fbreathing->size[0] * i0] = Y->data[sz_idx_0 +
-        Y->size[0] * i0];
+    for (i1 = 0; i1 < nm1d2; i1++) {
+      Fbreathing->data[i1 + Fbreathing->size[0] * i0] = Y->data[i1 + Y->size[0] *
+        i0];
     }
   }
 
   fft(Rhead_interp, Rbody_interp->size[0], Y);
   i0 = Y->size[0] * Y->size[1];
   emxEnsureCapacity((emxArray__common *)Y, i0, (int)sizeof(creal_T));
-  sz_idx_0 = Y->size[0];
+  nm1d2 = Y->size[0];
   calclen = Y->size[1];
   nx = Rbody_interp->size[0];
-  loop_ub = sz_idx_0 * calclen;
+  nm1d2 *= calclen;
   emxFree_real_T(&Rhead_interp);
-  for (i0 = 0; i0 < loop_ub; i0++) {
+  for (i0 = 0; i0 < nm1d2; i0++) {
     b_mtmp = Y->data[i0].re;
     ndbl = -Y->data[i0].im;
     cdiff = Y->data[i0].re * b_mtmp - Y->data[i0].im * ndbl;
@@ -1056,9 +1059,8 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
 
   ndbl = fps / (double)Rbody_interp->size[0];
   b_mtmp = (double)Rbody_interp->size[0] / 2.0;
-  sz_idx_0 = (int)floor(b_mtmp);
-  emxInit_real_T1(&freq, 2);
-  if (sz_idx_0 - 1 < 0) {
+  nm1d2 = (int)floor(b_mtmp);
+  if (nm1d2 - 1 < 0) {
     i0 = freq->size[0] * freq->size[1];
     freq->size[0] = 1;
     freq->size[1] = 0;
@@ -1066,10 +1068,10 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
   } else {
     i0 = freq->size[0] * freq->size[1];
     freq->size[0] = 1;
-    freq->size[1] = sz_idx_0;
+    freq->size[1] = nm1d2;
     emxEnsureCapacity((emxArray__common *)freq, i0, (int)sizeof(double));
-    loop_ub = sz_idx_0 - 1;
-    for (i0 = 0; i0 <= loop_ub; i0++) {
+    nm1d2--;
+    for (i0 = 0; i0 <= nm1d2; i0++) {
       freq->data[freq->size[0] * i0] = i0;
     }
   }
@@ -1077,30 +1079,30 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
   i0 = freq->size[0] * freq->size[1];
   freq->size[0] = 1;
   emxEnsureCapacity((emxArray__common *)freq, i0, (int)sizeof(double));
-  sz_idx_0 = freq->size[0];
+  nm1d2 = freq->size[0];
   calclen = freq->size[1];
-  loop_ub = sz_idx_0 * calclen;
-  for (i0 = 0; i0 < loop_ub; i0++) {
+  nm1d2 *= calclen;
+  for (i0 = 0; i0 < nm1d2; i0++) {
     freq->data[i0] *= ndbl;
   }
 
   i0 = (int)floor((double)Rbody_interp->size[0] / 2.0);
   if (1 > i0) {
-    loop_ub = 0;
+    nm1d2 = 0;
   } else {
-    loop_ub = i0;
+    nm1d2 = i0;
   }
 
   emxInit_creal_T(&Fheartrate, 2);
   calclen = Y->size[1];
   i0 = Fheartrate->size[0] * Fheartrate->size[1];
-  Fheartrate->size[0] = loop_ub;
+  Fheartrate->size[0] = nm1d2;
   Fheartrate->size[1] = calclen;
   emxEnsureCapacity((emxArray__common *)Fheartrate, i0, (int)sizeof(creal_T));
   for (i0 = 0; i0 < calclen; i0++) {
-    for (sz_idx_0 = 0; sz_idx_0 < loop_ub; sz_idx_0++) {
-      Fheartrate->data[sz_idx_0 + Fheartrate->size[0] * i0] = Y->data[sz_idx_0 +
-        Y->size[0] * i0];
+    for (i1 = 0; i1 < nm1d2; i1++) {
+      Fheartrate->data[i1 + Fheartrate->size[0] * i0] = Y->data[i1 + Y->size[0] *
+        i0];
     }
   }
 
@@ -1112,53 +1114,18 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
   b_x->size[0] = 1;
   b_x->size[1] = freq->size[1];
   emxEnsureCapacity((emxArray__common *)b_x, i0, (int)sizeof(boolean_T));
-  loop_ub = freq->size[0] * freq->size[1];
-  for (i0 = 0; i0 < loop_ub; i0++) {
-    b_x->data[i0] = (freq->data[i0] < 0.083333333333333329);
+  nm1d2 = freq->size[0] * freq->size[1];
+  for (i0 = 0; i0 < nm1d2; i0++) {
+    b_x->data[i0] = (freq->data[i0] > 0.083333333333333329);
   }
 
-  loop_ub = (1 <= b_x->size[1]);
-  sz_idx_0 = 0;
-  calclen = 1;
-  exitg7 = false;
-  while ((!exitg7) && (calclen <= b_x->size[1])) {
-    if (b_x->data[calclen - 1]) {
-      sz_idx_0 = 1;
-      ii_data[0] = calclen;
-      exitg7 = true;
-    } else {
-      calclen++;
-    }
-  }
-
-  if (loop_ub == 1) {
-    if (sz_idx_0 == 0) {
-      loop_ub = 0;
-    }
-  } else {
-    loop_ub = !(1 > sz_idx_0);
-  }
-
-  for (i0 = 0; i0 < loop_ub; i0++) {
-    idx1_data[i0] = ii_data[i0];
-  }
-
-  i0 = b_x->size[0] * b_x->size[1];
-  b_x->size[0] = 1;
-  b_x->size[1] = freq->size[1];
-  emxEnsureCapacity((emxArray__common *)b_x, i0, (int)sizeof(boolean_T));
-  loop_ub = freq->size[0] * freq->size[1];
-  for (i0 = 0; i0 < loop_ub; i0++) {
-    b_x->data[i0] = (freq->data[i0] > 0.41666666666666669);
-  }
-
-  loop_ub = (1 <= b_x->size[1]);
-  sz_idx_0 = 0;
+  k = (1 <= b_x->size[1]);
+  nm1d2 = 0;
   calclen = 1;
   exitg6 = false;
   while ((!exitg6) && (calclen <= b_x->size[1])) {
     if (b_x->data[calclen - 1]) {
-      sz_idx_0 = 1;
+      nm1d2 = 1;
       ii_data[0] = calclen;
       exitg6 = true;
     } else {
@@ -1166,19 +1133,55 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
     }
   }
 
-  if (loop_ub == 1) {
-    if (sz_idx_0 == 0) {
-      loop_ub = 0;
+  if (k == 1) {
+    if (nm1d2 == 0) {
+      k = 0;
     }
   } else {
-    loop_ub = !(1 > sz_idx_0);
+    k = !(1 > nm1d2);
   }
 
-  for (i0 = 0; i0 < loop_ub; i0++) {
+  for (i0 = 0; i0 < k; i0++) {
+    idx1_data[i0] = (double)ii_data[i0] - 1.0;
+  }
+
+  i0 = b_x->size[0] * b_x->size[1];
+  b_x->size[0] = 1;
+  b_x->size[1] = freq->size[1];
+  emxEnsureCapacity((emxArray__common *)b_x, i0, (int)sizeof(boolean_T));
+  nm1d2 = freq->size[0] * freq->size[1];
+  for (i0 = 0; i0 < nm1d2; i0++) {
+    b_x->data[i0] = (freq->data[i0] > 0.41666666666666669);
+  }
+
+  k = (1 <= b_x->size[1]);
+  nm1d2 = 0;
+  calclen = 1;
+  exitg5 = false;
+  while ((!exitg5) && (calclen <= b_x->size[1])) {
+    if (b_x->data[calclen - 1]) {
+      nm1d2 = 1;
+      ii_data[0] = calclen;
+      exitg5 = true;
+    } else {
+      calclen++;
+    }
+  }
+
+  emxFree_boolean_T(&b_x);
+  if (k == 1) {
+    if (nm1d2 == 0) {
+      k = 0;
+    }
+  } else {
+    k = !(1 > nm1d2);
+  }
+
+  for (i0 = 0; i0 < k; i0++) {
     idx2_data[i0] = ii_data[i0];
   }
 
-  if (idx1_data[0] < 1) {
+  if (idx1_data[0] < 1.0) {
     i0 = heartrate->size[0] * heartrate->size[1];
     heartrate->size[0] = 1;
     heartrate->size[1] = 0;
@@ -1186,57 +1189,55 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
   } else {
     i0 = heartrate->size[0] * heartrate->size[1];
     heartrate->size[0] = 1;
-    heartrate->size[1] = idx1_data[0];
+    heartrate->size[1] = (int)idx1_data[0];
     emxEnsureCapacity((emxArray__common *)heartrate, i0, (int)sizeof(double));
-    loop_ub = idx1_data[0] - 1;
-    for (i0 = 0; i0 <= loop_ub; i0++) {
+    nm1d2 = (int)idx1_data[0] - 1;
+    for (i0 = 0; i0 <= nm1d2; i0++) {
       heartrate->data[heartrate->size[0] * i0] = 1.0 + (double)i0;
     }
   }
 
   if (Fbreathing->size[0] < idx2_data[0]) {
-    i0 = xhat->size[0] * xhat->size[1];
-    xhat->size[0] = 1;
-    xhat->size[1] = 0;
-    emxEnsureCapacity((emxArray__common *)xhat, i0, (int)sizeof(double));
+    i0 = freq->size[0] * freq->size[1];
+    freq->size[0] = 1;
+    freq->size[1] = 0;
+    emxEnsureCapacity((emxArray__common *)freq, i0, (int)sizeof(double));
   } else {
     i0 = Fbreathing->size[0];
-    sz_idx_0 = xhat->size[0] * xhat->size[1];
-    xhat->size[0] = 1;
-    xhat->size[1] = (i0 - idx2_data[0]) + 1;
-    emxEnsureCapacity((emxArray__common *)xhat, sz_idx_0, (int)sizeof(double));
-    loop_ub = i0 - idx2_data[0];
-    for (i0 = 0; i0 <= loop_ub; i0++) {
-      xhat->data[xhat->size[0] * i0] = idx2_data[0] + i0;
+    i1 = freq->size[0] * freq->size[1];
+    freq->size[0] = 1;
+    freq->size[1] = (i0 - idx2_data[0]) + 1;
+    emxEnsureCapacity((emxArray__common *)freq, i1, (int)sizeof(double));
+    nm1d2 = i0 - idx2_data[0];
+    for (i0 = 0; i0 <= nm1d2; i0++) {
+      freq->data[freq->size[0] * i0] = idx2_data[0] + i0;
     }
   }
 
   i0 = r0->size[0];
-  r0->size[0] = heartrate->size[1] + xhat->size[1];
+  r0->size[0] = heartrate->size[1] + freq->size[1];
   emxEnsureCapacity((emxArray__common *)r0, i0, (int)sizeof(int));
-  loop_ub = heartrate->size[1];
-  for (i0 = 0; i0 < loop_ub; i0++) {
+  nm1d2 = heartrate->size[1];
+  for (i0 = 0; i0 < nm1d2; i0++) {
     r0->data[i0] = (int)heartrate->data[heartrate->size[0] * i0];
   }
 
-  loop_ub = xhat->size[1];
-  for (i0 = 0; i0 < loop_ub; i0++) {
-    r0->data[i0 + heartrate->size[1]] = (int)xhat->data[xhat->size[0] * i0];
+  nm1d2 = freq->size[1];
+  for (i0 = 0; i0 < nm1d2; i0++) {
+    r0->data[i0 + heartrate->size[1]] = (int)freq->data[freq->size[0] * i0];
   }
 
-  loop_ub = Fbreathing->size[1];
+  nm1d2 = Fbreathing->size[1];
   calclen = r0->size[0];
-  for (i0 = 0; i0 < loop_ub; i0++) {
-    for (sz_idx_0 = 0; sz_idx_0 < calclen; sz_idx_0++) {
-      Fbreathing->data[(r0->data[sz_idx_0] + Fbreathing->size[0] * i0) - 1].re =
-        0.0;
-      Fbreathing->data[(r0->data[sz_idx_0] + Fbreathing->size[0] * i0) - 1].im =
-        0.0;
+  for (i0 = 0; i0 < nm1d2; i0++) {
+    for (i1 = 0; i1 < calclen; i1++) {
+      Fbreathing->data[(r0->data[i1] + Fbreathing->size[0] * i0) - 1].re = 0.0;
+      Fbreathing->data[(r0->data[i1] + Fbreathing->size[0] * i0) - 1].im = 0.0;
     }
   }
 
-  loop_ub = Y->size[1];
-  for (i0 = 0; i0 < loop_ub; i0++) {
+  nm1d2 = Y->size[1];
+  for (i0 = 0; i0 < nm1d2; i0++) {
     Fheartrate->data[Fheartrate->size[0] * i0].re = 0.0;
     Fheartrate->data[Fheartrate->size[0] * i0].im = 0.0;
   }
@@ -1249,8 +1250,8 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
   b_Fheartrate->size[0] = Fheartrate->size[0];
   b_Fheartrate->size[1] = Fheartrate->size[1];
   emxEnsureCapacity((emxArray__common *)b_Fheartrate, i0, (int)sizeof(creal_T));
-  loop_ub = Fheartrate->size[0] * Fheartrate->size[1];
-  for (i0 = 0; i0 < loop_ub; i0++) {
+  nm1d2 = Fheartrate->size[0] * Fheartrate->size[1];
+  for (i0 = 0; i0 < nm1d2; i0++) {
     b_Fheartrate->data[i0] = Fheartrate->data[i0];
   }
 
@@ -1260,11 +1261,11 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
   i0 = HRentr->size[0] * HRentr->size[1];
   HRentr->size[0] = 1;
   emxEnsureCapacity((emxArray__common *)HRentr, i0, (int)sizeof(creal_T));
-  sz_idx_0 = HRentr->size[0];
+  nm1d2 = HRentr->size[0];
   calclen = HRentr->size[1];
-  loop_ub = sz_idx_0 * calclen;
+  nm1d2 *= calclen;
   emxFree_creal_T(&b_Fheartrate);
-  for (i0 = 0; i0 < loop_ub; i0++) {
+  for (i0 = 0; i0 < nm1d2; i0++) {
     HRentr->data[i0].re = 1.0 - HRentr->data[i0].re;
     HRentr->data[i0].im = 0.0 - HRentr->data[i0].im;
   }
@@ -1274,21 +1275,23 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
   b_HRentr->size[0] = 1;
   b_HRentr->size[1] = HRentr->size[1];
   emxEnsureCapacity((emxArray__common *)b_HRentr, i0, (int)sizeof(creal_T));
-  loop_ub = HRentr->size[0] * HRentr->size[1];
-  for (i0 = 0; i0 < loop_ub; i0++) {
+  nm1d2 = HRentr->size[0] * HRentr->size[1];
+  for (i0 = 0; i0 < nm1d2; i0++) {
     b_HRentr->data[i0] = HRentr->data[i0];
   }
 
   emxInit_creal_T(&b_Fbreathing, 2);
-  c_Fbreathing = sum(HRentr);
-  rdivide(b_HRentr, c_Fbreathing, HRentr);
+  R = sum(HRentr);
+  rdivide(b_HRentr, R, HRentr);
+
+  /*  trust neighborhoods of high weight */
   i0 = b_Fbreathing->size[0] * b_Fbreathing->size[1];
   b_Fbreathing->size[0] = Fbreathing->size[0];
   b_Fbreathing->size[1] = Fbreathing->size[1];
   emxEnsureCapacity((emxArray__common *)b_Fbreathing, i0, (int)sizeof(creal_T));
-  loop_ub = Fbreathing->size[0] * Fbreathing->size[1];
+  nm1d2 = Fbreathing->size[0] * Fbreathing->size[1];
   emxFree_creal_T(&b_HRentr);
-  for (i0 = 0; i0 < loop_ub; i0++) {
+  for (i0 = 0; i0 < nm1d2; i0++) {
     b_Fbreathing->data[i0] = Fbreathing->data[i0];
   }
 
@@ -1298,11 +1301,11 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
   i0 = RRentr->size[0] * RRentr->size[1];
   RRentr->size[0] = 1;
   emxEnsureCapacity((emxArray__common *)RRentr, i0, (int)sizeof(creal_T));
-  sz_idx_0 = RRentr->size[0];
+  nm1d2 = RRentr->size[0];
   calclen = RRentr->size[1];
-  loop_ub = sz_idx_0 * calclen;
+  nm1d2 *= calclen;
   emxFree_creal_T(&b_Fbreathing);
-  for (i0 = 0; i0 < loop_ub; i0++) {
+  for (i0 = 0; i0 < nm1d2; i0++) {
     RRentr->data[i0].re = 1.0 - RRentr->data[i0].re;
     RRentr->data[i0].im = 0.0 - RRentr->data[i0].im;
   }
@@ -1312,22 +1315,107 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
   b_RRentr->size[0] = 1;
   b_RRentr->size[1] = RRentr->size[1];
   emxEnsureCapacity((emxArray__common *)b_RRentr, i0, (int)sizeof(creal_T));
-  loop_ub = RRentr->size[0] * RRentr->size[1];
-  for (i0 = 0; i0 < loop_ub; i0++) {
+  nm1d2 = RRentr->size[0] * RRentr->size[1];
+  for (i0 = 0; i0 < nm1d2; i0++) {
     b_RRentr->data[i0] = RRentr->data[i0];
   }
 
-  c_Fbreathing = sum(RRentr);
-  rdivide(b_RRentr, c_Fbreathing, RRentr);
+  emxInit_real_T1(&c_Bbody, 2);
+  R = sum(RRentr);
+  rdivide(b_RRentr, R, RRentr);
+  nm1d2 = Bbody->size[0];
+  calclen = Bbody->size[1];
+  i0 = c_Bbody->size[0] * c_Bbody->size[1];
+  c_Bbody->size[0] = nm1d2;
+  c_Bbody->size[1] = calclen;
+  emxEnsureCapacity((emxArray__common *)c_Bbody, i0, (int)sizeof(double));
+  emxFree_creal_T(&b_RRentr);
+  for (i0 = 0; i0 < calclen; i0++) {
+    for (i1 = 0; i1 < nm1d2; i1++) {
+      c_Bbody->data[i1 + c_Bbody->size[0] * i0] = Bbody->data[i1 + Bbody->size[0]
+        * i0];
+    }
+  }
+
+  emxFree_real_T(&Bbody);
+  for (i0 = 0; i0 < 2; i0++) {
+    sz[i0] = c_Bbody->size[i0];
+  }
+
+  emxFree_real_T(&c_Bbody);
+  i0 = Y->size[0] * Y->size[1];
+  Y->size[0] = sz[0];
+  Y->size[1] = sz[1];
+  emxEnsureCapacity((emxArray__common *)Y, i0, (int)sizeof(creal_T));
+  for (k = 0; k + 1 <= RRentr->size[1]; k++) {
+    Y->data[k] = RRentr->data[k];
+  }
+
+  emxFree_creal_T(&RRentr);
+  i0 = Y->size[0] * Y->size[1];
+  emxEnsureCapacity((emxArray__common *)Y, i0, (int)sizeof(creal_T));
+  nm1d2 = Y->size[0];
+  calclen = Y->size[1];
+  nm1d2 *= calclen;
+  for (i0 = 0; i0 < nm1d2; i0++) {
+    Y->data[i0].re = 1.0 - Y->data[i0].re;
+    Y->data[i0].im = 0.0 - Y->data[i0].im;
+  }
+
+  /*  B2 = nlfilter(B,[2 2],'sliding',@min); */
+  /*  B(1:end-1,1:end-1) = B2(1:end-1,1:end-1); */
+  i0 = (int)(((double)Y->size[0] - 1.0) / 2.0);
+  for (i = 0; i < i0; i++) {
+    nx = (i << 1) + 1;
+    i1 = (int)(((double)Y->size[1] - 1.0) / 2.0);
+    for (k = 0; k < i1; k++) {
+      j = (k << 1) + 1;
+      for (calclen = 0; calclen < 3; calclen++) {
+        for (nm1d2 = 0; nm1d2 < 3; nm1d2++) {
+          patch[nm1d2 + 3 * calclen] = Y->data[((nm1d2 + nx) + Y->size[0] *
+            ((calclen + j) - 1)) - 1];
+        }
+      }
+
+      ixstart = 1;
+      c_mtmp = patch[0];
+      if (rtIsNaN(patch[0].re) || rtIsNaN(patch[0].im)) {
+        ix = 1;
+        exitg4 = false;
+        while ((!exitg4) && (ix + 1 < 10)) {
+          ixstart = ix + 1;
+          if (!(rtIsNaN(patch[ix].re) || rtIsNaN(patch[ix].im))) {
+            c_mtmp = patch[ix];
+            exitg4 = true;
+          } else {
+            ix++;
+          }
+        }
+      }
+
+      if (ixstart < 9) {
+        while (ixstart + 1 < 10) {
+          if (relop(patch[ixstart], c_mtmp)) {
+            c_mtmp = patch[ixstart];
+          }
+
+          ixstart++;
+        }
+      }
+
+      Y->data[nx + Y->size[0] * j] = c_mtmp;
+    }
+  }
+
+  emxInit_creal_T(&r2, 2);
 
   /*  Use fft to get rid of phase differences between signals. */
-  b_fft(Rbody_interp, Y);
-  b_abs(Y, Rbody);
+  b_fft(Rbody_interp, r2);
+  b_abs(r2, Rbody);
   Rbody->data[0] = 0.0;
-  emxFree_creal_T(&b_RRentr);
-  emxFree_creal_T(&Y);
+  emxFree_creal_T(&r2);
   emxFree_real_T(&Rbody_interp);
-  if (idx1_data[0] < 1) {
+  if (idx1_data[0] < 1.0) {
     i0 = heartrate->size[0] * heartrate->size[1];
     heartrate->size[0] = 1;
     heartrate->size[1] = 0;
@@ -1335,258 +1423,254 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
   } else {
     i0 = heartrate->size[0] * heartrate->size[1];
     heartrate->size[0] = 1;
-    heartrate->size[1] = idx1_data[0];
+    heartrate->size[1] = (int)idx1_data[0];
     emxEnsureCapacity((emxArray__common *)heartrate, i0, (int)sizeof(double));
-    loop_ub = idx1_data[0] - 1;
-    for (i0 = 0; i0 <= loop_ub; i0++) {
+    nm1d2 = (int)idx1_data[0] - 1;
+    for (i0 = 0; i0 <= nm1d2; i0++) {
       heartrate->data[heartrate->size[0] * i0] = 1.0 + (double)i0;
     }
   }
 
   if (Rbody->size[0] < idx2_data[0]) {
-    i0 = xhat->size[0] * xhat->size[1];
-    xhat->size[0] = 1;
-    xhat->size[1] = 0;
-    emxEnsureCapacity((emxArray__common *)xhat, i0, (int)sizeof(double));
+    i0 = freq->size[0] * freq->size[1];
+    freq->size[0] = 1;
+    freq->size[1] = 0;
+    emxEnsureCapacity((emxArray__common *)freq, i0, (int)sizeof(double));
   } else {
     i0 = Rbody->size[0];
-    sz_idx_0 = xhat->size[0] * xhat->size[1];
-    xhat->size[0] = 1;
-    xhat->size[1] = (i0 - idx2_data[0]) + 1;
-    emxEnsureCapacity((emxArray__common *)xhat, sz_idx_0, (int)sizeof(double));
-    loop_ub = i0 - idx2_data[0];
-    for (i0 = 0; i0 <= loop_ub; i0++) {
-      xhat->data[xhat->size[0] * i0] = idx2_data[0] + i0;
+    i1 = freq->size[0] * freq->size[1];
+    freq->size[0] = 1;
+    freq->size[1] = (i0 - idx2_data[0]) + 1;
+    emxEnsureCapacity((emxArray__common *)freq, i1, (int)sizeof(double));
+    nm1d2 = i0 - idx2_data[0];
+    for (i0 = 0; i0 <= nm1d2; i0++) {
+      freq->data[freq->size[0] * i0] = idx2_data[0] + i0;
     }
   }
 
   i0 = r0->size[0];
-  r0->size[0] = heartrate->size[1] + xhat->size[1];
+  r0->size[0] = heartrate->size[1] + freq->size[1];
   emxEnsureCapacity((emxArray__common *)r0, i0, (int)sizeof(int));
-  loop_ub = heartrate->size[1];
-  for (i0 = 0; i0 < loop_ub; i0++) {
+  nm1d2 = heartrate->size[1];
+  for (i0 = 0; i0 < nm1d2; i0++) {
     r0->data[i0] = (int)heartrate->data[heartrate->size[0] * i0];
   }
 
-  loop_ub = xhat->size[1];
-  for (i0 = 0; i0 < loop_ub; i0++) {
-    r0->data[i0 + heartrate->size[1]] = (int)xhat->data[xhat->size[0] * i0];
+  nm1d2 = freq->size[1];
+  for (i0 = 0; i0 < nm1d2; i0++) {
+    r0->data[i0 + heartrate->size[1]] = (int)freq->data[freq->size[0] * i0];
   }
 
-  loop_ub = Rbody->size[1];
+  nm1d2 = Rbody->size[1];
   calclen = r0->size[0];
-  for (i0 = 0; i0 < loop_ub; i0++) {
-    for (sz_idx_0 = 0; sz_idx_0 < calclen; sz_idx_0++) {
-      Rbody->data[(r0->data[sz_idx_0] + Rbody->size[0] * i0) - 1] = 0.0;
+  for (i0 = 0; i0 < nm1d2; i0++) {
+    for (i1 = 0; i1 < calclen; i1++) {
+      Rbody->data[(r0->data[i1] + Rbody->size[0] * i0) - 1] = 0.0;
     }
   }
 
-  emxInit_creal_T1(&d_Rbody, 1);
-  emxInit_creal_T(&e_Rbody, 2);
-  i0 = e_Rbody->size[0] * e_Rbody->size[1];
-  e_Rbody->size[0] = Rbody->size[0];
-  e_Rbody->size[1] = Rbody->size[1];
-  emxEnsureCapacity((emxArray__common *)e_Rbody, i0, (int)sizeof(creal_T));
-  loop_ub = Rbody->size[1];
-  for (i0 = 0; i0 < loop_ub; i0++) {
+  emxFree_int32_T(&r0);
+  emxInit_creal_T(&d_Rbody, 2);
+
+  /*  breathing = ifft(F * wrr'); */
+  i0 = d_Rbody->size[0] * d_Rbody->size[1];
+  d_Rbody->size[0] = Rbody->size[0];
+  d_Rbody->size[1] = Rbody->size[1];
+  emxEnsureCapacity((emxArray__common *)d_Rbody, i0, (int)sizeof(creal_T));
+  nm1d2 = Rbody->size[1];
+  for (i0 = 0; i0 < nm1d2; i0++) {
     calclen = Rbody->size[0];
-    for (sz_idx_0 = 0; sz_idx_0 < calclen; sz_idx_0++) {
-      e_Rbody->data[sz_idx_0 + e_Rbody->size[0] * i0].re = Rbody->data[sz_idx_0
-        + Rbody->size[0] * i0];
-      e_Rbody->data[sz_idx_0 + e_Rbody->size[0] * i0].im = 0.0;
+    for (i1 = 0; i1 < calclen; i1++) {
+      d_Rbody->data[i1 + d_Rbody->size[0] * i0].re = Rbody->data[i1 +
+        Rbody->size[0] * i0];
+      d_Rbody->data[i1 + d_Rbody->size[0] * i0].im = 0.0;
     }
   }
 
   emxFree_real_T(&Rbody);
-  i0 = d_Rbody->size[0];
-  d_Rbody->size[0] = e_Rbody->size[0];
-  emxEnsureCapacity((emxArray__common *)d_Rbody, i0, (int)sizeof(creal_T));
-  loop_ub = e_Rbody->size[0];
-  for (i0 = 0; i0 < loop_ub; i0++) {
-    d_Rbody->data[i0].re = 0.0;
-    d_Rbody->data[i0].im = 0.0;
-    calclen = e_Rbody->size[1];
-    for (sz_idx_0 = 0; sz_idx_0 < calclen; sz_idx_0++) {
-      b_mtmp = RRentr->data[RRentr->size[0] * sz_idx_0].re;
-      ndbl = -RRentr->data[RRentr->size[0] * sz_idx_0].im;
-      cdiff = e_Rbody->data[i0 + e_Rbody->size[0] * sz_idx_0].re * b_mtmp -
-        e_Rbody->data[i0 + e_Rbody->size[0] * sz_idx_0].im * ndbl;
-      ndbl = e_Rbody->data[i0 + e_Rbody->size[0] * sz_idx_0].re * ndbl +
-        e_Rbody->data[i0 + e_Rbody->size[0] * sz_idx_0].im * b_mtmp;
-      d_Rbody->data[i0].re += cdiff;
-      d_Rbody->data[i0].im += ndbl;
+  emxInit_creal_T1(&breathing, 1);
+  i0 = breathing->size[0];
+  breathing->size[0] = d_Rbody->size[0];
+  emxEnsureCapacity((emxArray__common *)breathing, i0, (int)sizeof(creal_T));
+  nm1d2 = d_Rbody->size[0];
+  for (i0 = 0; i0 < nm1d2; i0++) {
+    breathing->data[i0].re = 0.0;
+    breathing->data[i0].im = 0.0;
+    calclen = d_Rbody->size[1];
+    for (i1 = 0; i1 < calclen; i1++) {
+      ndbl = d_Rbody->data[i0 + d_Rbody->size[0] * i1].re * Y->data[i1].re -
+        d_Rbody->data[i0 + d_Rbody->size[0] * i1].im * Y->data[i1].im;
+      b_mtmp = d_Rbody->data[i0 + d_Rbody->size[0] * i1].re * Y->data[i1].im +
+        d_Rbody->data[i0 + d_Rbody->size[0] * i1].im * Y->data[i1].re;
+      breathing->data[i0].re += ndbl;
+      breathing->data[i0].im += b_mtmp;
     }
   }
 
-  emxFree_creal_T(&e_Rbody);
-  emxFree_creal_T(&RRentr);
-  emxInit_creal_T1(&breathing, 1);
+  emxFree_creal_T(&d_Rbody);
+  emxFree_creal_T(&Y);
   emxInit_creal_T(&b_Ahead_filt, 2);
-  ifft(d_Rbody, breathing);
 
   /*  breathing = Abody * wrr'; */
   i0 = b_Ahead_filt->size[0] * b_Ahead_filt->size[1];
   b_Ahead_filt->size[0] = Ahead_filt->size[0];
   b_Ahead_filt->size[1] = Ahead_filt->size[1];
   emxEnsureCapacity((emxArray__common *)b_Ahead_filt, i0, (int)sizeof(creal_T));
-  loop_ub = Ahead_filt->size[1];
-  emxFree_creal_T(&d_Rbody);
-  for (i0 = 0; i0 < loop_ub; i0++) {
+  nm1d2 = Ahead_filt->size[1];
+  for (i0 = 0; i0 < nm1d2; i0++) {
     calclen = Ahead_filt->size[0];
-    for (sz_idx_0 = 0; sz_idx_0 < calclen; sz_idx_0++) {
-      b_Ahead_filt->data[sz_idx_0 + b_Ahead_filt->size[0] * i0].re =
-        Ahead_filt->data[sz_idx_0 + Ahead_filt->size[0] * i0];
-      b_Ahead_filt->data[sz_idx_0 + b_Ahead_filt->size[0] * i0].im = 0.0;
+    for (i1 = 0; i1 < calclen; i1++) {
+      b_Ahead_filt->data[i1 + b_Ahead_filt->size[0] * i0].re = Ahead_filt->
+        data[i1 + Ahead_filt->size[0] * i0];
+      b_Ahead_filt->data[i1 + b_Ahead_filt->size[0] * i0].im = 0.0;
     }
   }
 
-  emxInit_creal_T1(&R, 1);
-  i0 = R->size[0];
-  R->size[0] = b_Ahead_filt->size[0];
-  emxEnsureCapacity((emxArray__common *)R, i0, (int)sizeof(creal_T));
-  loop_ub = b_Ahead_filt->size[0];
-  for (i0 = 0; i0 < loop_ub; i0++) {
+  emxInit_creal_T1(&b_R, 1);
+  i0 = b_R->size[0];
+  b_R->size[0] = b_Ahead_filt->size[0];
+  emxEnsureCapacity((emxArray__common *)b_R, i0, (int)sizeof(creal_T));
+  nm1d2 = b_Ahead_filt->size[0];
+  for (i0 = 0; i0 < nm1d2; i0++) {
     cdiff = 0.0;
     absa = 0.0;
     calclen = b_Ahead_filt->size[1];
-    for (sz_idx_0 = 0; sz_idx_0 < calclen; sz_idx_0++) {
-      b_mtmp = HRentr->data[HRentr->size[0] * sz_idx_0].re;
-      ndbl = -HRentr->data[HRentr->size[0] * sz_idx_0].im;
-      absb = b_Ahead_filt->data[i0 + b_Ahead_filt->size[0] * sz_idx_0].re *
-        b_mtmp - b_Ahead_filt->data[i0 + b_Ahead_filt->size[0] * sz_idx_0].im *
-        ndbl;
-      b_mtmp = b_Ahead_filt->data[i0 + b_Ahead_filt->size[0] * sz_idx_0].re *
-        ndbl + b_Ahead_filt->data[i0 + b_Ahead_filt->size[0] * sz_idx_0].im *
-        b_mtmp;
+    for (i1 = 0; i1 < calclen; i1++) {
+      b_mtmp = HRentr->data[HRentr->size[0] * i1].re;
+      ndbl = -HRentr->data[HRentr->size[0] * i1].im;
+      absb = b_Ahead_filt->data[i0 + b_Ahead_filt->size[0] * i1].re * b_mtmp -
+        b_Ahead_filt->data[i0 + b_Ahead_filt->size[0] * i1].im * ndbl;
+      b_mtmp = b_Ahead_filt->data[i0 + b_Ahead_filt->size[0] * i1].re * ndbl +
+        b_Ahead_filt->data[i0 + b_Ahead_filt->size[0] * i1].im * b_mtmp;
       cdiff += absb;
       absa += b_mtmp;
     }
 
-    R->data[i0].re = -cdiff;
-    R->data[i0].im = -absa;
+    b_R->data[i0].re = -cdiff;
+    b_R->data[i0].im = -absa;
   }
 
   emxFree_creal_T(&b_Ahead_filt);
-  b_exp(R);
-  i0 = R->size[0];
-  emxEnsureCapacity((emxArray__common *)R, i0, (int)sizeof(creal_T));
-  loop_ub = R->size[0];
-  for (i0 = 0; i0 < loop_ub; i0++) {
-    R->data[i0].re--;
-  }
-
-  emxInit_creal_T(&b_R, 2);
-  i0 = b_R->size[0] * b_R->size[1];
-  b_R->size[0] = 1;
-  b_R->size[1] = R->size[0];
+  b_exp(b_R);
+  i0 = b_R->size[0];
   emxEnsureCapacity((emxArray__common *)b_R, i0, (int)sizeof(creal_T));
-  loop_ub = R->size[0];
-  for (i0 = 0; i0 < loop_ub; i0++) {
-    b_R->data[b_R->size[0] * i0].re = R->data[i0].re;
-    b_R->data[b_R->size[0] * i0].im = -R->data[i0].im;
+  nm1d2 = b_R->size[0];
+  for (i0 = 0; i0 < nm1d2; i0++) {
+    b_R->data[i0].re--;
   }
 
-  kalmanfilt(b_R, xhat);
-  i0 = xhat->size[0] * xhat->size[1];
-  xhat->size[0] = 1;
-  emxEnsureCapacity((emxArray__common *)xhat, i0, (int)sizeof(double));
-  sz_idx_0 = xhat->size[0];
-  calclen = xhat->size[1];
-  loop_ub = sz_idx_0 * calclen;
-  emxFree_creal_T(&b_R);
-  for (i0 = 0; i0 < loop_ub; i0++) {
-    xhat->data[i0]++;
+  emxInit_creal_T(&c_R, 2);
+  i0 = c_R->size[0] * c_R->size[1];
+  c_R->size[0] = 1;
+  c_R->size[1] = b_R->size[0];
+  emxEnsureCapacity((emxArray__common *)c_R, i0, (int)sizeof(creal_T));
+  nm1d2 = b_R->size[0];
+  for (i0 = 0; i0 < nm1d2; i0++) {
+    c_R->data[c_R->size[0] * i0].re = b_R->data[i0].re;
+    c_R->data[c_R->size[0] * i0].im = -b_R->data[i0].im;
   }
 
-  d_log(xhat);
+  kalmanfilt(c_R, freq);
+  i0 = freq->size[0] * freq->size[1];
+  freq->size[0] = 1;
+  emxEnsureCapacity((emxArray__common *)freq, i0, (int)sizeof(double));
+  nm1d2 = freq->size[0];
+  calclen = freq->size[1];
+  nm1d2 *= calclen;
+  emxFree_creal_T(&c_R);
+  for (i0 = 0; i0 < nm1d2; i0++) {
+    freq->data[i0]++;
+  }
+
+  d_log(freq);
   i0 = heartrate->size[0] * heartrate->size[1];
   heartrate->size[0] = 1;
-  heartrate->size[1] = xhat->size[1];
+  heartrate->size[1] = freq->size[1];
   emxEnsureCapacity((emxArray__common *)heartrate, i0, (int)sizeof(double));
-  loop_ub = xhat->size[0] * xhat->size[1];
-  for (i0 = 0; i0 < loop_ub; i0++) {
-    heartrate->data[i0] = -xhat->data[i0];
+  nm1d2 = freq->size[0] * freq->size[1];
+  for (i0 = 0; i0 < nm1d2; i0++) {
+    heartrate->data[i0] = -freq->data[i0];
   }
 
-  calclen = 1;
-  n = HRentr->size[1];
+  ixstart = 1;
+  nx = HRentr->size[1];
   c_mtmp = HRentr->data[0];
-  nx = 0;
+  calclen = 0;
   if (HRentr->size[1] > 1) {
     if (rtIsNaN(HRentr->data[0].re) || rtIsNaN(HRentr->data[0].im)) {
-      sz_idx_0 = 2;
-      exitg5 = false;
-      while ((!exitg5) && (sz_idx_0 <= n)) {
-        calclen = sz_idx_0;
-        if (!(rtIsNaN(HRentr->data[sz_idx_0 - 1].re) || rtIsNaN(HRentr->
-              data[sz_idx_0 - 1].im))) {
-          c_mtmp = HRentr->data[sz_idx_0 - 1];
-          nx = sz_idx_0 - 1;
-          exitg5 = true;
+      ix = 2;
+      exitg3 = false;
+      while ((!exitg3) && (ix <= nx)) {
+        ixstart = ix;
+        if (!(rtIsNaN(HRentr->data[ix - 1].re) || rtIsNaN(HRentr->data[ix - 1].
+              im))) {
+          c_mtmp = HRentr->data[ix - 1];
+          calclen = ix - 1;
+          exitg3 = true;
         } else {
-          sz_idx_0++;
+          ix++;
         }
       }
     }
 
-    if (calclen < HRentr->size[1]) {
-      while (calclen + 1 <= n) {
-        c_Fbreathing = HRentr->data[calclen];
-        if (relop(c_Fbreathing, c_mtmp)) {
-          c_mtmp = HRentr->data[calclen];
-          nx = calclen;
+    if (ixstart < HRentr->size[1]) {
+      while (ixstart + 1 <= nx) {
+        R = HRentr->data[ixstart];
+        if (b_relop(R, c_mtmp)) {
+          c_mtmp = HRentr->data[ixstart];
+          calclen = ixstart;
         }
 
-        calclen++;
+        ixstart++;
       }
     }
   }
 
   emxFree_creal_T(&HRentr);
-  emxInit_real_T2(&c_R, 1);
-  loop_ub = Ahead_filt->size[0];
-  i0 = c_R->size[0];
-  c_R->size[0] = loop_ub;
-  emxEnsureCapacity((emxArray__common *)c_R, i0, (int)sizeof(double));
-  for (i0 = 0; i0 < loop_ub; i0++) {
-    c_R->data[i0] = -Ahead_filt->data[i0 + Ahead_filt->size[0] * nx];
+  emxInit_real_T2(&d_R, 1);
+  nm1d2 = Ahead_filt->size[0];
+  i0 = d_R->size[0];
+  d_R->size[0] = nm1d2;
+  emxEnsureCapacity((emxArray__common *)d_R, i0, (int)sizeof(double));
+  for (i0 = 0; i0 < nm1d2; i0++) {
+    d_R->data[i0] = -Ahead_filt->data[i0 + Ahead_filt->size[0] * calclen];
   }
 
   emxFree_real_T(&Ahead_filt);
-  c_exp(c_R);
-  i0 = c_R->size[0];
-  emxEnsureCapacity((emxArray__common *)c_R, i0, (int)sizeof(double));
-  loop_ub = c_R->size[0];
-  for (i0 = 0; i0 < loop_ub; i0++) {
-    c_R->data[i0]--;
-  }
-
-  emxInit_real_T1(&d_R, 2);
-  i0 = d_R->size[0] * d_R->size[1];
-  d_R->size[0] = 1;
-  d_R->size[1] = c_R->size[0];
+  c_exp(d_R);
+  i0 = d_R->size[0];
   emxEnsureCapacity((emxArray__common *)d_R, i0, (int)sizeof(double));
-  loop_ub = c_R->size[0];
-  for (i0 = 0; i0 < loop_ub; i0++) {
-    d_R->data[d_R->size[0] * i0] = c_R->data[i0];
+  nm1d2 = d_R->size[0];
+  for (i0 = 0; i0 < nm1d2; i0++) {
+    d_R->data[i0]--;
   }
 
-  emxFree_real_T(&c_R);
-  emxInit_real_T1(&b_xhat, 2);
-  b_kalmanfilt(d_R, xhat);
-  i0 = b_xhat->size[0] * b_xhat->size[1];
-  b_xhat->size[0] = 1;
-  b_xhat->size[1] = xhat->size[1];
-  emxEnsureCapacity((emxArray__common *)b_xhat, i0, (int)sizeof(double));
-  loop_ub = xhat->size[0] * xhat->size[1];
+  emxInit_real_T1(&e_R, 2);
+  i0 = e_R->size[0] * e_R->size[1];
+  e_R->size[0] = 1;
+  e_R->size[1] = d_R->size[0];
+  emxEnsureCapacity((emxArray__common *)e_R, i0, (int)sizeof(double));
+  nm1d2 = d_R->size[0];
+  for (i0 = 0; i0 < nm1d2; i0++) {
+    e_R->data[e_R->size[0] * i0] = d_R->data[i0];
+  }
+
   emxFree_real_T(&d_R);
-  for (i0 = 0; i0 < loop_ub; i0++) {
-    b_xhat->data[i0] = xhat->data[i0] + 1.0;
+  emxInit_real_T1(&b_freq, 2);
+  b_kalmanfilt(e_R, freq);
+  i0 = b_freq->size[0] * b_freq->size[1];
+  b_freq->size[0] = 1;
+  b_freq->size[1] = freq->size[1];
+  emxEnsureCapacity((emxArray__common *)b_freq, i0, (int)sizeof(double));
+  nm1d2 = freq->size[0] * freq->size[1];
+  emxFree_real_T(&e_R);
+  for (i0 = 0; i0 < nm1d2; i0++) {
+    b_freq->data[i0] = freq->data[i0] + 1.0;
   }
 
-  emxInit_creal_T1(&d_Fbreathing, 1);
-  emxInit_real_T1(&c_xhat, 2);
-  b_log(b_xhat, c_xhat);
+  emxInit_creal_T1(&c_Fheartrate, 1);
+  emxInit_real_T1(&c_freq, 2);
+  b_log(b_freq, c_freq);
 
   /*  */
   /*  figure; */
@@ -1599,212 +1683,102 @@ void extract_vitals_tk1(const emxArray_real_T *frames_head, const
   /*  imshow(flipud(reshape(wrr,[H W])),[]); */
   /*  title('Breathing weights') */
   /*  Find vitals */
-  plot_power_spectrum(breathing, fps, freq, d_Fbreathing);
-  b_plot_power_spectrum(heartrate, fps, freq, R);
-  i0 = b_x->size[0] * b_x->size[1];
-  b_x->size[0] = 1;
-  b_x->size[1] = freq->size[1];
-  emxEnsureCapacity((emxArray__common *)b_x, i0, (int)sizeof(boolean_T));
-  loop_ub = freq->size[0] * freq->size[1];
-  emxFree_real_T(&c_xhat);
-  emxFree_real_T(&b_xhat);
-  emxFree_creal_T(&breathing);
-  for (i0 = 0; i0 < loop_ub; i0++) {
-    b_x->data[i0] = (freq->data[i0] < 0.083333333333333329);
-  }
+  plot_power_spectrum(heartrate, fps, freq, c_Fheartrate);
 
-  loop_ub = (1 <= b_x->size[1]);
-  sz_idx_0 = 0;
-  calclen = 1;
-  exitg4 = false;
-  while ((!exitg4) && (calclen <= b_x->size[1])) {
-    if (b_x->data[calclen - 1]) {
-      sz_idx_0 = 1;
-      ii_data[0] = calclen;
-      exitg4 = true;
-    } else {
-      calclen++;
-    }
-  }
-
-  if (loop_ub == 1) {
-    if (sz_idx_0 == 0) {
-      loop_ub = 0;
-    }
-  } else {
-    loop_ub = !(1 > sz_idx_0);
-  }
-
-  for (i0 = 0; i0 < loop_ub; i0++) {
-    idx1_data[i0] = ii_data[i0];
-  }
-
-  i0 = b_x->size[0] * b_x->size[1];
-  b_x->size[0] = 1;
-  b_x->size[1] = freq->size[1];
-  emxEnsureCapacity((emxArray__common *)b_x, i0, (int)sizeof(boolean_T));
-  loop_ub = freq->size[0] * freq->size[1];
-  for (i0 = 0; i0 < loop_ub; i0++) {
-    b_x->data[i0] = (freq->data[i0] > 0.41666666666666669);
-  }
-
-  loop_ub = (1 <= b_x->size[1]);
-  sz_idx_0 = 0;
-  calclen = 1;
-  exitg3 = false;
-  while ((!exitg3) && (calclen <= b_x->size[1])) {
-    if (b_x->data[calclen - 1]) {
-      sz_idx_0 = 1;
-      ii_data[0] = calclen;
-      exitg3 = true;
-    } else {
-      calclen++;
-    }
-  }
-
-  emxFree_boolean_T(&b_x);
-  if (loop_ub == 1) {
-    if (sz_idx_0 == 0) {
-      loop_ub = 0;
-    }
-  } else {
-    loop_ub = !(1 > sz_idx_0);
-  }
-
-  for (i0 = 0; i0 < loop_ub; i0++) {
-    idx2_data[i0] = ii_data[i0];
-  }
-
-  if (idx1_data[0] < 1) {
-    i0 = heartrate->size[0] * heartrate->size[1];
-    heartrate->size[0] = 1;
-    heartrate->size[1] = 0;
-    emxEnsureCapacity((emxArray__common *)heartrate, i0, (int)sizeof(double));
-  } else {
-    i0 = heartrate->size[0] * heartrate->size[1];
-    heartrate->size[0] = 1;
-    heartrate->size[1] = idx1_data[0];
-    emxEnsureCapacity((emxArray__common *)heartrate, i0, (int)sizeof(double));
-    loop_ub = idx1_data[0] - 1;
-    for (i0 = 0; i0 <= loop_ub; i0++) {
-      heartrate->data[heartrate->size[0] * i0] = 1.0 + (double)i0;
-    }
-  }
-
-  if (d_Fbreathing->size[0] < idx2_data[0]) {
-    i0 = xhat->size[0] * xhat->size[1];
-    xhat->size[0] = 1;
-    xhat->size[1] = 0;
-    emxEnsureCapacity((emxArray__common *)xhat, i0, (int)sizeof(double));
-  } else {
-    i0 = d_Fbreathing->size[0];
-    sz_idx_0 = xhat->size[0] * xhat->size[1];
-    xhat->size[0] = 1;
-    xhat->size[1] = (i0 - idx2_data[0]) + 1;
-    emxEnsureCapacity((emxArray__common *)xhat, sz_idx_0, (int)sizeof(double));
-    loop_ub = i0 - idx2_data[0];
-    for (i0 = 0; i0 <= loop_ub; i0++) {
-      xhat->data[xhat->size[0] * i0] = idx2_data[0] + i0;
-    }
-  }
-
-  i0 = r0->size[0];
-  r0->size[0] = heartrate->size[1] + xhat->size[1];
-  emxEnsureCapacity((emxArray__common *)r0, i0, (int)sizeof(int));
-  loop_ub = heartrate->size[1];
-  for (i0 = 0; i0 < loop_ub; i0++) {
-    r0->data[i0] = (int)heartrate->data[heartrate->size[0] * i0];
-  }
-
-  loop_ub = xhat->size[1];
-  for (i0 = 0; i0 < loop_ub; i0++) {
-    r0->data[i0 + heartrate->size[1]] = (int)xhat->data[xhat->size[0] * i0];
-  }
-
+  /*  idx1 = find(freq<5/60, 1, 'first'); */
+  /*  idx2 = find(freq>25/60, 1, 'first'); */
+  /*  Fbreathing([1:idx1, idx2:end],:) = 0; */
+  i0 = (int)floor((double)breathing->size[0] / 2.0);
+  emxFree_real_T(&c_freq);
+  emxFree_real_T(&b_freq);
   emxFree_real_T(&heartrate);
-  emxFree_real_T(&xhat);
-  calclen = r0->size[0];
-  for (i0 = 0; i0 < calclen; i0++) {
-    d_Fbreathing->data[r0->data[i0] - 1].re = 0.0;
-    d_Fbreathing->data[r0->data[i0] - 1].im = 0.0;
+  if (1 > i0) {
+    nm1d2 = 0;
+  } else {
+    nm1d2 = i0;
   }
 
-  emxFree_int32_T(&r0);
-  R->data[0].re = 0.0;
-  R->data[0].im = 0.0;
-  calclen = 1;
-  n = R->size[0];
-  c_mtmp = R->data[0];
-  nx = 0;
-  if (R->size[0] > 1) {
-    if (rtIsNaN(R->data[0].re) || rtIsNaN(R->data[0].im)) {
-      sz_idx_0 = 2;
+  i0 = b_R->size[0];
+  b_R->size[0] = nm1d2;
+  emxEnsureCapacity((emxArray__common *)b_R, i0, (int)sizeof(creal_T));
+  for (i0 = 0; i0 < nm1d2; i0++) {
+    b_R->data[i0] = breathing->data[i0];
+  }
+
+  emxFree_creal_T(&breathing);
+  c_Fheartrate->data[0].re = 0.0;
+  c_Fheartrate->data[0].im = 0.0;
+  ixstart = 1;
+  nx = c_Fheartrate->size[0];
+  c_mtmp = c_Fheartrate->data[0];
+  calclen = 0;
+  if (c_Fheartrate->size[0] > 1) {
+    if (rtIsNaN(c_Fheartrate->data[0].re) || rtIsNaN(c_Fheartrate->data[0].im))
+    {
+      ix = 2;
       exitg2 = false;
-      while ((!exitg2) && (sz_idx_0 <= n)) {
-        calclen = sz_idx_0;
-        if (!(rtIsNaN(R->data[sz_idx_0 - 1].re) || rtIsNaN(R->data[sz_idx_0 - 1]
-              .im))) {
-          c_mtmp = R->data[sz_idx_0 - 1];
-          nx = sz_idx_0 - 1;
+      while ((!exitg2) && (ix <= nx)) {
+        ixstart = ix;
+        if (!(rtIsNaN(c_Fheartrate->data[ix - 1].re) || rtIsNaN
+              (c_Fheartrate->data[ix - 1].im))) {
+          c_mtmp = c_Fheartrate->data[ix - 1];
+          calclen = ix - 1;
           exitg2 = true;
         } else {
-          sz_idx_0++;
+          ix++;
         }
       }
     }
 
-    if (calclen < R->size[0]) {
-      while (calclen + 1 <= n) {
-        c_Fbreathing = R->data[calclen];
-        if (relop(c_Fbreathing, c_mtmp)) {
-          c_mtmp = R->data[calclen];
-          nx = calclen;
+    if (ixstart < c_Fheartrate->size[0]) {
+      while (ixstart + 1 <= nx) {
+        R = c_Fheartrate->data[ixstart];
+        if (b_relop(R, c_mtmp)) {
+          c_mtmp = c_Fheartrate->data[ixstart];
+          calclen = ixstart;
         }
 
-        calclen++;
+        ixstart++;
       }
     }
   }
 
-  emxFree_creal_T(&R);
-  *hr = 60.0 * freq->data[nx];
-  calclen = 1;
-  n = d_Fbreathing->size[0];
-  c_mtmp = d_Fbreathing->data[0];
-  nx = 0;
-  if (d_Fbreathing->size[0] > 1) {
-    if (rtIsNaN(d_Fbreathing->data[0].re) || rtIsNaN(d_Fbreathing->data[0].im))
-    {
-      sz_idx_0 = 2;
+  emxFree_creal_T(&c_Fheartrate);
+  *hr = 60.0 * freq->data[calclen];
+  ixstart = 1;
+  c_mtmp = b_R->data[0];
+  calclen = 0;
+  if (nm1d2 > 1) {
+    if (rtIsNaN(b_R->data[0].re) || rtIsNaN(b_R->data[0].im)) {
+      ix = 2;
       exitg1 = false;
-      while ((!exitg1) && (sz_idx_0 <= n)) {
-        calclen = sz_idx_0;
-        if (!(rtIsNaN(d_Fbreathing->data[sz_idx_0 - 1].re) || rtIsNaN
-              (d_Fbreathing->data[sz_idx_0 - 1].im))) {
-          c_mtmp = d_Fbreathing->data[sz_idx_0 - 1];
-          nx = sz_idx_0 - 1;
+      while ((!exitg1) && (ix <= nm1d2)) {
+        ixstart = ix;
+        if (!(rtIsNaN(b_R->data[ix - 1].re) || rtIsNaN(b_R->data[ix - 1].im))) {
+          c_mtmp = b_R->data[ix - 1];
+          calclen = ix - 1;
           exitg1 = true;
         } else {
-          sz_idx_0++;
+          ix++;
         }
       }
     }
 
-    if (calclen < d_Fbreathing->size[0]) {
-      while (calclen + 1 <= n) {
-        c_Fbreathing = d_Fbreathing->data[calclen];
-        if (relop(c_Fbreathing, c_mtmp)) {
-          c_mtmp = d_Fbreathing->data[calclen];
-          nx = calclen;
+    if (ixstart < nm1d2) {
+      while (ixstart + 1 <= nm1d2) {
+        R = b_R->data[ixstart];
+        if (b_relop(R, c_mtmp)) {
+          c_mtmp = b_R->data[ixstart];
+          calclen = ixstart;
         }
 
-        calclen++;
+        ixstart++;
       }
     }
   }
 
-  emxFree_creal_T(&d_Fbreathing);
-  *rr = 60.0 * freq->data[nx];
+  emxFree_creal_T(&b_R);
+  *rr = 60.0 * freq->data[calclen];
 
   /*  t = [0:numel(heartrate_best)-1] ./ 60; */
   /*  figure; */

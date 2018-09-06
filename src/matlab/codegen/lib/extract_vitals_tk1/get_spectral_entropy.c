@@ -5,7 +5,7 @@
  * File: get_spectral_entropy.c
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 06-Sep-2018 13:47:30
+ * C/C++ source code generated on  : 06-Sep-2018 14:56:40
  */
 
 /* Include Files */
@@ -28,7 +28,7 @@ void get_spectral_entropy(emxArray_creal_T *power_range, emxArray_creal_T *entr)
 {
   int vlen;
   emxArray_creal_T *y;
-  int i7;
+  int i8;
   int asub;
   int xoffset;
   emxArray_creal_T *a;
@@ -37,47 +37,47 @@ void get_spectral_entropy(emxArray_creal_T *power_range, emxArray_creal_T *entr)
   int k;
   int na1;
   emxArray_creal_T *av;
-  emxArray_boolean_T *r2;
+  emxArray_boolean_T *r3;
   int bsub;
   int ak;
   int bk;
   int nc1;
   int ck;
-  emxArray_boolean_T *r3;
+  emxArray_boolean_T *r4;
   emxArray_creal_T *cv;
   double y_re;
   double y_im;
   double av_re;
   double av_im;
   double brm;
-  emxArray_int32_T *r4;
+  emxArray_int32_T *r5;
   unsigned int uv0[2];
 
   /*  Get normalized entropy from spectral power range. */
   if (power_range->size[0] == 1) {
     vlen = power_range->size[1];
-    i7 = power_range->size[0] * power_range->size[1];
+    i8 = power_range->size[0] * power_range->size[1];
     power_range->size[0] = vlen;
     power_range->size[1] = 1;
-    emxEnsureCapacity((emxArray__common *)power_range, i7, (int)sizeof(creal_T));
+    emxEnsureCapacity((emxArray__common *)power_range, i8, (int)sizeof(creal_T));
   }
 
   emxInit_creal_T(&y, 2);
 
   /*    A = sqrt(power_range); */
   /*  Make spectrum a PDF */
-  i7 = y->size[0] * y->size[1];
+  i8 = y->size[0] * y->size[1];
   y->size[0] = 1;
   y->size[1] = power_range->size[1];
-  emxEnsureCapacity((emxArray__common *)y, i7, (int)sizeof(creal_T));
+  emxEnsureCapacity((emxArray__common *)y, i8, (int)sizeof(creal_T));
   if ((power_range->size[0] == 0) || (power_range->size[1] == 0)) {
-    i7 = y->size[0] * y->size[1];
+    i8 = y->size[0] * y->size[1];
     y->size[0] = 1;
-    emxEnsureCapacity((emxArray__common *)y, i7, (int)sizeof(creal_T));
+    emxEnsureCapacity((emxArray__common *)y, i8, (int)sizeof(creal_T));
     vlen = y->size[1];
-    for (i7 = 0; i7 < vlen; i7++) {
-      y->data[y->size[0] * i7].re = 0.0;
-      y->data[y->size[0] * i7].im = 0.0;
+    for (i8 = 0; i8 < vlen; i8++) {
+      y->data[y->size[0] * i8].re = 0.0;
+      y->data[y->size[0] * i8].im = 0.0;
     }
   } else {
     vlen = power_range->size[0];
@@ -96,13 +96,13 @@ void get_spectral_entropy(emxArray_creal_T *power_range, emxArray_creal_T *entr)
   }
 
   emxInit_creal_T(&a, 2);
-  i7 = a->size[0] * a->size[1];
+  i8 = a->size[0] * a->size[1];
   a->size[0] = power_range->size[0];
   a->size[1] = power_range->size[1];
-  emxEnsureCapacity((emxArray__common *)a, i7, (int)sizeof(creal_T));
+  emxEnsureCapacity((emxArray__common *)a, i8, (int)sizeof(creal_T));
   vlen = power_range->size[0] * power_range->size[1];
-  for (i7 = 0; i7 < vlen; i7++) {
-    a->data[i7] = power_range->data[i7];
+  for (i8 = 0; i8 < vlen; i8++) {
+    a->data[i8] = power_range->data[i8];
   }
 
   na1 = power_range->size[0];
@@ -113,24 +113,24 @@ void get_spectral_entropy(emxArray_creal_T *power_range, emxArray_creal_T *entr)
     xoffset = y->size[1];
   }
 
-  i7 = power_range->size[0] * power_range->size[1];
+  i8 = power_range->size[0] * power_range->size[1];
   power_range->size[0] = vlen;
   power_range->size[1] = xoffset;
-  emxEnsureCapacity((emxArray__common *)power_range, i7, (int)sizeof(creal_T));
+  emxEnsureCapacity((emxArray__common *)power_range, i8, (int)sizeof(creal_T));
   if (!((power_range->size[0] == 0) || (power_range->size[1] == 0))) {
     emxInit_creal_T1(&av, 1);
-    i7 = av->size[0];
+    i8 = av->size[0];
     av->size[0] = na1;
-    emxEnsureCapacity((emxArray__common *)av, i7, (int)sizeof(creal_T));
+    emxEnsureCapacity((emxArray__common *)av, i8, (int)sizeof(creal_T));
     asub = 1;
     bsub = 1;
     ak = -1;
     bk = 0;
     nc1 = power_range->size[0];
-    i7 = power_range->size[0] * power_range->size[1] - power_range->size[0];
+    i8 = power_range->size[0] * power_range->size[1] - power_range->size[0];
     ck = 0;
     emxInit_creal_T1(&cv, 1);
-    while (ck <= i7) {
+    while (ck <= i8) {
       for (k = 1; k <= na1; k++) {
         av->data[k - 1] = a->data[ak + k];
       }
@@ -223,86 +223,86 @@ void get_spectral_entropy(emxArray_creal_T *power_range, emxArray_creal_T *entr)
   }
 
   emxFree_creal_T(&y);
-  emxInit_boolean_T(&r2, 2);
+  emxInit_boolean_T(&r3, 2);
 
   /*  Happens when whole spectrum range has 0 power. */
-  i7 = r2->size[0] * r2->size[1];
-  r2->size[0] = power_range->size[0];
-  r2->size[1] = power_range->size[1];
-  emxEnsureCapacity((emxArray__common *)r2, i7, (int)sizeof(boolean_T));
-  vlen = power_range->size[0] * power_range->size[1];
-  for (i7 = 0; i7 < vlen; i7++) {
-    r2->data[i7] = rtIsNaN(power_range->data[i7].re);
-  }
-
-  emxInit_boolean_T(&r3, 2);
-  i7 = r3->size[0] * r3->size[1];
+  i8 = r3->size[0] * r3->size[1];
   r3->size[0] = power_range->size[0];
   r3->size[1] = power_range->size[1];
-  emxEnsureCapacity((emxArray__common *)r3, i7, (int)sizeof(boolean_T));
+  emxEnsureCapacity((emxArray__common *)r3, i8, (int)sizeof(boolean_T));
   vlen = power_range->size[0] * power_range->size[1];
-  for (i7 = 0; i7 < vlen; i7++) {
-    r3->data[i7] = rtIsNaN(power_range->data[i7].im);
+  for (i8 = 0; i8 < vlen; i8++) {
+    r3->data[i8] = rtIsNaN(power_range->data[i8].re);
   }
 
-  i7 = r2->size[0] * r2->size[1];
-  emxEnsureCapacity((emxArray__common *)r2, i7, (int)sizeof(boolean_T));
-  i7 = r2->size[0];
-  xoffset = r2->size[1];
-  vlen = i7 * xoffset;
-  for (i7 = 0; i7 < vlen; i7++) {
-    r2->data[i7] = (r2->data[i7] || r3->data[i7]);
+  emxInit_boolean_T(&r4, 2);
+  i8 = r4->size[0] * r4->size[1];
+  r4->size[0] = power_range->size[0];
+  r4->size[1] = power_range->size[1];
+  emxEnsureCapacity((emxArray__common *)r4, i8, (int)sizeof(boolean_T));
+  vlen = power_range->size[0] * power_range->size[1];
+  for (i8 = 0; i8 < vlen; i8++) {
+    r4->data[i8] = rtIsNaN(power_range->data[i8].im);
   }
 
-  i7 = r3->size[0] * r3->size[1];
-  r3->size[0] = power_range->size[0];
-  r3->size[1] = power_range->size[1];
-  emxEnsureCapacity((emxArray__common *)r3, i7, (int)sizeof(boolean_T));
+  i8 = r3->size[0] * r3->size[1];
+  emxEnsureCapacity((emxArray__common *)r3, i8, (int)sizeof(boolean_T));
+  i8 = r3->size[0];
+  xoffset = r3->size[1];
+  vlen = i8 * xoffset;
+  for (i8 = 0; i8 < vlen; i8++) {
+    r3->data[i8] = (r3->data[i8] || r4->data[i8]);
+  }
+
+  i8 = r4->size[0] * r4->size[1];
+  r4->size[0] = power_range->size[0];
+  r4->size[1] = power_range->size[1];
+  emxEnsureCapacity((emxArray__common *)r4, i8, (int)sizeof(boolean_T));
   vlen = power_range->size[0] * power_range->size[1];
-  for (i7 = 0; i7 < vlen; i7++) {
-    r3->data[i7] = ((power_range->data[i7].re == 0.0) && (power_range->data[i7].
+  for (i8 = 0; i8 < vlen; i8++) {
+    r4->data[i8] = ((power_range->data[i8].re == 0.0) && (power_range->data[i8].
       im == 0.0));
   }
 
-  emxInit_int32_T(&r4, 1);
-  xoffset = r2->size[0] * r2->size[1] - 1;
+  emxInit_int32_T(&r5, 1);
+  xoffset = r3->size[0] * r3->size[1] - 1;
   vlen = 0;
   for (asub = 0; asub <= xoffset; asub++) {
-    if (r2->data[asub] || r3->data[asub]) {
+    if (r3->data[asub] || r4->data[asub]) {
       vlen++;
     }
   }
 
-  i7 = r4->size[0];
-  r4->size[0] = vlen;
-  emxEnsureCapacity((emxArray__common *)r4, i7, (int)sizeof(int));
+  i8 = r5->size[0];
+  r5->size[0] = vlen;
+  emxEnsureCapacity((emxArray__common *)r5, i8, (int)sizeof(int));
   vlen = 0;
   for (asub = 0; asub <= xoffset; asub++) {
-    if (r2->data[asub] || r3->data[asub]) {
-      r4->data[vlen] = asub + 1;
+    if (r3->data[asub] || r4->data[asub]) {
+      r5->data[vlen] = asub + 1;
       vlen++;
     }
   }
 
+  emxFree_boolean_T(&r4);
   emxFree_boolean_T(&r3);
-  emxFree_boolean_T(&r2);
-  vlen = r4->size[0];
-  for (i7 = 0; i7 < vlen; i7++) {
-    power_range->data[r4->data[i7] - 1].re = 1.0E-100;
-    power_range->data[r4->data[i7] - 1].im = 0.0;
+  vlen = r5->size[0];
+  for (i8 = 0; i8 < vlen; i8++) {
+    power_range->data[r5->data[i8] - 1].re = 1.0E-100;
+    power_range->data[r5->data[i8] - 1].im = 0.0;
   }
 
-  emxFree_int32_T(&r4);
+  emxFree_int32_T(&r5);
 
   /*  Use normalized entropy. */
-  for (i7 = 0; i7 < 2; i7++) {
-    uv0[i7] = (unsigned int)power_range->size[i7];
+  for (i8 = 0; i8 < 2; i8++) {
+    uv0[i8] = (unsigned int)power_range->size[i8];
   }
 
-  i7 = a->size[0] * a->size[1];
+  i8 = a->size[0] * a->size[1];
   a->size[0] = (int)uv0[0];
   a->size[1] = (int)uv0[1];
-  emxEnsureCapacity((emxArray__common *)a, i7, (int)sizeof(creal_T));
+  emxEnsureCapacity((emxArray__common *)a, i8, (int)sizeof(creal_T));
   vlen = power_range->size[0] * power_range->size[1];
   for (k = 0; k + 1 <= vlen; k++) {
     if ((power_range->data[k].im == 0.0) && rtIsNaN(power_range->data[k].re)) {
@@ -325,32 +325,32 @@ void get_spectral_entropy(emxArray_creal_T *power_range, emxArray_creal_T *entr)
     a->data[k].im = s_im;
   }
 
-  i7 = a->size[0] * a->size[1];
+  i8 = a->size[0] * a->size[1];
   a->size[0] = power_range->size[0];
   a->size[1] = power_range->size[1];
-  emxEnsureCapacity((emxArray__common *)a, i7, (int)sizeof(creal_T));
+  emxEnsureCapacity((emxArray__common *)a, i8, (int)sizeof(creal_T));
   vlen = power_range->size[0] * power_range->size[1];
-  for (i7 = 0; i7 < vlen; i7++) {
-    s_re = power_range->data[i7].re;
-    s_im = power_range->data[i7].im;
-    brm = a->data[i7].re;
-    y_re = a->data[i7].im;
-    a->data[i7].re = s_re * brm - s_im * y_re;
-    a->data[i7].im = s_re * y_re + s_im * brm;
+  for (i8 = 0; i8 < vlen; i8++) {
+    s_re = power_range->data[i8].re;
+    s_im = power_range->data[i8].im;
+    brm = a->data[i8].re;
+    y_re = a->data[i8].im;
+    a->data[i8].re = s_re * brm - s_im * y_re;
+    a->data[i8].im = s_re * y_re + s_im * brm;
   }
 
-  i7 = entr->size[0] * entr->size[1];
+  i8 = entr->size[0] * entr->size[1];
   entr->size[0] = 1;
   entr->size[1] = a->size[1];
-  emxEnsureCapacity((emxArray__common *)entr, i7, (int)sizeof(creal_T));
+  emxEnsureCapacity((emxArray__common *)entr, i8, (int)sizeof(creal_T));
   if ((a->size[0] == 0) || (a->size[1] == 0)) {
-    i7 = entr->size[0] * entr->size[1];
+    i8 = entr->size[0] * entr->size[1];
     entr->size[0] = 1;
-    emxEnsureCapacity((emxArray__common *)entr, i7, (int)sizeof(creal_T));
+    emxEnsureCapacity((emxArray__common *)entr, i8, (int)sizeof(creal_T));
     vlen = entr->size[1];
-    for (i7 = 0; i7 < vlen; i7++) {
-      entr->data[entr->size[0] * i7].re = 0.0;
-      entr->data[entr->size[0] * i7].im = 0.0;
+    for (i8 = 0; i8 < vlen; i8++) {
+      entr->data[entr->size[0] * i8].re = 0.0;
+      entr->data[entr->size[0] * i8].im = 0.0;
     }
   } else {
     vlen = a->size[0];
@@ -370,24 +370,24 @@ void get_spectral_entropy(emxArray_creal_T *power_range, emxArray_creal_T *entr)
 
   emxFree_creal_T(&a);
   s_re = scalar_real_log2(power_range->size[0]);
-  i7 = entr->size[0] * entr->size[1];
+  i8 = entr->size[0] * entr->size[1];
   entr->size[0] = 1;
-  emxEnsureCapacity((emxArray__common *)entr, i7, (int)sizeof(creal_T));
+  emxEnsureCapacity((emxArray__common *)entr, i8, (int)sizeof(creal_T));
   vlen = entr->size[0];
   xoffset = entr->size[1];
   vlen *= xoffset;
-  for (i7 = 0; i7 < vlen; i7++) {
-    s_im = -entr->data[i7].re;
-    brm = -entr->data[i7].im;
+  for (i8 = 0; i8 < vlen; i8++) {
+    s_im = -entr->data[i8].re;
+    brm = -entr->data[i8].im;
     if (brm == 0.0) {
-      entr->data[i7].re = s_im / s_re;
-      entr->data[i7].im = 0.0;
+      entr->data[i8].re = s_im / s_re;
+      entr->data[i8].im = 0.0;
     } else if (s_im == 0.0) {
-      entr->data[i7].re = 0.0;
-      entr->data[i7].im = brm / s_re;
+      entr->data[i8].re = 0.0;
+      entr->data[i8].im = brm / s_re;
     } else {
-      entr->data[i7].re = s_im / s_re;
-      entr->data[i7].im = brm / s_re;
+      entr->data[i8].re = s_im / s_re;
+      entr->data[i8].im = brm / s_re;
     }
   }
 

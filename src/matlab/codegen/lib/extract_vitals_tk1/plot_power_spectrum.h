@@ -5,7 +5,7 @@
  * File: plot_power_spectrum.h
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 06-Sep-2018 13:47:30
+ * C/C++ source code generated on  : 06-Sep-2018 14:56:40
  */
 
 #ifndef PLOT_POWER_SPECTRUM_H
@@ -22,9 +22,7 @@
 #include "extract_vitals_tk1_types.h"
 
 /* Function Declarations */
-extern void b_plot_power_spectrum(const emxArray_real_T *y, double sampling_rate,
-  emxArray_real_T *freq, emxArray_creal_T *power);
-extern void plot_power_spectrum(const emxArray_creal_T *y, double sampling_rate,
+extern void plot_power_spectrum(const emxArray_real_T *y, double sampling_rate,
   emxArray_real_T *freq, emxArray_creal_T *power);
 
 #endif

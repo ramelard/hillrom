@@ -5,7 +5,7 @@
  * File: permute.c
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 06-Sep-2018 13:47:30
+ * C/C++ source code generated on  : 06-Sep-2018 14:56:40
  */
 
 /* Include Files */
@@ -74,7 +74,7 @@ void b_permute(const emxArray_real_T *a, emxArray_real_T *b)
   int iwork[3];
   int k;
   int inc[3];
-  static const signed char iv2[3] = { 2, 0, 1 };
+  static const signed char iv1[3] = { 2, 0, 1 };
 
   int isrc;
   int exitg1;
@@ -105,7 +105,7 @@ void b_permute(const emxArray_real_T *a, emxArray_real_T *b)
     }
 
     for (idest = 0; idest < 3; idest++) {
-      inc[idest] = iwork[iv2[idest]];
+      inc[idest] = iwork[iv1[idest]];
     }
 
     for (idest = 0; idest < 3; idest++) {
@@ -157,7 +157,7 @@ void permute(const emxArray_real_T *a, emxArray_real_T *b)
   int iwork[3];
   int k;
   int inc[3];
-  static const signed char iv1[3] = { 1, 2, 0 };
+  static const signed char iv0[3] = { 1, 2, 0 };
 
   int isrc;
   int exitg1;
@@ -188,7 +188,7 @@ void permute(const emxArray_real_T *a, emxArray_real_T *b)
     }
 
     for (idest = 0; idest < 3; idest++) {
-      inc[idest] = iwork[iv1[idest]];
+      inc[idest] = iwork[iv0[idest]];
     }
 
     for (idest = 0; idest < 3; idest++) {

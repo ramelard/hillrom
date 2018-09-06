@@ -17,7 +17,7 @@
 <a name="5"><font color="#888888 "><i>    5   </i></font></a><font color="#117755"><I> * File: permute.c</i></font>
 <a name="6"><font color="#888888 "><i>    6   </i></font></a><font color="#117755"><I> *</i></font>
 <a name="7"><font color="#888888 "><i>    7   </i></font></a><font color="#117755"><I> * MATLAB Coder version            : 3.2</i></font>
-<a name="8"><font color="#888888 "><i>    8   </i></font></a><font color="#117755"><I> * C/C++ source code generated on  : 06-Sep-2018 13:47:30</i></font>
+<a name="8"><font color="#888888 "><i>    8   </i></font></a><font color="#117755"><I> * C/C++ source code generated on  : 06-Sep-2018 14:56:40</i></font>
 <a name="9"><font color="#888888 "><i>    9   </i></font></a><font color="#117755"><I> */</i></font>
 <a name="10"><font color="#888888 "><i>   10   </i></font></a>
 <a name="11"><font color="#888888 "><i>   11   </i></font></a><font color="#117755"><i>/* Include Files */</i></font>
@@ -86,7 +86,7 @@
 <a name="74"><font color="#888888 "><i>   74   </i></font></a>  <font color="#112266"><b>int</b></font> iwork[3];
 <a name="75"><font color="#888888 "><i>   75   </i></font></a>  <font color="#112266"><b>int</b></font> k;
 <a name="76"><font color="#888888 "><i>   76   </i></font></a>  <font color="#112266"><b>int</b></font> inc[3];
-<a name="77"><font color="#888888 "><i>   77   </i></font></a>  <font color="#112266"><b>static</b></font> <font color="#112266"><b>const</b></font> <font color="#112266"><b>signed</b></font> <font color="#112266"><b>char</b></font> iv2[3] = <b>{</b> 2, 0, 1 <b>}</b>;
+<a name="77"><font color="#888888 "><i>   77   </i></font></a>  <font color="#112266"><b>static</b></font> <font color="#112266"><b>const</b></font> <font color="#112266"><b>signed</b></font> <font color="#112266"><b>char</b></font> iv1[3] = <b>{</b> 2, 0, 1 <b>}</b>;
 <a name="78"><font color="#888888 "><i>   78   </i></font></a>
 <a name="79"><font color="#888888 "><i>   79   </i></font></a>  <font color="#112266"><b>int</b></font> isrc;
 <a name="80"><font color="#888888 "><i>   80   </i></font></a>  <font color="#112266"><b>int</b></font> exitg1;
@@ -117,7 +117,7 @@
 <a name="105"><font color="#888888 "><i>  105   </i></font></a>    <b>}</b>
 <a name="106"><font color="#888888 "><i>  106   </i></font></a>
 <a name="107"><font color="#888888 "><i>  107   </i></font></a>    <font color="#112266"><b>for</b></font> (idest = 0; idest &lt; 3; idest++) <b>{</b>
-<a name="108"><font color="#888888 "><i>  108   </i></font></a>      inc[idest] = iwork[iv2[idest]];
+<a name="108"><font color="#888888 "><i>  108   </i></font></a>      inc[idest] = iwork[iv1[idest]];
 <a name="109"><font color="#888888 "><i>  109   </i></font></a>    <b>}</b>
 <a name="110"><font color="#888888 "><i>  110   </i></font></a>
 <a name="111"><font color="#888888 "><i>  111   </i></font></a>    <font color="#112266"><b>for</b></font> (idest = 0; idest &lt; 3; idest++) <b>{</b>
@@ -169,7 +169,7 @@
 <a name="157"><font color="#888888 "><i>  157   </i></font></a>  <font color="#112266"><b>int</b></font> iwork[3];
 <a name="158"><font color="#888888 "><i>  158   </i></font></a>  <font color="#112266"><b>int</b></font> k;
 <a name="159"><font color="#888888 "><i>  159   </i></font></a>  <font color="#112266"><b>int</b></font> inc[3];
-<a name="160"><font color="#888888 "><i>  160   </i></font></a>  <font color="#112266"><b>static</b></font> <font color="#112266"><b>const</b></font> <font color="#112266"><b>signed</b></font> <font color="#112266"><b>char</b></font> iv1[3] = <b>{</b> 1, 2, 0 <b>}</b>;
+<a name="160"><font color="#888888 "><i>  160   </i></font></a>  <font color="#112266"><b>static</b></font> <font color="#112266"><b>const</b></font> <font color="#112266"><b>signed</b></font> <font color="#112266"><b>char</b></font> iv0[3] = <b>{</b> 1, 2, 0 <b>}</b>;
 <a name="161"><font color="#888888 "><i>  161   </i></font></a>
 <a name="162"><font color="#888888 "><i>  162   </i></font></a>  <font color="#112266"><b>int</b></font> isrc;
 <a name="163"><font color="#888888 "><i>  163   </i></font></a>  <font color="#112266"><b>int</b></font> exitg1;
@@ -200,7 +200,7 @@
 <a name="188"><font color="#888888 "><i>  188   </i></font></a>    <b>}</b>
 <a name="189"><font color="#888888 "><i>  189   </i></font></a>
 <a name="190"><font color="#888888 "><i>  190   </i></font></a>    <font color="#112266"><b>for</b></font> (idest = 0; idest &lt; 3; idest++) <b>{</b>
-<a name="191"><font color="#888888 "><i>  191   </i></font></a>      inc[idest] = iwork[iv1[idest]];
+<a name="191"><font color="#888888 "><i>  191   </i></font></a>      inc[idest] = iwork[iv0[idest]];
 <a name="192"><font color="#888888 "><i>  192   </i></font></a>    <b>}</b>
 <a name="193"><font color="#888888 "><i>  193   </i></font></a>
 <a name="194"><font color="#888888 "><i>  194   </i></font></a>    <font color="#112266"><b>for</b></font> (idest = 0; idest &lt; 3; idest++) <b>{</b>

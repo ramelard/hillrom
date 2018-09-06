@@ -17,7 +17,7 @@
 <a name="5"><font color="#888888 "><i>    5   </i></font></a><font color="#117755"><I> * File: plot_power_spectrum.c</i></font>
 <a name="6"><font color="#888888 "><i>    6   </i></font></a><font color="#117755"><I> *</i></font>
 <a name="7"><font color="#888888 "><i>    7   </i></font></a><font color="#117755"><I> * MATLAB Coder version            : 3.2</i></font>
-<a name="8"><font color="#888888 "><i>    8   </i></font></a><font color="#117755"><I> * C/C++ source code generated on  : 06-Sep-2018 13:47:30</i></font>
+<a name="8"><font color="#888888 "><i>    8   </i></font></a><font color="#117755"><I> * C/C++ source code generated on  : 06-Sep-2018 14:56:40</i></font>
 <a name="9"><font color="#888888 "><i>    9   </i></font></a><font color="#117755"><I> */</i></font>
 <a name="10"><font color="#888888 "><i>   10   </i></font></a>
 <a name="11"><font color="#888888 "><i>   11   </i></font></a><font color="#117755"><i>/* Include Files */</i></font>
@@ -36,7 +36,7 @@
 <a name="24"><font color="#888888 "><i>   24   </i></font></a><font color="#117755"><I> *                emxArray_creal_T *power</i></font>
 <a name="25"><font color="#888888 "><i>   25   </i></font></a><font color="#117755"><I> * Return Type  : void</i></font>
 <a name="26"><font color="#888888 "><i>   26   </i></font></a><font color="#117755"><I> */</i></font>
-<a name="27"><font color="#888888 "><i>   27   </i></font></a><font color="#112266"><b>void</b></font> <a name="fcn_b_plot_power_spectrum">b_plot_power_spectrum</a>(<font color="#112266"><b>const</b></font> <a href="extract_vitals_tk1_types_h.html#type_emxArray_real_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray_real_T');" target="_self"><font color="#1122aa">emxArray_real_T</font></a> *y, <font color="#112266"><b>double</b></font> sampling_rate,
+<a name="27"><font color="#888888 "><i>   27   </i></font></a><font color="#112266"><b>void</b></font> <a name="fcn_plot_power_spectrum">plot_power_spectrum</a>(<font color="#112266"><b>const</b></font> <a href="extract_vitals_tk1_types_h.html#type_emxArray_real_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray_real_T');" target="_self"><font color="#1122aa">emxArray_real_T</font></a> *y, <font color="#112266"><b>double</b></font> sampling_rate,
 <a name="28"><font color="#888888 "><i>   28   </i></font></a>  <a href="extract_vitals_tk1_types_h.html#type_emxArray_real_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray_real_T');" target="_self"><font color="#1122aa">emxArray_real_T</font></a> *freq, <a href="extract_vitals_tk1_types_h.html#type_emxArray_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray_creal_T');" target="_self"><font color="#1122aa">emxArray_creal_T</font></a> *power)
 <a name="29"><font color="#888888 "><i>   29   </i></font></a><b>{</b>
 <a name="30"><font color="#888888 "><i>   30   </i></font></a>  <a href="extract_vitals_tk1_types_h.html#type_emxArray_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray_creal_T');" target="_self"><font color="#1122aa">emxArray_creal_T</font></a> *Y;
@@ -65,7 +65,7 @@
 <a name="53"><font color="#888888 "><i>   53   </i></font></a>  c_y = *y;
 <a name="54"><font color="#888888 "><i>   54   </i></font></a>  c_y.size = (<font color="#112266"><b>int</b></font> *)&amp;b_y;
 <a name="55"><font color="#888888 "><i>   55   </i></font></a>  c_y.numDimensions = 1;
-<a name="56"><font color="#888888 "><i>   56   </i></font></a>  <a href="fft_c.html#fcn_d_fft" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_d_fft');" target="_self"><font color="#1122aa">d_fft</font></a>(&amp;c_y, y_idx_0, Y);
+<a name="56"><font color="#888888 "><i>   56   </i></font></a>  <a href="fft_c.html#fcn_c_fft" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_c_fft');" target="_self"><font color="#1122aa">c_fft</font></a>(&amp;c_y, y_idx_0, Y);
 <a name="57"><font color="#888888 "><i>   57   </i></font></a>
 <a name="58"><font color="#888888 "><i>   58   </i></font></a>  <font color="#117755"><i>/*  power = (a^2+b^2)/N */</i></font>
 <a name="59"><font color="#888888 "><i>   59   </i></font></a>  <font color="#117755"><i>/*  Should be same as 1/N*abs(Y)^2 */</i></font>
@@ -140,131 +140,11 @@
 <a name="128"><font color="#888888 "><i>  128   </i></font></a><b>}</b>
 <a name="129"><font color="#888888 "><i>  129   </i></font></a>
 <a name="130"><font color="#888888 "><i>  130   </i></font></a><font color="#117755"><i>/*</i></font>
-<a name="131"><font color="#888888 "><i>  131   </i></font></a><font color="#117755"><I> * Arguments    : const emxArray_creal_T *y</i></font>
-<a name="132"><font color="#888888 "><i>  132   </i></font></a><font color="#117755"><I> *                double sampling_rate</i></font>
-<a name="133"><font color="#888888 "><i>  133   </i></font></a><font color="#117755"><I> *                emxArray_real_T *freq</i></font>
-<a name="134"><font color="#888888 "><i>  134   </i></font></a><font color="#117755"><I> *                emxArray_creal_T *power</i></font>
-<a name="135"><font color="#888888 "><i>  135   </i></font></a><font color="#117755"><I> * Return Type  : void</i></font>
-<a name="136"><font color="#888888 "><i>  136   </i></font></a><font color="#117755"><I> */</i></font>
-<a name="137"><font color="#888888 "><i>  137   </i></font></a><font color="#112266"><b>void</b></font> <a name="fcn_plot_power_spectrum">plot_power_spectrum</a>(<font color="#112266"><b>const</b></font> <a href="extract_vitals_tk1_types_h.html#type_emxArray_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray_creal_T');" target="_self"><font color="#1122aa">emxArray_creal_T</font></a> *y, <font color="#112266"><b>double</b></font> sampling_rate,
-<a name="138"><font color="#888888 "><i>  138   </i></font></a>  <a href="extract_vitals_tk1_types_h.html#type_emxArray_real_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray_real_T');" target="_self"><font color="#1122aa">emxArray_real_T</font></a> *freq, <a href="extract_vitals_tk1_types_h.html#type_emxArray_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray_creal_T');" target="_self"><font color="#1122aa">emxArray_creal_T</font></a> *power)
-<a name="139"><font color="#888888 "><i>  139   </i></font></a><b>{</b>
-<a name="140"><font color="#888888 "><i>  140   </i></font></a>  <a href="extract_vitals_tk1_types_h.html#type_emxArray_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray_creal_T');" target="_self"><font color="#1122aa">emxArray_creal_T</font></a> *sigs;
-<a name="141"><font color="#888888 "><i>  141   </i></font></a>  <font color="#112266"><b>int</b></font> i10;
-<a name="142"><font color="#888888 "><i>  142   </i></font></a>  <font color="#112266"><b>int</b></font> loop_ub;
-<a name="143"><font color="#888888 "><i>  143   </i></font></a>  <a href="extract_vitals_tk1_types_h.html#type_emxArray_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray_creal_T');" target="_self"><font color="#1122aa">emxArray_creal_T</font></a> *Y;
-<a name="144"><font color="#888888 "><i>  144   </i></font></a>  <font color="#112266"><b>int</b></font> sigs_re;
-<a name="145"><font color="#888888 "><i>  145   </i></font></a>  <font color="#112266"><b>double</b></font> b_y;
-<a name="146"><font color="#888888 "><i>  146   </i></font></a>  <font color="#112266"><b>double</b></font> c_y;
-<a name="147"><font color="#888888 "><i>  147   </i></font></a>  <font color="#112266"><b>double</b></font> Y_re;
-<a name="148"><font color="#888888 "><i>  148   </i></font></a>
-<a name="149"><font color="#888888 "><i>  149   </i></font></a>  <font color="#117755"><i>/* PLOT_POWER_SPECTRUM Plot frequency power spectrum */</i></font>
-<a name="150"><font color="#888888 "><i>  150   </i></font></a>  <font color="#117755"><i>/*  */</i></font>
-<a name="151"><font color="#888888 "><i>  151   </i></font></a>  <font color="#117755"><i>/*  [freq,fpower] = plot_power_spectrum(y, sampling_rate) */</i></font>
-<a name="152"><font color="#888888 "><i>  152   </i></font></a>  <font color="#117755"><i>/*  */</i></font>
-<a name="153"><font color="#888888 "><i>  153   </i></font></a>  <font color="#117755"><i>/*  From http://www.mathworks.com/products/matlab/examples.html?file=/products/demos/shipping/matlab/fftdemo.html */</i></font>
-<a name="154"><font color="#888888 "><i>  154   </i></font></a>  <font color="#117755"><i>/*  y - signal (columns are observations) */</i></font>
-<a name="155"><font color="#888888 "><i>  155   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxInit_creal_T1" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxInit_creal_T1');" target="_self"><font color="#1122aa">emxInit_creal_T1</font></a>(&amp;sigs, 1);
-<a name="156"><font color="#888888 "><i>  156   </i></font></a>  <font color="#112266"><b>if</b></font> (y-&gt;size[0] == 1) <b>{</b>
-<a name="157"><font color="#888888 "><i>  157   </i></font></a>    i10 = sigs-&gt;size[0];
-<a name="158"><font color="#888888 "><i>  158   </i></font></a>    sigs-&gt;size[0] = 1;
-<a name="159"><font color="#888888 "><i>  159   </i></font></a>    <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)sigs, i10, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_creal_T');" target="_self"><font color="#1122aa">creal_T</font></a>));
-<a name="160"><font color="#888888 "><i>  160   </i></font></a>    sigs-&gt;data[0] = y-&gt;data[0];
-<a name="161"><font color="#888888 "><i>  161   </i></font></a>  <b>}</b> <font color="#112266"><b>else</b></font> <b>{</b>
-<a name="162"><font color="#888888 "><i>  162   </i></font></a>    i10 = sigs-&gt;size[0];
-<a name="163"><font color="#888888 "><i>  163   </i></font></a>    sigs-&gt;size[0] = y-&gt;size[0];
-<a name="164"><font color="#888888 "><i>  164   </i></font></a>    <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)sigs, i10, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_creal_T');" target="_self"><font color="#1122aa">creal_T</font></a>));
-<a name="165"><font color="#888888 "><i>  165   </i></font></a>    loop_ub = y-&gt;size[0];
-<a name="166"><font color="#888888 "><i>  166   </i></font></a>    <font color="#112266"><b>for</b></font> (i10 = 0; i10 &lt; loop_ub; i10++) <b>{</b>
-<a name="167"><font color="#888888 "><i>  167   </i></font></a>      sigs-&gt;data[i10] = y-&gt;data[i10];
-<a name="168"><font color="#888888 "><i>  168   </i></font></a>    <b>}</b>
-<a name="169"><font color="#888888 "><i>  169   </i></font></a>  <b>}</b>
-<a name="170"><font color="#888888 "><i>  170   </i></font></a>
-<a name="171"><font color="#888888 "><i>  171   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxInit_creal_T1" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxInit_creal_T1');" target="_self"><font color="#1122aa">emxInit_creal_T1</font></a>(&amp;Y, 1);
-<a name="172"><font color="#888888 "><i>  172   </i></font></a>
-<a name="173"><font color="#888888 "><i>  173   </i></font></a>  <font color="#117755"><i>/*  if size(y,2) &gt; size(y,1) */</i></font>
-<a name="174"><font color="#888888 "><i>  174   </i></font></a>  <font color="#117755"><i>/*    warning(sprintf('Are you sure columns are observations? (r%u,c%u)', size(y,1), size(y,2))) */</i></font>
-<a name="175"><font color="#888888 "><i>  175   </i></font></a>  <font color="#117755"><i>/*  end */</i></font>
-<a name="176"><font color="#888888 "><i>  176   </i></font></a>  <font color="#117755"><i>/*  npts = numel(y); */</i></font>
-<a name="177"><font color="#888888 "><i>  177   </i></font></a>  <a href="fft_c.html#fcn_c_fft" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_c_fft');" target="_self"><font color="#1122aa">c_fft</font></a>(sigs, sigs-&gt;size[0], Y);
-<a name="178"><font color="#888888 "><i>  178   </i></font></a>
-<a name="179"><font color="#888888 "><i>  179   </i></font></a>  <font color="#117755"><i>/*  power = (a^2+b^2)/N */</i></font>
-<a name="180"><font color="#888888 "><i>  180   </i></font></a>  <font color="#117755"><i>/*  Should be same as 1/N*abs(Y)^2 */</i></font>
-<a name="181"><font color="#888888 "><i>  181   </i></font></a>  sigs_re = sigs-&gt;size[0];
-<a name="182"><font color="#888888 "><i>  182   </i></font></a>  i10 = Y-&gt;size[0];
-<a name="183"><font color="#888888 "><i>  183   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)Y, i10, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_creal_T');" target="_self"><font color="#1122aa">creal_T</font></a>));
-<a name="184"><font color="#888888 "><i>  184   </i></font></a>  loop_ub = Y-&gt;size[0];
-<a name="185"><font color="#888888 "><i>  185   </i></font></a>  <font color="#112266"><b>for</b></font> (i10 = 0; i10 &lt; loop_ub; i10++) <b>{</b>
-<a name="186"><font color="#888888 "><i>  186   </i></font></a>    b_y = Y-&gt;data[i10].re;
-<a name="187"><font color="#888888 "><i>  187   </i></font></a>    c_y = -Y-&gt;data[i10].im;
-<a name="188"><font color="#888888 "><i>  188   </i></font></a>    Y_re = Y-&gt;data[i10].re * b_y - Y-&gt;data[i10].im * c_y;
-<a name="189"><font color="#888888 "><i>  189   </i></font></a>    c_y = Y-&gt;data[i10].re * c_y + Y-&gt;data[i10].im * b_y;
-<a name="190"><font color="#888888 "><i>  190   </i></font></a>    <font color="#112266"><b>if</b></font> (c_y == 0.0) <b>{</b>
-<a name="191"><font color="#888888 "><i>  191   </i></font></a>      Y-&gt;data[i10].re = Y_re / (<font color="#112266"><b>double</b></font>)sigs_re;
-<a name="192"><font color="#888888 "><i>  192   </i></font></a>      Y-&gt;data[i10].im = 0.0;
-<a name="193"><font color="#888888 "><i>  193   </i></font></a>    <b>}</b> <font color="#112266"><b>else</b></font> <font color="#112266"><b>if</b></font> (Y_re == 0.0) <b>{</b>
-<a name="194"><font color="#888888 "><i>  194   </i></font></a>      Y-&gt;data[i10].re = 0.0;
-<a name="195"><font color="#888888 "><i>  195   </i></font></a>      Y-&gt;data[i10].im = c_y / (<font color="#112266"><b>double</b></font>)sigs_re;
-<a name="196"><font color="#888888 "><i>  196   </i></font></a>    <b>}</b> <font color="#112266"><b>else</b></font> <b>{</b>
-<a name="197"><font color="#888888 "><i>  197   </i></font></a>      Y-&gt;data[i10].re = Y_re / (<font color="#112266"><b>double</b></font>)sigs_re;
-<a name="198"><font color="#888888 "><i>  198   </i></font></a>      Y-&gt;data[i10].im = c_y / (<font color="#112266"><b>double</b></font>)sigs_re;
-<a name="199"><font color="#888888 "><i>  199   </i></font></a>    <b>}</b>
-<a name="200"><font color="#888888 "><i>  200   </i></font></a>  <b>}</b>
-<a name="201"><font color="#888888 "><i>  201   </i></font></a>
-<a name="202"><font color="#888888 "><i>  202   </i></font></a>  b_y = sampling_rate / (<font color="#112266"><b>double</b></font>)sigs-&gt;size[0];
-<a name="203"><font color="#888888 "><i>  203   </i></font></a>  c_y = (<font color="#112266"><b>double</b></font>)sigs-&gt;size[0] / 2.0;
-<a name="204"><font color="#888888 "><i>  204   </i></font></a>  loop_ub = (<font color="#112266"><b>int</b></font>)floor(c_y);
-<a name="205"><font color="#888888 "><i>  205   </i></font></a>  <font color="#112266"><b>if</b></font> (loop_ub - 1 &lt; 0) <b>{</b>
-<a name="206"><font color="#888888 "><i>  206   </i></font></a>    i10 = freq-&gt;size[0] * freq-&gt;size[1];
-<a name="207"><font color="#888888 "><i>  207   </i></font></a>    freq-&gt;size[0] = 1;
-<a name="208"><font color="#888888 "><i>  208   </i></font></a>    freq-&gt;size[1] = 0;
-<a name="209"><font color="#888888 "><i>  209   </i></font></a>    <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)freq, i10, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<font color="#112266"><b>double</b></font>));
-<a name="210"><font color="#888888 "><i>  210   </i></font></a>  <b>}</b> <font color="#112266"><b>else</b></font> <b>{</b>
-<a name="211"><font color="#888888 "><i>  211   </i></font></a>    i10 = freq-&gt;size[0] * freq-&gt;size[1];
-<a name="212"><font color="#888888 "><i>  212   </i></font></a>    freq-&gt;size[0] = 1;
-<a name="213"><font color="#888888 "><i>  213   </i></font></a>    freq-&gt;size[1] = loop_ub;
-<a name="214"><font color="#888888 "><i>  214   </i></font></a>    <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)freq, i10, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<font color="#112266"><b>double</b></font>));
-<a name="215"><font color="#888888 "><i>  215   </i></font></a>    loop_ub--;
-<a name="216"><font color="#888888 "><i>  216   </i></font></a>    <font color="#112266"><b>for</b></font> (i10 = 0; i10 &lt;= loop_ub; i10++) <b>{</b>
-<a name="217"><font color="#888888 "><i>  217   </i></font></a>      freq-&gt;data[freq-&gt;size[0] * i10] = i10;
-<a name="218"><font color="#888888 "><i>  218   </i></font></a>    <b>}</b>
-<a name="219"><font color="#888888 "><i>  219   </i></font></a>  <b>}</b>
-<a name="220"><font color="#888888 "><i>  220   </i></font></a>
-<a name="221"><font color="#888888 "><i>  221   </i></font></a>  <font color="#117755"><i>/*  nth bin is n*Fs/N, +1 for index offset */</i></font>
-<a name="222"><font color="#888888 "><i>  222   </i></font></a>  i10 = freq-&gt;size[0] * freq-&gt;size[1];
-<a name="223"><font color="#888888 "><i>  223   </i></font></a>  freq-&gt;size[0] = 1;
-<a name="224"><font color="#888888 "><i>  224   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)freq, i10, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<font color="#112266"><b>double</b></font>));
-<a name="225"><font color="#888888 "><i>  225   </i></font></a>  loop_ub = freq-&gt;size[0];
-<a name="226"><font color="#888888 "><i>  226   </i></font></a>  sigs_re = freq-&gt;size[1];
-<a name="227"><font color="#888888 "><i>  227   </i></font></a>  loop_ub *= sigs_re;
-<a name="228"><font color="#888888 "><i>  228   </i></font></a>  <font color="#112266"><b>for</b></font> (i10 = 0; i10 &lt; loop_ub; i10++) <b>{</b>
-<a name="229"><font color="#888888 "><i>  229   </i></font></a>    freq-&gt;data[i10] *= b_y;
-<a name="230"><font color="#888888 "><i>  230   </i></font></a>  <b>}</b>
-<a name="231"><font color="#888888 "><i>  231   </i></font></a>
-<a name="232"><font color="#888888 "><i>  232   </i></font></a>  i10 = (<font color="#112266"><b>int</b></font>)floor((<font color="#112266"><b>double</b></font>)sigs-&gt;size[0] / 2.0);
-<a name="233"><font color="#888888 "><i>  233   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxFree_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxFree_creal_T');" target="_self"><font color="#1122aa">emxFree_creal_T</font></a>(&amp;sigs);
-<a name="234"><font color="#888888 "><i>  234   </i></font></a>  <font color="#112266"><b>if</b></font> (1 &gt; i10) <b>{</b>
-<a name="235"><font color="#888888 "><i>  235   </i></font></a>    loop_ub = 0;
-<a name="236"><font color="#888888 "><i>  236   </i></font></a>  <b>}</b> <font color="#112266"><b>else</b></font> <b>{</b>
-<a name="237"><font color="#888888 "><i>  237   </i></font></a>    loop_ub = i10;
-<a name="238"><font color="#888888 "><i>  238   </i></font></a>  <b>}</b>
-<a name="239"><font color="#888888 "><i>  239   </i></font></a>
-<a name="240"><font color="#888888 "><i>  240   </i></font></a>  i10 = power-&gt;size[0];
-<a name="241"><font color="#888888 "><i>  241   </i></font></a>  power-&gt;size[0] = loop_ub;
-<a name="242"><font color="#888888 "><i>  242   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)power, i10, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_creal_T');" target="_self"><font color="#1122aa">creal_T</font></a>));
-<a name="243"><font color="#888888 "><i>  243   </i></font></a>  <font color="#112266"><b>for</b></font> (i10 = 0; i10 &lt; loop_ub; i10++) <b>{</b>
-<a name="244"><font color="#888888 "><i>  244   </i></font></a>    power-&gt;data[i10] = Y-&gt;data[i10];
-<a name="245"><font color="#888888 "><i>  245   </i></font></a>  <b>}</b>
-<a name="246"><font color="#888888 "><i>  246   </i></font></a>
-<a name="247"><font color="#888888 "><i>  247   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxFree_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxFree_creal_T');" target="_self"><font color="#1122aa">emxFree_creal_T</font></a>(&amp;Y);
-<a name="248"><font color="#888888 "><i>  248   </i></font></a><b>}</b>
-<a name="249"><font color="#888888 "><i>  249   </i></font></a>
-<a name="250"><font color="#888888 "><i>  250   </i></font></a><font color="#117755"><i>/*</i></font>
-<a name="251"><font color="#888888 "><i>  251   </i></font></a><font color="#117755"><I> * File trailer for plot_power_spectrum.c</i></font>
-<a name="252"><font color="#888888 "><i>  252   </i></font></a><font color="#117755"><I> *</i></font>
-<a name="253"><font color="#888888 "><i>  253   </i></font></a><font color="#117755"><I> * [EOF]</i></font>
-<a name="254"><font color="#888888 "><i>  254   </i></font></a><font color="#117755"><I> */</i></font>
-<a name="255"><font color="#888888 "><i>  255   </i></font></a></pre>
+<a name="131"><font color="#888888 "><i>  131   </i></font></a><font color="#117755"><I> * File trailer for plot_power_spectrum.c</i></font>
+<a name="132"><font color="#888888 "><i>  132   </i></font></a><font color="#117755"><I> *</i></font>
+<a name="133"><font color="#888888 "><i>  133   </i></font></a><font color="#117755"><I> * [EOF]</i></font>
+<a name="134"><font color="#888888 "><i>  134   </i></font></a><font color="#117755"><I> */</i></font>
+<a name="135"><font color="#888888 "><i>  135   </i></font></a></pre>
 </td></tr></table>
 </p>
 </body>

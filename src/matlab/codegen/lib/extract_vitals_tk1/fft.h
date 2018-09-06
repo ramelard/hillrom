@@ -5,7 +5,7 @@
  * File: fft.h
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 06-Sep-2018 13:47:30
+ * C/C++ source code generated on  : 06-Sep-2018 14:56:40
  */
 
 #ifndef FFT_H
@@ -23,19 +23,9 @@
 
 /* Function Declarations */
 extern void b_fft(const emxArray_real_T *x, emxArray_creal_T *y);
-extern void b_r2br_r2dit_trig(const emxArray_creal_T *x, int n1_unsigned, const
-  emxArray_real_T *costab, const emxArray_real_T *sintab, emxArray_creal_T *y);
-extern void c_fft(const emxArray_creal_T *x, double varargin_1, emxArray_creal_T
-                  *y);
-extern void c_r2br_r2dit_trig(const emxArray_creal_T *x, int n1_unsigned, const
-  emxArray_real_T *costab, const emxArray_real_T *sintab, emxArray_creal_T *y);
-extern void d_fft(const emxArray_real_T *x, double varargin_1, emxArray_creal_T *
+extern void c_fft(const emxArray_real_T *x, double varargin_1, emxArray_creal_T *
                   y);
 extern void fft(const emxArray_real_T *x, double varargin_1, emxArray_creal_T *y);
-extern void get_algo_sizes(int n1, boolean_T useRadix2, int *N2blue, int *nRows);
-extern void r2br_r2dit_trig_impl(const emxArray_creal_T *x, int unsigned_nRows,
-  const emxArray_real_T *costab, const emxArray_real_T *sintab, emxArray_creal_T
-  *y);
 
 #endif
 

@@ -17,7 +17,7 @@
 <a name="5"><font color="#888888 "><i>    5   </i></font></a><font color="#117755"><I> * File: kalmanfilt.c</i></font>
 <a name="6"><font color="#888888 "><i>    6   </i></font></a><font color="#117755"><I> *</i></font>
 <a name="7"><font color="#888888 "><i>    7   </i></font></a><font color="#117755"><I> * MATLAB Coder version            : 3.2</i></font>
-<a name="8"><font color="#888888 "><i>    8   </i></font></a><font color="#117755"><I> * C/C++ source code generated on  : 06-Sep-2018 13:47:30</i></font>
+<a name="8"><font color="#888888 "><i>    8   </i></font></a><font color="#117755"><I> * C/C++ source code generated on  : 06-Sep-2018 14:56:40</i></font>
 <a name="9"><font color="#888888 "><i>    9   </i></font></a><font color="#117755"><I> */</i></font>
 <a name="10"><font color="#888888 "><i>   10   </i></font></a>
 <a name="11"><font color="#888888 "><i>   11   </i></font></a><font color="#117755"><i>/* Include Files */</i></font>
@@ -40,7 +40,7 @@
 <a name="28"><font color="#888888 "><i>   28   </i></font></a>  <font color="#112266"><b>double</b></font> Pprior[4];
 <a name="29"><font color="#888888 "><i>   29   </i></font></a>  <font color="#112266"><b>int</b></font> ar;
 <a name="30"><font color="#888888 "><i>   30   </i></font></a>  <a href="extract_vitals_tk1_types_h.html#type_emxArray_real_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray_real_T');" target="_self"><font color="#1122aa">emxArray_real_T</font></a> *xpost;
-<a name="31"><font color="#888888 "><i>   31   </i></font></a>  <font color="#112266"><b>static</b></font> <font color="#112266"><b>const</b></font> <font color="#112266"><b>signed</b></font> <font color="#112266"><b>char</b></font> iv6[4] = <b>{</b> 1, 0, 0, 1 <b>}</b>;
+<a name="31"><font color="#888888 "><i>   31   </i></font></a>  <font color="#112266"><b>static</b></font> <font color="#112266"><b>const</b></font> <font color="#112266"><b>signed</b></font> <font color="#112266"><b>char</b></font> iv5[4] = <b>{</b> 1, 0, 0, 1 <b>}</b>;
 <a name="32"><font color="#888888 "><i>   32   </i></font></a>
 <a name="33"><font color="#888888 "><i>   33   </i></font></a>  <font color="#112266"><b>int</b></font> loop_ub;
 <a name="34"><font color="#888888 "><i>   34   </i></font></a>  <font color="#112266"><b>int</b></font> k;
@@ -61,9 +61,9 @@
 <a name="49"><font color="#888888 "><i>   49   </i></font></a>  <font color="#112266"><b>int</b></font> ia;
 <a name="50"><font color="#888888 "><i>   50   </i></font></a>  <font color="#112266"><b>static</b></font> <font color="#112266"><b>const</b></font> <font color="#112266"><b>double</b></font> Q[4] = <b>{</b> 1.3225E-10, 2.645E-10, 2.645E-10, 5.29E-10 <b>}</b>;
 <a name="51"><font color="#888888 "><i>   51   </i></font></a>
-<a name="52"><font color="#888888 "><i>   52   </i></font></a>  <font color="#112266"><b>static</b></font> <font color="#112266"><b>const</b></font> <font color="#112266"><b>signed</b></font> <font color="#112266"><b>char</b></font> iv7[4] = <b>{</b> 1, 0, 1, 1 <b>}</b>;
+<a name="52"><font color="#888888 "><i>   52   </i></font></a>  <font color="#112266"><b>static</b></font> <font color="#112266"><b>const</b></font> <font color="#112266"><b>signed</b></font> <font color="#112266"><b>char</b></font> iv6[4] = <b>{</b> 1, 0, 1, 1 <b>}</b>;
 <a name="53"><font color="#888888 "><i>   53   </i></font></a>
-<a name="54"><font color="#888888 "><i>   54   </i></font></a>  <font color="#112266"><b>static</b></font> <font color="#112266"><b>const</b></font> <font color="#112266"><b>signed</b></font> <font color="#112266"><b>char</b></font> iv8[4] = <b>{</b> 1, 1, 0, 1 <b>}</b>;
+<a name="54"><font color="#888888 "><i>   54   </i></font></a>  <font color="#112266"><b>static</b></font> <font color="#112266"><b>const</b></font> <font color="#112266"><b>signed</b></font> <font color="#112266"><b>char</b></font> iv7[4] = <b>{</b> 1, 1, 0, 1 <b>}</b>;
 <a name="55"><font color="#888888 "><i>   55   </i></font></a>
 <a name="56"><font color="#888888 "><i>   56   </i></font></a>  <font color="#117755"><i>/*  KALMANFILT   Kalman filter */</i></font>
 <a name="57"><font color="#888888 "><i>   57   </i></font></a>  <font color="#117755"><i>/*    xest = kalmanfilt(xhat, sigmap, sigmam) */</i></font>
@@ -79,7 +79,7 @@
 <a name="67"><font color="#888888 "><i>   67   </i></font></a>
 <a name="68"><font color="#888888 "><i>   68   </i></font></a>  <font color="#117755"><i>/*  x,v initially */</i></font>
 <a name="69"><font color="#888888 "><i>   69   </i></font></a>  <font color="#112266"><b>for</b></font> (ar = 0; ar &lt; 4; ar++) <b>{</b>
-<a name="70"><font color="#888888 "><i>   70   </i></font></a>    Pprior[ar] = iv6[ar];
+<a name="70"><font color="#888888 "><i>   70   </i></font></a>    Pprior[ar] = iv5[ar];
 <a name="71"><font color="#888888 "><i>   71   </i></font></a>  <b>}</b>
 <a name="72"><font color="#888888 "><i>   72   </i></font></a>
 <a name="73"><font color="#888888 "><i>   73   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxInit_real_T1" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxInit_real_T1');" target="_self"><font color="#1122aa">emxInit_real_T1</font></a>(&amp;xpost, 2);
@@ -193,7 +193,7 @@
 <a name="181"><font color="#888888 "><i>  181   </i></font></a>          ia = ar;
 <a name="182"><font color="#888888 "><i>  182   </i></font></a>          <font color="#112266"><b>for</b></font> (ic = loop_ub; ic + 1 &lt;= loop_ub + 2; ic++) <b>{</b>
 <a name="183"><font color="#888888 "><i>  183   </i></font></a>            ia++;
-<a name="184"><font color="#888888 "><i>  184   </i></font></a>            y_data[ic] += I[ib] * (<font color="#112266"><b>double</b></font>)iv7[ia];
+<a name="184"><font color="#888888 "><i>  184   </i></font></a>            y_data[ic] += I[ib] * (<font color="#112266"><b>double</b></font>)iv6[ia];
 <a name="185"><font color="#888888 "><i>  185   </i></font></a>          <b>}</b>
 <a name="186"><font color="#888888 "><i>  186   </i></font></a>        <b>}</b>
 <a name="187"><font color="#888888 "><i>  187   </i></font></a>
@@ -217,11 +217,11 @@
 <a name="205"><font color="#888888 "><i>  205   </i></font></a>    <font color="#112266"><b>for</b></font> (loop_ub = 0; loop_ub &lt;= 3; loop_ub += 2) <b>{</b>
 <a name="206"><font color="#888888 "><i>  206   </i></font></a>      ar = -1;
 <a name="207"><font color="#888888 "><i>  207   </i></font></a>      <font color="#112266"><b>for</b></font> (ib = br; ib + 1 &lt;= br + 2; ib++) <b>{</b>
-<a name="208"><font color="#888888 "><i>  208   </i></font></a>        <font color="#112266"><b>if</b></font> (iv8[ib] != 0) <b>{</b>
+<a name="208"><font color="#888888 "><i>  208   </i></font></a>        <font color="#112266"><b>if</b></font> (iv7[ib] != 0) <b>{</b>
 <a name="209"><font color="#888888 "><i>  209   </i></font></a>          ia = ar;
 <a name="210"><font color="#888888 "><i>  210   </i></font></a>          <font color="#112266"><b>for</b></font> (ic = loop_ub; ic + 1 &lt;= loop_ub + 2; ic++) <b>{</b>
 <a name="211"><font color="#888888 "><i>  211   </i></font></a>            ia++;
-<a name="212"><font color="#888888 "><i>  212   </i></font></a>            Pprior[ic] += (<font color="#112266"><b>double</b></font>)iv8[ib] * y_data[ia];
+<a name="212"><font color="#888888 "><i>  212   </i></font></a>            Pprior[ic] += (<font color="#112266"><b>double</b></font>)iv7[ib] * y_data[ia];
 <a name="213"><font color="#888888 "><i>  213   </i></font></a>          <b>}</b>
 <a name="214"><font color="#888888 "><i>  214   </i></font></a>        <b>}</b>
 <a name="215"><font color="#888888 "><i>  215   </i></font></a>
@@ -267,7 +267,7 @@
 <a name="255"><font color="#888888 "><i>  255   </i></font></a>  <font color="#112266"><b>double</b></font> Pprior[4];
 <a name="256"><font color="#888888 "><i>  256   </i></font></a>  <font color="#112266"><b>int</b></font> ar;
 <a name="257"><font color="#888888 "><i>  257   </i></font></a>  <a href="extract_vitals_tk1_types_h.html#type_emxArray_real_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray_real_T');" target="_self"><font color="#1122aa">emxArray_real_T</font></a> *xpost;
-<a name="258"><font color="#888888 "><i>  258   </i></font></a>  <font color="#112266"><b>static</b></font> <font color="#112266"><b>const</b></font> <font color="#112266"><b>signed</b></font> <font color="#112266"><b>char</b></font> iv3[4] = <b>{</b> 1, 0, 0, 1 <b>}</b>;
+<a name="258"><font color="#888888 "><i>  258   </i></font></a>  <font color="#112266"><b>static</b></font> <font color="#112266"><b>const</b></font> <font color="#112266"><b>signed</b></font> <font color="#112266"><b>char</b></font> iv2[4] = <b>{</b> 1, 0, 0, 1 <b>}</b>;
 <a name="259"><font color="#888888 "><i>  259   </i></font></a>
 <a name="260"><font color="#888888 "><i>  260   </i></font></a>  <font color="#112266"><b>int</b></font> loop_ub;
 <a name="261"><font color="#888888 "><i>  261   </i></font></a>  <font color="#112266"><b>int</b></font> k;
@@ -288,9 +288,9 @@
 <a name="276"><font color="#888888 "><i>  276   </i></font></a>  <font color="#112266"><b>int</b></font> ia;
 <a name="277"><font color="#888888 "><i>  277   </i></font></a>  <font color="#112266"><b>static</b></font> <font color="#112266"><b>const</b></font> <font color="#112266"><b>double</b></font> Q[4] = <b>{</b> 1.3225E-10, 2.645E-10, 2.645E-10, 5.29E-10 <b>}</b>;
 <a name="278"><font color="#888888 "><i>  278   </i></font></a>
-<a name="279"><font color="#888888 "><i>  279   </i></font></a>  <font color="#112266"><b>static</b></font> <font color="#112266"><b>const</b></font> <font color="#112266"><b>signed</b></font> <font color="#112266"><b>char</b></font> iv4[4] = <b>{</b> 1, 0, 1, 1 <b>}</b>;
+<a name="279"><font color="#888888 "><i>  279   </i></font></a>  <font color="#112266"><b>static</b></font> <font color="#112266"><b>const</b></font> <font color="#112266"><b>signed</b></font> <font color="#112266"><b>char</b></font> iv3[4] = <b>{</b> 1, 0, 1, 1 <b>}</b>;
 <a name="280"><font color="#888888 "><i>  280   </i></font></a>
-<a name="281"><font color="#888888 "><i>  281   </i></font></a>  <font color="#112266"><b>static</b></font> <font color="#112266"><b>const</b></font> <font color="#112266"><b>signed</b></font> <font color="#112266"><b>char</b></font> iv5[4] = <b>{</b> 1, 1, 0, 1 <b>}</b>;
+<a name="281"><font color="#888888 "><i>  281   </i></font></a>  <font color="#112266"><b>static</b></font> <font color="#112266"><b>const</b></font> <font color="#112266"><b>signed</b></font> <font color="#112266"><b>char</b></font> iv4[4] = <b>{</b> 1, 1, 0, 1 <b>}</b>;
 <a name="282"><font color="#888888 "><i>  282   </i></font></a>
 <a name="283"><font color="#888888 "><i>  283   </i></font></a>  <font color="#117755"><i>/*  KALMANFILT   Kalman filter */</i></font>
 <a name="284"><font color="#888888 "><i>  284   </i></font></a>  <font color="#117755"><i>/*    xest = kalmanfilt(xhat, sigmap, sigmam) */</i></font>
@@ -307,7 +307,7 @@
 <a name="295"><font color="#888888 "><i>  295   </i></font></a>
 <a name="296"><font color="#888888 "><i>  296   </i></font></a>  <font color="#117755"><i>/*  x,v initially */</i></font>
 <a name="297"><font color="#888888 "><i>  297   </i></font></a>  <font color="#112266"><b>for</b></font> (ar = 0; ar &lt; 4; ar++) <b>{</b>
-<a name="298"><font color="#888888 "><i>  298   </i></font></a>    Pprior[ar] = iv3[ar];
+<a name="298"><font color="#888888 "><i>  298   </i></font></a>    Pprior[ar] = iv2[ar];
 <a name="299"><font color="#888888 "><i>  299   </i></font></a>  <b>}</b>
 <a name="300"><font color="#888888 "><i>  300   </i></font></a>
 <a name="301"><font color="#888888 "><i>  301   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxInit_real_T1" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxInit_real_T1');" target="_self"><font color="#1122aa">emxInit_real_T1</font></a>(&amp;xpost, 2);
@@ -422,7 +422,7 @@
 <a name="410"><font color="#888888 "><i>  410   </i></font></a>          ia = ar;
 <a name="411"><font color="#888888 "><i>  411   </i></font></a>          <font color="#112266"><b>for</b></font> (ic = loop_ub; ic + 1 &lt;= loop_ub + 2; ic++) <b>{</b>
 <a name="412"><font color="#888888 "><i>  412   </i></font></a>            ia++;
-<a name="413"><font color="#888888 "><i>  413   </i></font></a>            y_data[ic] += I[ib] * (<font color="#112266"><b>double</b></font>)iv4[ia];
+<a name="413"><font color="#888888 "><i>  413   </i></font></a>            y_data[ic] += I[ib] * (<font color="#112266"><b>double</b></font>)iv3[ia];
 <a name="414"><font color="#888888 "><i>  414   </i></font></a>          <b>}</b>
 <a name="415"><font color="#888888 "><i>  415   </i></font></a>        <b>}</b>
 <a name="416"><font color="#888888 "><i>  416   </i></font></a>
@@ -446,11 +446,11 @@
 <a name="434"><font color="#888888 "><i>  434   </i></font></a>    <font color="#112266"><b>for</b></font> (loop_ub = 0; loop_ub &lt;= 3; loop_ub += 2) <b>{</b>
 <a name="435"><font color="#888888 "><i>  435   </i></font></a>      ar = -1;
 <a name="436"><font color="#888888 "><i>  436   </i></font></a>      <font color="#112266"><b>for</b></font> (ib = br; ib + 1 &lt;= br + 2; ib++) <b>{</b>
-<a name="437"><font color="#888888 "><i>  437   </i></font></a>        <font color="#112266"><b>if</b></font> (iv5[ib] != 0) <b>{</b>
+<a name="437"><font color="#888888 "><i>  437   </i></font></a>        <font color="#112266"><b>if</b></font> (iv4[ib] != 0) <b>{</b>
 <a name="438"><font color="#888888 "><i>  438   </i></font></a>          ia = ar;
 <a name="439"><font color="#888888 "><i>  439   </i></font></a>          <font color="#112266"><b>for</b></font> (ic = loop_ub; ic + 1 &lt;= loop_ub + 2; ic++) <b>{</b>
 <a name="440"><font color="#888888 "><i>  440   </i></font></a>            ia++;
-<a name="441"><font color="#888888 "><i>  441   </i></font></a>            Pprior[ic] += (<font color="#112266"><b>double</b></font>)iv5[ib] * y_data[ia];
+<a name="441"><font color="#888888 "><i>  441   </i></font></a>            Pprior[ic] += (<font color="#112266"><b>double</b></font>)iv4[ib] * y_data[ia];
 <a name="442"><font color="#888888 "><i>  442   </i></font></a>          <b>}</b>
 <a name="443"><font color="#888888 "><i>  443   </i></font></a>        <b>}</b>
 <a name="444"><font color="#888888 "><i>  444   </i></font></a>

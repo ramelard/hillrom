@@ -5,7 +5,7 @@
  * File: log.c
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 06-Sep-2018 13:47:30
+ * C/C++ source code generated on  : 06-Sep-2018 14:56:40
  */
 
 /* Include Files */
@@ -23,15 +23,15 @@
  */
 void b_log(const emxArray_real_T *x, emxArray_real_T *b_x)
 {
-  int i9;
+  int i10;
   int loop_ub;
-  i9 = b_x->size[0] * b_x->size[1];
+  i10 = b_x->size[0] * b_x->size[1];
   b_x->size[0] = 1;
   b_x->size[1] = x->size[1];
-  emxEnsureCapacity((emxArray__common *)b_x, i9, (int)sizeof(double));
+  emxEnsureCapacity((emxArray__common *)b_x, i10, (int)sizeof(double));
   loop_ub = x->size[0] * x->size[1];
-  for (i9 = 0; i9 < loop_ub; i9++) {
-    b_x->data[i9] = x->data[i9];
+  for (i10 = 0; i10 < loop_ub; i10++) {
+    b_x->data[i10] = x->data[i10];
   }
 
   d_log(b_x);
