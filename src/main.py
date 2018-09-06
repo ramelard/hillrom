@@ -108,7 +108,7 @@ def track_and_display():
   lock = threading.Lock()
   q = Queue()
   num_workers = 5
-  acquisition_time = 10
+  acquisition_time = 20
 
 
   # ----------------------------------------------------------------------------
@@ -131,14 +131,14 @@ def track_and_display():
   # ----------------------------------------------------------------------------
   #                                                            Frame Processing
   # ----------------------------------------------------------------------------
-  tstart = time()
+  tstart2 = time()
   logging.debug('[INFO] Simultanouesly processing frames added to queue via %d threads)' % num_workers)
   for i in range_function(num_workers):
     t = threading.Thread(target = worker, args = (q, lock))
     t.daemon = True
     t.start()
   q.join() # block until all tasks are done
-  logging.debug('[INFO] Processing speed: %.2f fps', nframes / (time() - tstart))
+  logging.debug('[INFO] Processing speed: %.2f fps', nframes / (time() - tstart2))
 
 
   # ----------------------------------------------------------------------------
@@ -166,7 +166,8 @@ def track_and_display():
   faces = [frame for (frame, t) in face_frames]
   bodys = [frame for (frame, t) in body_frames]
   timestamps = [t for (frame, t) in body_frames] # time is identical for faces and bodys as both are captured from same frame
-  block_size = 6
+  block_size = 4
+  print(timestamps[-1] - tstart)
   try:
     (hr, rr) = extract_vitals( \
       np.dstack(faces), \
