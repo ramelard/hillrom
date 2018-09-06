@@ -187,7 +187,7 @@ def track_and_display():
   # ----------------------------------------------------------------------------
   fileout = 'frames_%s-hr%u-rr%u' % (strftime('%H%M'), hr, rr)
   logging.debug('Writing frames to ./output/%s', fileout)
-  write_frames_to_mat(faces, bodys, fileout)
+  write_frames_to_mat(faces, bodys, timestamps, fileout)
 
   save_unix_time_string = strftime('%Y-%m-%d %H:%M:%S', localtime(time()))
 
@@ -210,11 +210,11 @@ def track_and_display():
   cv2.destroyAllWindows()
 
 
-def write_frames_to_mat(face_frames, body_frames, filename='out'):
+def write_frames_to_mat(face_frames, body_frames, timestamps, filename='out'):
   fullfile = './output/%s.mat' % filename
   logging.debug('Saving frames to .mat file...')
   t0 = time()
-  scipy.io.savemat(fullfile, {'face_frames': face_frames, 'body_frames': body_frames})
+  scipy.io.savemat(fullfile, {'face_frames': face_frames, 'body_frames': body_frames, 'timestamps': timestamps})
   logging.debug('Done (%.1fs)' % (time()-t0))
 
 
