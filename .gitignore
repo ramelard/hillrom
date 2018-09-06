@@ -5,3 +5,4 @@ src/output/*.png
 *DS_Store
 src/lib/extract_vitals_tk1.so
 *.png
+*.txt
