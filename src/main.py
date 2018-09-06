@@ -171,7 +171,7 @@ def track_and_display():
     (hr, rr) = extract_vitals( \
       np.dstack(faces), \
       np.dstack(bodys), \
-      np.dstack(timestamps), \
+      np.stack(timestamps), \
       block_size)
   except:
     logging.debug('[WARNING] Camera captured different size frames!')
