@@ -5,7 +5,7 @@
  * File: exp.h
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 06-Sep-2018 15:49:36
+ * C/C++ source code generated on  : 06-Sep-2018 16:44:03
  */
 
 #ifndef EXP_H
@@ -23,7 +23,6 @@
 
 /* Function Declarations */
 extern void b_exp(emxArray_creal_T *x);
-extern void c_exp(emxArray_real_T *x);
 
 #endif
 

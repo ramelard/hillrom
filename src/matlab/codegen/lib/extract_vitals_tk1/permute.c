@@ -5,7 +5,7 @@
  * File: permute.c
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 06-Sep-2018 15:49:36
+ * C/C++ source code generated on  : 06-Sep-2018 16:44:03
  */
 
 /* Include Files */
@@ -31,10 +31,10 @@ void permute(const emxArray_real_T *a, emxArray_real_T *b)
   int iwork[3];
   boolean_T exitg2;
   boolean_T guard1 = false;
-  static const signed char iv0[3] = { 3, 1, 2 };
+  static const signed char iv1[3] = { 3, 1, 2 };
 
   int inc[3];
-  static const signed char iv1[3] = { 2, 0, 1 };
+  static const signed char iv2[3] = { 2, 0, 1 };
 
   int isrc;
   int exitg1;
@@ -57,12 +57,12 @@ void permute(const emxArray_real_T *a, emxArray_real_T *b)
     exitg2 = false;
     while ((!exitg2) && (k + 1 < 4)) {
       guard1 = false;
-      if (a->size[iv0[k] - 1] != 1) {
-        if (plast > iv0[k]) {
+      if (a->size[iv1[k] - 1] != 1) {
+        if (plast > iv1[k]) {
           b_b = false;
           exitg2 = true;
         } else {
-          plast = iv0[k];
+          plast = iv1[k];
           guard1 = true;
         }
       } else {
@@ -90,7 +90,7 @@ void permute(const emxArray_real_T *a, emxArray_real_T *b)
     }
 
     for (plast = 0; plast < 3; plast++) {
-      inc[plast] = iwork[iv1[plast]];
+      inc[plast] = iwork[iv2[plast]];
     }
 
     for (plast = 0; plast < 3; plast++) {

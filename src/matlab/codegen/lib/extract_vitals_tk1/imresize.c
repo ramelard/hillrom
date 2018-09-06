@@ -5,7 +5,7 @@
  * File: imresize.c
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 06-Sep-2018 15:49:36
+ * C/C++ source code generated on  : 06-Sep-2018 16:44:03
  */
 
 /* Include Files */
@@ -14,7 +14,6 @@
 #include "imresize.h"
 #include "extract_vitals_tk1_emxutil.h"
 #include "bsxfun.h"
-#include "rdivide.h"
 #include "sort1.h"
 
 /* Function Declarations */
@@ -41,7 +40,6 @@ static void contributions(int in_length, double out_length, double scale,
   emxArray_real_T *y;
   int i1;
   int loop_ub;
-  emxArray_real_T *b_y;
   emxArray_real_T *u;
   double s;
   emxArray_real_T *av;
@@ -101,27 +99,17 @@ static void contributions(int in_length, double out_length, double scale,
     }
   }
 
-  emxInit_real_T2(&b_y, 1);
-  i1 = b_y->size[0];
-  b_y->size[0] = y->size[1];
-  emxEnsureCapacity((emxArray__common *)b_y, i1, (int)sizeof(double));
+  emxInit_real_T2(&u, 1);
+  s = 0.5 * (1.0 - 1.0 / scale);
+  i1 = u->size[0];
+  u->size[0] = y->size[1];
+  emxEnsureCapacity((emxArray__common *)u, i1, (int)sizeof(double));
   loop_ub = y->size[1];
   for (i1 = 0; i1 < loop_ub; i1++) {
-    b_y->data[i1] = y->data[y->size[0] * i1];
+    u->data[i1] = y->data[y->size[0] * i1] / scale + s;
   }
 
   emxFree_real_T(&y);
-  emxInit_real_T2(&u, 1);
-  rdivide(b_y, scale, u);
-  s = 0.5 * (1.0 - 1.0 / scale);
-  i1 = u->size[0];
-  emxEnsureCapacity((emxArray__common *)u, i1, (int)sizeof(double));
-  loop_ub = u->size[0];
-  emxFree_real_T(&b_y);
-  for (i1 = 0; i1 < loop_ub; i1++) {
-    u->data[i1] += s;
-  }
-
   emxInit_real_T2(&av, 1);
   s = kernel_width / 2.0;
   i1 = av->size[0];

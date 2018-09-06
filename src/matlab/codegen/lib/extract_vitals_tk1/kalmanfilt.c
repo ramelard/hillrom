@@ -5,7 +5,7 @@
  * File: kalmanfilt.c
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 06-Sep-2018 15:49:36
+ * C/C++ source code generated on  : 06-Sep-2018 16:44:03
  */
 
 /* Include Files */
@@ -28,7 +28,7 @@ void b_kalmanfilt(const emxArray_real_T *z, emxArray_real_T *xest)
   double Pprior[4];
   int ar;
   emxArray_real_T *xpost;
-  static const signed char iv5[4] = { 1, 0, 0, 1 };
+  static const signed char iv6[4] = { 1, 0, 0, 1 };
 
   int loop_ub;
   int k;
@@ -49,9 +49,9 @@ void b_kalmanfilt(const emxArray_real_T *z, emxArray_real_T *xest)
   int ia;
   static const double Q[4] = { 1.3225E-10, 2.645E-10, 2.645E-10, 5.29E-10 };
 
-  static const signed char iv6[4] = { 1, 0, 1, 1 };
+  static const signed char iv7[4] = { 1, 0, 1, 1 };
 
-  static const signed char iv7[4] = { 1, 1, 0, 1 };
+  static const signed char iv8[4] = { 1, 1, 0, 1 };
 
   /*  KALMANFILT   Kalman filter */
   /*    xest = kalmanfilt(xhat, sigmap, sigmam) */
@@ -67,7 +67,7 @@ void b_kalmanfilt(const emxArray_real_T *z, emxArray_real_T *xest)
 
   /*  x,v initially */
   for (ar = 0; ar < 4; ar++) {
-    Pprior[ar] = iv5[ar];
+    Pprior[ar] = iv6[ar];
   }
 
   emxInit_real_T1(&xpost, 2);
@@ -181,7 +181,7 @@ void b_kalmanfilt(const emxArray_real_T *z, emxArray_real_T *xest)
           ia = ar;
           for (ic = loop_ub; ic + 1 <= loop_ub + 2; ic++) {
             ia++;
-            y_data[ic] += I[ib] * (double)iv6[ia];
+            y_data[ic] += I[ib] * (double)iv7[ia];
           }
         }
 
@@ -205,11 +205,11 @@ void b_kalmanfilt(const emxArray_real_T *z, emxArray_real_T *xest)
     for (loop_ub = 0; loop_ub <= 3; loop_ub += 2) {
       ar = -1;
       for (ib = br; ib + 1 <= br + 2; ib++) {
-        if (iv7[ib] != 0) {
+        if (iv8[ib] != 0) {
           ia = ar;
           for (ic = loop_ub; ic + 1 <= loop_ub + 2; ic++) {
             ia++;
-            Pprior[ic] += (double)iv7[ib] * y_data[ia];
+            Pprior[ic] += (double)iv8[ib] * y_data[ia];
           }
         }
 
@@ -255,7 +255,7 @@ void kalmanfilt(const emxArray_creal_T *z, emxArray_real_T *xest)
   double Pprior[4];
   int ar;
   emxArray_real_T *xpost;
-  static const signed char iv2[4] = { 1, 0, 0, 1 };
+  static const signed char iv3[4] = { 1, 0, 0, 1 };
 
   int loop_ub;
   int k;
@@ -276,9 +276,9 @@ void kalmanfilt(const emxArray_creal_T *z, emxArray_real_T *xest)
   int ia;
   static const double Q[4] = { 1.3225E-10, 2.645E-10, 2.645E-10, 5.29E-10 };
 
-  static const signed char iv3[4] = { 1, 0, 1, 1 };
+  static const signed char iv4[4] = { 1, 0, 1, 1 };
 
-  static const signed char iv4[4] = { 1, 1, 0, 1 };
+  static const signed char iv5[4] = { 1, 1, 0, 1 };
 
   /*  KALMANFILT   Kalman filter */
   /*    xest = kalmanfilt(xhat, sigmap, sigmam) */
@@ -295,7 +295,7 @@ void kalmanfilt(const emxArray_creal_T *z, emxArray_real_T *xest)
 
   /*  x,v initially */
   for (ar = 0; ar < 4; ar++) {
-    Pprior[ar] = iv2[ar];
+    Pprior[ar] = iv3[ar];
   }
 
   emxInit_real_T1(&xpost, 2);
@@ -410,7 +410,7 @@ void kalmanfilt(const emxArray_creal_T *z, emxArray_real_T *xest)
           ia = ar;
           for (ic = loop_ub; ic + 1 <= loop_ub + 2; ic++) {
             ia++;
-            y_data[ic] += I[ib] * (double)iv3[ia];
+            y_data[ic] += I[ib] * (double)iv4[ia];
           }
         }
 
@@ -434,11 +434,11 @@ void kalmanfilt(const emxArray_creal_T *z, emxArray_real_T *xest)
     for (loop_ub = 0; loop_ub <= 3; loop_ub += 2) {
       ar = -1;
       for (ib = br; ib + 1 <= br + 2; ib++) {
-        if (iv4[ib] != 0) {
+        if (iv5[ib] != 0) {
           ia = ar;
           for (ic = loop_ub; ic + 1 <= loop_ub + 2; ic++) {
             ia++;
-            Pprior[ic] += (double)iv4[ib] * y_data[ia];
+            Pprior[ic] += (double)iv5[ib] * y_data[ia];
           }
         }
 

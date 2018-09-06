@@ -5,7 +5,7 @@
  * File: rdivide.h
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 06-Sep-2018 15:49:36
+ * C/C++ source code generated on  : 06-Sep-2018 16:44:03
  */
 
 #ifndef RDIVIDE_H
@@ -22,9 +22,8 @@
 #include "extract_vitals_tk1_types.h"
 
 /* Function Declarations */
-extern void b_rdivide(const emxArray_creal_T *x, const creal_T y,
-                      emxArray_creal_T *z);
-extern void rdivide(const emxArray_real_T *x, double y, emxArray_real_T *z);
+extern void rdivide(const emxArray_creal_T *x, const creal_T y, emxArray_creal_T
+                    *z);
 
 #endif
 

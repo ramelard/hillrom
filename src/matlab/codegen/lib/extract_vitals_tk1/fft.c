@@ -5,7 +5,7 @@
  * File: fft.c
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 06-Sep-2018 15:49:36
+ * C/C++ source code generated on  : 06-Sep-2018 16:44:03
  */
 
 /* Include Files */
@@ -292,7 +292,7 @@ static void dobluesteinfft(const emxArray_real_T *x, int N2, int n1, const
   sintabinv, emxArray_creal_T *y)
 {
   unsigned int sx[2];
-  int i7;
+  int i6;
   emxArray_creal_T *wwc;
   int sz[2];
   int k;
@@ -310,29 +310,29 @@ static void dobluesteinfft(const emxArray_real_T *x, int N2, int n1, const
   double b_fv_im;
   double b_wwc_im;
   double b_fv_re;
-  for (i7 = 0; i7 < 2; i7++) {
-    sx[i7] = (unsigned int)x->size[i7];
+  for (i6 = 0; i6 < 2; i6++) {
+    sx[i6] = (unsigned int)x->size[i6];
   }
 
   emxInit_creal_T1(&wwc, 1);
   bluestein_setup(n1, wwc);
-  for (i7 = 0; i7 < 2; i7++) {
-    sz[i7] = x->size[i7];
+  for (i6 = 0; i6 < 2; i6++) {
+    sz[i6] = x->size[i6];
   }
 
-  i7 = y->size[0] * y->size[1];
+  i6 = y->size[0] * y->size[1];
   y->size[0] = n1;
   y->size[1] = sz[1];
-  emxEnsureCapacity((emxArray__common *)y, i7, (int)sizeof(creal_T));
+  emxEnsureCapacity((emxArray__common *)y, i6, (int)sizeof(creal_T));
   if (n1 > x->size[0]) {
-    i7 = y->size[0] * y->size[1];
-    emxEnsureCapacity((emxArray__common *)y, i7, (int)sizeof(creal_T));
+    i6 = y->size[0] * y->size[1];
+    emxEnsureCapacity((emxArray__common *)y, i6, (int)sizeof(creal_T));
     minNrowsNx = y->size[1];
-    for (i7 = 0; i7 < minNrowsNx; i7++) {
+    for (i6 = 0; i6 < minNrowsNx; i6++) {
       xidx = y->size[0];
       for (b_k = 0; b_k < xidx; b_k++) {
-        y->data[b_k + y->size[0] * i7].re = 0.0;
-        y->data[b_k + y->size[0] * i7].im = 0.0;
+        y->data[b_k + y->size[0] * i6].re = 0.0;
+        y->data[b_k + y->size[0] * i6].im = 0.0;
       }
     }
   }
@@ -348,18 +348,18 @@ static void dobluesteinfft(const emxArray_real_T *x, int N2, int n1, const
       minNrowsNx = x->size[0];
     }
 
-    i7 = rwork->size[0];
+    i6 = rwork->size[0];
     rwork->size[0] = n1;
-    emxEnsureCapacity((emxArray__common *)rwork, i7, (int)sizeof(creal_T));
+    emxEnsureCapacity((emxArray__common *)rwork, i6, (int)sizeof(creal_T));
     xidx = x->size[0];
     if (n1 > xidx) {
       xidx = rwork->size[0];
-      i7 = rwork->size[0];
+      i6 = rwork->size[0];
       rwork->size[0] = xidx;
-      emxEnsureCapacity((emxArray__common *)rwork, i7, (int)sizeof(creal_T));
-      for (i7 = 0; i7 < xidx; i7++) {
-        rwork->data[i7].re = 0.0;
-        rwork->data[i7].im = 0.0;
+      emxEnsureCapacity((emxArray__common *)rwork, i6, (int)sizeof(creal_T));
+      for (i6 = 0; i6 < xidx; i6++) {
+        rwork->data[i6].re = 0.0;
+        rwork->data[i6].im = 0.0;
       }
     }
 
@@ -380,16 +380,16 @@ static void dobluesteinfft(const emxArray_real_T *x, int N2, int n1, const
 
     r2br_r2dit_trig_impl(rwork, N2, costab, sintab, fy);
     b_r2br_r2dit_trig(wwc, N2, costab, sintab, fv);
-    i7 = fy->size[0];
-    emxEnsureCapacity((emxArray__common *)fy, i7, (int)sizeof(creal_T));
+    i6 = fy->size[0];
+    emxEnsureCapacity((emxArray__common *)fy, i6, (int)sizeof(creal_T));
     minNrowsNx = fy->size[0];
-    for (i7 = 0; i7 < minNrowsNx; i7++) {
-      wwc_re = fy->data[i7].re;
-      wwc_im = fy->data[i7].im;
-      fv_re = fv->data[i7].re;
-      fv_im = fv->data[i7].im;
-      fy->data[i7].re = wwc_re * fv_re - wwc_im * fv_im;
-      fy->data[i7].im = wwc_re * fv_im + wwc_im * fv_re;
+    for (i6 = 0; i6 < minNrowsNx; i6++) {
+      wwc_re = fy->data[i6].re;
+      wwc_im = fy->data[i6].im;
+      fv_re = fv->data[i6].re;
+      fv_im = fv->data[i6].im;
+      fy->data[i6].re = wwc_re * fv_re - wwc_im * fv_im;
+      fy->data[i6].im = wwc_re * fv_im + wwc_im * fv_re;
     }
 
     c_r2br_r2dit_trig(fy, N2, costab, sintabinv, fv);
@@ -1212,7 +1212,7 @@ void fft(const emxArray_real_T *x, double varargin_1, emxArray_creal_T *y)
   int N2blue;
   int nRows;
   int loop_ub;
-  int i6;
+  int i5;
   emxInit_real_T1(&costab, 2);
   emxInit_real_T1(&sintab, 2);
   emxInit_real_T1(&sintabinv, 2);
@@ -1231,9 +1231,9 @@ void fft(const emxArray_real_T *x, double varargin_1, emxArray_creal_T *y)
       nRows = y->size[1];
       for (N2blue = 0; N2blue < nRows; N2blue++) {
         loop_ub = y->size[0];
-        for (i6 = 0; i6 < loop_ub; i6++) {
-          y->data[i6 + y->size[0] * N2blue].re = 0.0;
-          y->data[i6 + y->size[0] * N2blue].im = 0.0;
+        for (i5 = 0; i5 < loop_ub; i5++) {
+          y->data[i5 + y->size[0] * N2blue].re = 0.0;
+          y->data[i5 + y->size[0] * N2blue].im = 0.0;
         }
       }
     }

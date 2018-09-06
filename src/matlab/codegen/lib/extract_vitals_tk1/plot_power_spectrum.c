@@ -5,7 +5,7 @@
  * File: plot_power_spectrum.c
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 06-Sep-2018 15:49:36
+ * C/C++ source code generated on  : 06-Sep-2018 16:44:03
  */
 
 /* Include Files */
@@ -31,7 +31,7 @@ void plot_power_spectrum(const emxArray_real_T *y, double sampling_rate,
   int b_y[1];
   int y_idx_0;
   emxArray_real_T c_y;
-  int i11;
+  int i10;
   int loop_ub;
   double d_y;
   double Y_im;
@@ -58,23 +58,23 @@ void plot_power_spectrum(const emxArray_real_T *y, double sampling_rate,
   /*  power = (a^2+b^2)/N */
   /*  Should be same as 1/N*abs(Y)^2 */
   y_idx_0 = y->size[1];
-  i11 = Y->size[0];
-  emxEnsureCapacity((emxArray__common *)Y, i11, (int)sizeof(creal_T));
+  i10 = Y->size[0];
+  emxEnsureCapacity((emxArray__common *)Y, i10, (int)sizeof(creal_T));
   loop_ub = Y->size[0];
-  for (i11 = 0; i11 < loop_ub; i11++) {
-    d_y = Y->data[i11].re;
-    Y_im = -Y->data[i11].im;
-    Y_re = Y->data[i11].re * d_y - Y->data[i11].im * Y_im;
-    Y_im = Y->data[i11].re * Y_im + Y->data[i11].im * d_y;
+  for (i10 = 0; i10 < loop_ub; i10++) {
+    d_y = Y->data[i10].re;
+    Y_im = -Y->data[i10].im;
+    Y_re = Y->data[i10].re * d_y - Y->data[i10].im * Y_im;
+    Y_im = Y->data[i10].re * Y_im + Y->data[i10].im * d_y;
     if (Y_im == 0.0) {
-      Y->data[i11].re = Y_re / (double)y_idx_0;
-      Y->data[i11].im = 0.0;
+      Y->data[i10].re = Y_re / (double)y_idx_0;
+      Y->data[i10].im = 0.0;
     } else if (Y_re == 0.0) {
-      Y->data[i11].re = 0.0;
-      Y->data[i11].im = Y_im / (double)y_idx_0;
+      Y->data[i10].re = 0.0;
+      Y->data[i10].im = Y_im / (double)y_idx_0;
     } else {
-      Y->data[i11].re = Y_re / (double)y_idx_0;
-      Y->data[i11].im = Y_im / (double)y_idx_0;
+      Y->data[i10].re = Y_re / (double)y_idx_0;
+      Y->data[i10].im = Y_im / (double)y_idx_0;
     }
   }
 
@@ -83,45 +83,45 @@ void plot_power_spectrum(const emxArray_real_T *y, double sampling_rate,
   y_idx_0 = y->size[1];
   y_idx_0 = (int)floor((double)y_idx_0 / 2.0);
   if (y_idx_0 - 1 < 0) {
-    i11 = freq->size[0] * freq->size[1];
+    i10 = freq->size[0] * freq->size[1];
     freq->size[0] = 1;
     freq->size[1] = 0;
-    emxEnsureCapacity((emxArray__common *)freq, i11, (int)sizeof(double));
+    emxEnsureCapacity((emxArray__common *)freq, i10, (int)sizeof(double));
   } else {
-    i11 = freq->size[0] * freq->size[1];
+    i10 = freq->size[0] * freq->size[1];
     freq->size[0] = 1;
     freq->size[1] = y_idx_0;
-    emxEnsureCapacity((emxArray__common *)freq, i11, (int)sizeof(double));
+    emxEnsureCapacity((emxArray__common *)freq, i10, (int)sizeof(double));
     loop_ub = y_idx_0 - 1;
-    for (i11 = 0; i11 <= loop_ub; i11++) {
-      freq->data[freq->size[0] * i11] = i11;
+    for (i10 = 0; i10 <= loop_ub; i10++) {
+      freq->data[freq->size[0] * i10] = i10;
     }
   }
 
   /*  nth bin is n*Fs/N, +1 for index offset */
-  i11 = freq->size[0] * freq->size[1];
+  i10 = freq->size[0] * freq->size[1];
   freq->size[0] = 1;
-  emxEnsureCapacity((emxArray__common *)freq, i11, (int)sizeof(double));
+  emxEnsureCapacity((emxArray__common *)freq, i10, (int)sizeof(double));
   y_idx_0 = freq->size[0];
   loop_ub = freq->size[1];
   loop_ub *= y_idx_0;
-  for (i11 = 0; i11 < loop_ub; i11++) {
-    freq->data[i11] *= d_y;
+  for (i10 = 0; i10 < loop_ub; i10++) {
+    freq->data[i10] *= d_y;
   }
 
   y_idx_0 = y->size[1];
-  i11 = (int)floor((double)y_idx_0 / 2.0);
-  if (1 > i11) {
+  i10 = (int)floor((double)y_idx_0 / 2.0);
+  if (1 > i10) {
     loop_ub = 0;
   } else {
-    loop_ub = i11;
+    loop_ub = i10;
   }
 
-  i11 = power->size[0];
+  i10 = power->size[0];
   power->size[0] = loop_ub;
-  emxEnsureCapacity((emxArray__common *)power, i11, (int)sizeof(creal_T));
-  for (i11 = 0; i11 < loop_ub; i11++) {
-    power->data[i11] = Y->data[i11];
+  emxEnsureCapacity((emxArray__common *)power, i10, (int)sizeof(creal_T));
+  for (i10 = 0; i10 < loop_ub; i10++) {
+    power->data[i10] = Y->data[i10];
   }
 
   emxFree_creal_T(&Y);

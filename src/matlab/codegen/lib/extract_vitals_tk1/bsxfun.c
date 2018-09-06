@@ -5,7 +5,7 @@
  * File: bsxfun.c
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 06-Sep-2018 15:49:36
+ * C/C++ source code generated on  : 06-Sep-2018 16:44:03
  */
 
 /* Include Files */
@@ -28,7 +28,7 @@ void b_bsxfun(const emxArray_real_T *a, const emxArray_real_T *b,
   int nb1;
   int b_c;
   int csz_idx_1;
-  int i5;
+  int i4;
   emxArray_real_T *av;
   emxArray_real_T *bv;
   unsigned int a_idx_0;
@@ -45,28 +45,28 @@ void b_bsxfun(const emxArray_real_T *a, const emxArray_real_T *b,
   }
 
   csz_idx_1 = b->size[1];
-  i5 = c->size[0] * c->size[1];
+  i4 = c->size[0] * c->size[1];
   c->size[0] = b_c;
   c->size[1] = csz_idx_1;
-  emxEnsureCapacity((emxArray__common *)c, i5, (int)sizeof(double));
+  emxEnsureCapacity((emxArray__common *)c, i4, (int)sizeof(double));
   if (!((c->size[0] == 0) || (c->size[1] == 0))) {
     emxInit_real_T2(&av, 1);
     emxInit_real_T2(&bv, 1);
     a_idx_0 = (unsigned int)a->size[0];
-    i5 = av->size[0];
+    i4 = av->size[0];
     av->size[0] = (int)a_idx_0;
-    emxEnsureCapacity((emxArray__common *)av, i5, (int)sizeof(double));
+    emxEnsureCapacity((emxArray__common *)av, i4, (int)sizeof(double));
     a_idx_0 = (unsigned int)b->size[0];
-    i5 = bv->size[0];
+    i4 = bv->size[0];
     bv->size[0] = (int)a_idx_0;
-    emxEnsureCapacity((emxArray__common *)bv, i5, (int)sizeof(double));
+    emxEnsureCapacity((emxArray__common *)bv, i4, (int)sizeof(double));
     bsub = 1;
     bk = 0;
     nc1 = c->size[0];
-    i5 = c->size[0] * c->size[1] - c->size[0];
+    i4 = c->size[0] * c->size[1] - c->size[0];
     ck = 0;
     emxInit_real_T2(&cv, 1);
-    while (ck <= i5) {
+    while (ck <= i4) {
       for (b_c = 0; b_c + 1 <= a->size[0]; b_c++) {
         av->data[b_c] = a->data[b_c];
       }
@@ -114,7 +114,7 @@ void bsxfun(const emxArray_int32_T *a, const emxArray_int32_T *b,
 {
   int csz_idx_0;
   int csz_idx_1;
-  int i4;
+  int i3;
   emxArray_int32_T *av;
   unsigned int a_idx_0;
   int bsub;
@@ -125,23 +125,23 @@ void bsxfun(const emxArray_int32_T *a, const emxArray_int32_T *b,
   int loop_ub;
   csz_idx_0 = a->size[0];
   csz_idx_1 = b->size[1];
-  i4 = c->size[0] * c->size[1];
+  i3 = c->size[0] * c->size[1];
   c->size[0] = csz_idx_0;
   c->size[1] = csz_idx_1;
-  emxEnsureCapacity((emxArray__common *)c, i4, (int)sizeof(int));
+  emxEnsureCapacity((emxArray__common *)c, i3, (int)sizeof(int));
   if (!((c->size[0] == 0) || (c->size[1] == 0))) {
     emxInit_int32_T(&av, 1);
     a_idx_0 = (unsigned int)a->size[0];
-    i4 = av->size[0];
+    i3 = av->size[0];
     av->size[0] = (int)a_idx_0;
-    emxEnsureCapacity((emxArray__common *)av, i4, (int)sizeof(int));
+    emxEnsureCapacity((emxArray__common *)av, i3, (int)sizeof(int));
     bsub = 1;
     bk = 0;
     nc1 = c->size[0];
-    i4 = c->size[0] * c->size[1] - c->size[0];
+    i3 = c->size[0] * c->size[1] - c->size[0];
     ck = 0;
     emxInit_int32_T(&cv, 1);
-    while (ck <= i4) {
+    while (ck <= i3) {
       for (csz_idx_0 = 0; csz_idx_0 + 1 <= a->size[0]; csz_idx_0++) {
         av->data[csz_idx_0] = a->data[csz_idx_0];
       }

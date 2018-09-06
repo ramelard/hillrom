@@ -5,7 +5,7 @@
  * File: relop.h
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 06-Sep-2018 15:49:36
+ * C/C++ source code generated on  : 06-Sep-2018 16:44:03
  */
 
 #ifndef RELOP_H
@@ -22,7 +22,6 @@
 #include "extract_vitals_tk1_types.h"
 
 /* Function Declarations */
-extern boolean_T b_relop(const creal_T a, const creal_T b);
 extern boolean_T relop(const creal_T a, const creal_T b);
 
 #endif

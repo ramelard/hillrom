@@ -67,7 +67,7 @@ for i = 1:size(Ahead_filt,2)
   Ahead_filt(:,i) = filter(b, a, Ahead(:,i));
 end
 
-low_freq = 5/60;
+low_freq = 10/60;
 high_freq = 30/60;
 if abs(fps-30) < 0.1
   nyq = 15;  % fs/2
@@ -106,7 +106,7 @@ Fheartrate = Pyy(1:floor(npts/2),:);
 
 % [freq, Fbreathing] = plot_power_spectrum(Abody, 60);
 % [freq, Fheartrate] = plot_power_spectrum(Ahead_filt, 60);
-idx1 = find(freq>5/60, 1, 'first') - 1;
+idx1 = find(freq>10/60, 1, 'first') - 1;
 idx2 = find(freq>30/60, 1, 'first');
 Fbreathing([1:idx1, idx2:end],:) = 0;
 Fheartrate(1,:) = 0;
@@ -121,19 +121,23 @@ heartrate = Ahead_filt * whr';
 RRentr = get_spectral_entropy(Fbreathing);
 wrr = 1-RRentr;
 wrr = wrr./sum(wrr);
-% trust neighborhoods of high weight
-B = 1-reshape(wrr,size(Bbody(:,:,1)));
-% B2 = colfilt(B,[2 2],'sliding',@min);
-% B(1:end-1,1:end-1) = B2(1:end-1,1:end-1);
-for i = 2:2:size(B,1)-1
-  for j = 2:2:size(B,2)-1
-    patch = B(i-1:i+1, j-1:j+1);
-    B(i,j) = min(patch(:));
-  end
-end
-wrr = B(:);
+% % trust neighborhoods of high weight
+% B = reshape(wrr,size(Bbody(:,:,1)));
+% % B2 = colfilt(B,[2 2],'sliding',@min);
+% % B(1:end-1,1:end-1) = B2(1:end-1,1:end-1);
+% B2 = B;
+% for i = 2:size(B,1)-1
+%   for j = 2:size(B,2)-1
+%     patch = B(i-1:i+1, j-1:j+1);
+%     B2(i,j) = min(patch(:));
+%   end
+% end
+% B2([1,2,end-1,end], :) = min(B2(:));
+% B2(:, [1,2,end-1,end]) = min(B2(:));
+% wrr = B2(:)./sum(B2(:));
+
 % !!
-wrr = ones(size(wrr))./numel(wrr);
+% wrr = ones(size(wrr))./numel(wrr);
 
 
 % Use fft to get rid of phase differences between signals.

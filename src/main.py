@@ -114,17 +114,24 @@ def track_and_display():
   # ----------------------------------------------------------------------------
   #                                                               Frame Capture
   # ----------------------------------------------------------------------------
+  # Read once before everything to initiate the camera.
+  ret, frame = camera.read()
   tstart = time()
   nframes = 0
   # TODO: need better resolution?
   # logging.warning('[WARNING] Frames seem to be 480x640; do not match ecam viewer settings. Does this mean exposure time is not the same too??')
   logging.debug('[INFO] Starting frame acquisition')
+  tlast = tstart
   while time() - tstart < acquisition_time:
     # Capture frame-by-frame
     ret, frame = camera.read()
     # Put into our processing queue, to be read by worker (in turn `extract_vitals.so` as the frames are added to queue).
-    q.put((frame, time()))
+    tnow = time()
+    q.put((frame, tnow))
     nframes += 1
+    
+    if tlast-tstart > 2./30:
+      logging.warning('Detected an unexpectedly large delay between frames (%gs)' % tlast-tstart)
   logging.debug('[INFO] Acquisition speed: %.2f fps', nframes / (time() - tstart))
 
 

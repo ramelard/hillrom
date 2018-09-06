@@ -5,7 +5,7 @@
  * File: exp.c
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 06-Sep-2018 15:49:36
+ * C/C++ source code generated on  : 06-Sep-2018 16:44:03
  */
 
 /* Include Files */
@@ -42,20 +42,6 @@ void b_exp(emxArray_creal_T *x)
 
     x->data[k].re = x_re;
     x->data[k].im = r;
-  }
-}
-
-/*
- * Arguments    : emxArray_real_T *x
- * Return Type  : void
- */
-void c_exp(emxArray_real_T *x)
-{
-  int nx;
-  int k;
-  nx = x->size[0];
-  for (k = 0; k + 1 <= nx; k++) {
-    x->data[k] = exp(x->data[k]);
   }
 }
 

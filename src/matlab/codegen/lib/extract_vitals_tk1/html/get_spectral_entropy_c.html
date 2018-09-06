@@ -17,7 +17,7 @@
 <a name="5"><font color="#888888 "><i>    5   </i></font></a><font color="#117755"><I> * File: get_spectral_entropy.c</i></font>
 <a name="6"><font color="#888888 "><i>    6   </i></font></a><font color="#117755"><I> *</i></font>
 <a name="7"><font color="#888888 "><i>    7   </i></font></a><font color="#117755"><I> * MATLAB Coder version            : 3.2</i></font>
-<a name="8"><font color="#888888 "><i>    8   </i></font></a><font color="#117755"><I> * C/C++ source code generated on  : 06-Sep-2018 15:49:36</i></font>
+<a name="8"><font color="#888888 "><i>    8   </i></font></a><font color="#117755"><I> * C/C++ source code generated on  : 06-Sep-2018 16:44:03</i></font>
 <a name="9"><font color="#888888 "><i>    9   </i></font></a><font color="#117755"><I> */</i></font>
 <a name="10"><font color="#888888 "><i>   10   </i></font></a>
 <a name="11"><font color="#888888 "><i>   11   </i></font></a><font color="#117755"><i>/* Include Files */</i></font>
@@ -40,7 +40,7 @@
 <a name="28"><font color="#888888 "><i>   28   </i></font></a><b>{</b>
 <a name="29"><font color="#888888 "><i>   29   </i></font></a>  <font color="#112266"><b>int</b></font> vlen;
 <a name="30"><font color="#888888 "><i>   30   </i></font></a>  <a href="extract_vitals_tk1_types_h.html#type_emxArray_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray_creal_T');" target="_self"><font color="#1122aa">emxArray_creal_T</font></a> *y;
-<a name="31"><font color="#888888 "><i>   31   </i></font></a>  <font color="#112266"><b>int</b></font> i8;
+<a name="31"><font color="#888888 "><i>   31   </i></font></a>  <font color="#112266"><b>int</b></font> i7;
 <a name="32"><font color="#888888 "><i>   32   </i></font></a>  <font color="#112266"><b>int</b></font> asub;
 <a name="33"><font color="#888888 "><i>   33   </i></font></a>  <font color="#112266"><b>int</b></font> xoffset;
 <a name="34"><font color="#888888 "><i>   34   </i></font></a>  <a href="extract_vitals_tk1_types_h.html#type_emxArray_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray_creal_T');" target="_self"><font color="#1122aa">emxArray_creal_T</font></a> *a;
@@ -49,47 +49,47 @@
 <a name="37"><font color="#888888 "><i>   37   </i></font></a>  <font color="#112266"><b>int</b></font> k;
 <a name="38"><font color="#888888 "><i>   38   </i></font></a>  <font color="#112266"><b>int</b></font> na1;
 <a name="39"><font color="#888888 "><i>   39   </i></font></a>  <a href="extract_vitals_tk1_types_h.html#type_emxArray_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray_creal_T');" target="_self"><font color="#1122aa">emxArray_creal_T</font></a> *av;
-<a name="40"><font color="#888888 "><i>   40   </i></font></a>  <a href="extract_vitals_tk1_types_h.html#type_emxArray_boolean_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray_boolean_T');" target="_self"><font color="#1122aa">emxArray_boolean_T</font></a> *r3;
+<a name="40"><font color="#888888 "><i>   40   </i></font></a>  <a href="extract_vitals_tk1_types_h.html#type_emxArray_boolean_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray_boolean_T');" target="_self"><font color="#1122aa">emxArray_boolean_T</font></a> *r2;
 <a name="41"><font color="#888888 "><i>   41   </i></font></a>  <font color="#112266"><b>int</b></font> bsub;
 <a name="42"><font color="#888888 "><i>   42   </i></font></a>  <font color="#112266"><b>int</b></font> ak;
 <a name="43"><font color="#888888 "><i>   43   </i></font></a>  <font color="#112266"><b>int</b></font> bk;
 <a name="44"><font color="#888888 "><i>   44   </i></font></a>  <font color="#112266"><b>int</b></font> nc1;
 <a name="45"><font color="#888888 "><i>   45   </i></font></a>  <font color="#112266"><b>int</b></font> ck;
-<a name="46"><font color="#888888 "><i>   46   </i></font></a>  <a href="extract_vitals_tk1_types_h.html#type_emxArray_boolean_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray_boolean_T');" target="_self"><font color="#1122aa">emxArray_boolean_T</font></a> *r4;
+<a name="46"><font color="#888888 "><i>   46   </i></font></a>  <a href="extract_vitals_tk1_types_h.html#type_emxArray_boolean_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray_boolean_T');" target="_self"><font color="#1122aa">emxArray_boolean_T</font></a> *r3;
 <a name="47"><font color="#888888 "><i>   47   </i></font></a>  <a href="extract_vitals_tk1_types_h.html#type_emxArray_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray_creal_T');" target="_self"><font color="#1122aa">emxArray_creal_T</font></a> *cv;
 <a name="48"><font color="#888888 "><i>   48   </i></font></a>  <font color="#112266"><b>double</b></font> y_re;
 <a name="49"><font color="#888888 "><i>   49   </i></font></a>  <font color="#112266"><b>double</b></font> y_im;
 <a name="50"><font color="#888888 "><i>   50   </i></font></a>  <font color="#112266"><b>double</b></font> av_re;
 <a name="51"><font color="#888888 "><i>   51   </i></font></a>  <font color="#112266"><b>double</b></font> av_im;
 <a name="52"><font color="#888888 "><i>   52   </i></font></a>  <font color="#112266"><b>double</b></font> brm;
-<a name="53"><font color="#888888 "><i>   53   </i></font></a>  <a href="extract_vitals_tk1_types_h.html#type_emxArray_int32_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray_int32_T');" target="_self"><font color="#1122aa">emxArray_int32_T</font></a> *r5;
+<a name="53"><font color="#888888 "><i>   53   </i></font></a>  <a href="extract_vitals_tk1_types_h.html#type_emxArray_int32_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray_int32_T');" target="_self"><font color="#1122aa">emxArray_int32_T</font></a> *r4;
 <a name="54"><font color="#888888 "><i>   54   </i></font></a>  <font color="#112266"><b>unsigned</b></font> <font color="#112266"><b>int</b></font> uv0[2];
 <a name="55"><font color="#888888 "><i>   55   </i></font></a>
 <a name="56"><font color="#888888 "><i>   56   </i></font></a>  <font color="#117755"><i>/*  Get normalized entropy from spectral power range. */</i></font>
 <a name="57"><font color="#888888 "><i>   57   </i></font></a>  <font color="#112266"><b>if</b></font> (power_range-&gt;size[0] == 1) <b>{</b>
 <a name="58"><font color="#888888 "><i>   58   </i></font></a>    vlen = power_range-&gt;size[1];
-<a name="59"><font color="#888888 "><i>   59   </i></font></a>    i8 = power_range-&gt;size[0] * power_range-&gt;size[1];
+<a name="59"><font color="#888888 "><i>   59   </i></font></a>    i7 = power_range-&gt;size[0] * power_range-&gt;size[1];
 <a name="60"><font color="#888888 "><i>   60   </i></font></a>    power_range-&gt;size[0] = vlen;
 <a name="61"><font color="#888888 "><i>   61   </i></font></a>    power_range-&gt;size[1] = 1;
-<a name="62"><font color="#888888 "><i>   62   </i></font></a>    <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)power_range, i8, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_creal_T');" target="_self"><font color="#1122aa">creal_T</font></a>));
+<a name="62"><font color="#888888 "><i>   62   </i></font></a>    <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)power_range, i7, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_creal_T');" target="_self"><font color="#1122aa">creal_T</font></a>));
 <a name="63"><font color="#888888 "><i>   63   </i></font></a>  <b>}</b>
 <a name="64"><font color="#888888 "><i>   64   </i></font></a>
 <a name="65"><font color="#888888 "><i>   65   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxInit_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxInit_creal_T');" target="_self"><font color="#1122aa">emxInit_creal_T</font></a>(&amp;y, 2);
 <a name="66"><font color="#888888 "><i>   66   </i></font></a>
 <a name="67"><font color="#888888 "><i>   67   </i></font></a>  <font color="#117755"><i>/*    A = sqrt(power_range); */</i></font>
 <a name="68"><font color="#888888 "><i>   68   </i></font></a>  <font color="#117755"><i>/*  Make spectrum a PDF */</i></font>
-<a name="69"><font color="#888888 "><i>   69   </i></font></a>  i8 = y-&gt;size[0] * y-&gt;size[1];
+<a name="69"><font color="#888888 "><i>   69   </i></font></a>  i7 = y-&gt;size[0] * y-&gt;size[1];
 <a name="70"><font color="#888888 "><i>   70   </i></font></a>  y-&gt;size[0] = 1;
 <a name="71"><font color="#888888 "><i>   71   </i></font></a>  y-&gt;size[1] = power_range-&gt;size[1];
-<a name="72"><font color="#888888 "><i>   72   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)y, i8, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_creal_T');" target="_self"><font color="#1122aa">creal_T</font></a>));
+<a name="72"><font color="#888888 "><i>   72   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)y, i7, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_creal_T');" target="_self"><font color="#1122aa">creal_T</font></a>));
 <a name="73"><font color="#888888 "><i>   73   </i></font></a>  <font color="#112266"><b>if</b></font> ((power_range-&gt;size[0] == 0) || (power_range-&gt;size[1] == 0)) <b>{</b>
-<a name="74"><font color="#888888 "><i>   74   </i></font></a>    i8 = y-&gt;size[0] * y-&gt;size[1];
+<a name="74"><font color="#888888 "><i>   74   </i></font></a>    i7 = y-&gt;size[0] * y-&gt;size[1];
 <a name="75"><font color="#888888 "><i>   75   </i></font></a>    y-&gt;size[0] = 1;
-<a name="76"><font color="#888888 "><i>   76   </i></font></a>    <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)y, i8, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_creal_T');" target="_self"><font color="#1122aa">creal_T</font></a>));
+<a name="76"><font color="#888888 "><i>   76   </i></font></a>    <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)y, i7, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_creal_T');" target="_self"><font color="#1122aa">creal_T</font></a>));
 <a name="77"><font color="#888888 "><i>   77   </i></font></a>    vlen = y-&gt;size[1];
-<a name="78"><font color="#888888 "><i>   78   </i></font></a>    <font color="#112266"><b>for</b></font> (i8 = 0; i8 &lt; vlen; i8++) <b>{</b>
-<a name="79"><font color="#888888 "><i>   79   </i></font></a>      y-&gt;data[y-&gt;size[0] * i8].re = 0.0;
-<a name="80"><font color="#888888 "><i>   80   </i></font></a>      y-&gt;data[y-&gt;size[0] * i8].im = 0.0;
+<a name="78"><font color="#888888 "><i>   78   </i></font></a>    <font color="#112266"><b>for</b></font> (i7 = 0; i7 &lt; vlen; i7++) <b>{</b>
+<a name="79"><font color="#888888 "><i>   79   </i></font></a>      y-&gt;data[y-&gt;size[0] * i7].re = 0.0;
+<a name="80"><font color="#888888 "><i>   80   </i></font></a>      y-&gt;data[y-&gt;size[0] * i7].im = 0.0;
 <a name="81"><font color="#888888 "><i>   81   </i></font></a>    <b>}</b>
 <a name="82"><font color="#888888 "><i>   82   </i></font></a>  <b>}</b> <font color="#112266"><b>else</b></font> <b>{</b>
 <a name="83"><font color="#888888 "><i>   83   </i></font></a>    vlen = power_range-&gt;size[0];
@@ -108,13 +108,13 @@
 <a name="96"><font color="#888888 "><i>   96   </i></font></a>  <b>}</b>
 <a name="97"><font color="#888888 "><i>   97   </i></font></a>
 <a name="98"><font color="#888888 "><i>   98   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxInit_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxInit_creal_T');" target="_self"><font color="#1122aa">emxInit_creal_T</font></a>(&amp;a, 2);
-<a name="99"><font color="#888888 "><i>   99   </i></font></a>  i8 = a-&gt;size[0] * a-&gt;size[1];
+<a name="99"><font color="#888888 "><i>   99   </i></font></a>  i7 = a-&gt;size[0] * a-&gt;size[1];
 <a name="100"><font color="#888888 "><i>  100   </i></font></a>  a-&gt;size[0] = power_range-&gt;size[0];
 <a name="101"><font color="#888888 "><i>  101   </i></font></a>  a-&gt;size[1] = power_range-&gt;size[1];
-<a name="102"><font color="#888888 "><i>  102   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)a, i8, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_creal_T');" target="_self"><font color="#1122aa">creal_T</font></a>));
+<a name="102"><font color="#888888 "><i>  102   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)a, i7, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_creal_T');" target="_self"><font color="#1122aa">creal_T</font></a>));
 <a name="103"><font color="#888888 "><i>  103   </i></font></a>  vlen = power_range-&gt;size[0] * power_range-&gt;size[1];
-<a name="104"><font color="#888888 "><i>  104   </i></font></a>  <font color="#112266"><b>for</b></font> (i8 = 0; i8 &lt; vlen; i8++) <b>{</b>
-<a name="105"><font color="#888888 "><i>  105   </i></font></a>    a-&gt;data[i8] = power_range-&gt;data[i8];
+<a name="104"><font color="#888888 "><i>  104   </i></font></a>  <font color="#112266"><b>for</b></font> (i7 = 0; i7 &lt; vlen; i7++) <b>{</b>
+<a name="105"><font color="#888888 "><i>  105   </i></font></a>    a-&gt;data[i7] = power_range-&gt;data[i7];
 <a name="106"><font color="#888888 "><i>  106   </i></font></a>  <b>}</b>
 <a name="107"><font color="#888888 "><i>  107   </i></font></a>
 <a name="108"><font color="#888888 "><i>  108   </i></font></a>  na1 = power_range-&gt;size[0];
@@ -125,24 +125,24 @@
 <a name="113"><font color="#888888 "><i>  113   </i></font></a>    xoffset = y-&gt;size[1];
 <a name="114"><font color="#888888 "><i>  114   </i></font></a>  <b>}</b>
 <a name="115"><font color="#888888 "><i>  115   </i></font></a>
-<a name="116"><font color="#888888 "><i>  116   </i></font></a>  i8 = power_range-&gt;size[0] * power_range-&gt;size[1];
+<a name="116"><font color="#888888 "><i>  116   </i></font></a>  i7 = power_range-&gt;size[0] * power_range-&gt;size[1];
 <a name="117"><font color="#888888 "><i>  117   </i></font></a>  power_range-&gt;size[0] = vlen;
 <a name="118"><font color="#888888 "><i>  118   </i></font></a>  power_range-&gt;size[1] = xoffset;
-<a name="119"><font color="#888888 "><i>  119   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)power_range, i8, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_creal_T');" target="_self"><font color="#1122aa">creal_T</font></a>));
+<a name="119"><font color="#888888 "><i>  119   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)power_range, i7, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_creal_T');" target="_self"><font color="#1122aa">creal_T</font></a>));
 <a name="120"><font color="#888888 "><i>  120   </i></font></a>  <font color="#112266"><b>if</b></font> (!((power_range-&gt;size[0] == 0) || (power_range-&gt;size[1] == 0))) <b>{</b>
 <a name="121"><font color="#888888 "><i>  121   </i></font></a>    <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxInit_creal_T1" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxInit_creal_T1');" target="_self"><font color="#1122aa">emxInit_creal_T1</font></a>(&amp;av, 1);
-<a name="122"><font color="#888888 "><i>  122   </i></font></a>    i8 = av-&gt;size[0];
+<a name="122"><font color="#888888 "><i>  122   </i></font></a>    i7 = av-&gt;size[0];
 <a name="123"><font color="#888888 "><i>  123   </i></font></a>    av-&gt;size[0] = na1;
-<a name="124"><font color="#888888 "><i>  124   </i></font></a>    <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)av, i8, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_creal_T');" target="_self"><font color="#1122aa">creal_T</font></a>));
+<a name="124"><font color="#888888 "><i>  124   </i></font></a>    <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)av, i7, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_creal_T');" target="_self"><font color="#1122aa">creal_T</font></a>));
 <a name="125"><font color="#888888 "><i>  125   </i></font></a>    asub = 1;
 <a name="126"><font color="#888888 "><i>  126   </i></font></a>    bsub = 1;
 <a name="127"><font color="#888888 "><i>  127   </i></font></a>    ak = -1;
 <a name="128"><font color="#888888 "><i>  128   </i></font></a>    bk = 0;
 <a name="129"><font color="#888888 "><i>  129   </i></font></a>    nc1 = power_range-&gt;size[0];
-<a name="130"><font color="#888888 "><i>  130   </i></font></a>    i8 = power_range-&gt;size[0] * power_range-&gt;size[1] - power_range-&gt;size[0];
+<a name="130"><font color="#888888 "><i>  130   </i></font></a>    i7 = power_range-&gt;size[0] * power_range-&gt;size[1] - power_range-&gt;size[0];
 <a name="131"><font color="#888888 "><i>  131   </i></font></a>    ck = 0;
 <a name="132"><font color="#888888 "><i>  132   </i></font></a>    <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxInit_creal_T1" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxInit_creal_T1');" target="_self"><font color="#1122aa">emxInit_creal_T1</font></a>(&amp;cv, 1);
-<a name="133"><font color="#888888 "><i>  133   </i></font></a>    <font color="#112266"><b>while</b></font> (ck &lt;= i8) <b>{</b>
+<a name="133"><font color="#888888 "><i>  133   </i></font></a>    <font color="#112266"><b>while</b></font> (ck &lt;= i7) <b>{</b>
 <a name="134"><font color="#888888 "><i>  134   </i></font></a>      <font color="#112266"><b>for</b></font> (k = 1; k &lt;= na1; k++) <b>{</b>
 <a name="135"><font color="#888888 "><i>  135   </i></font></a>        av-&gt;data[k - 1] = a-&gt;data[ak + k];
 <a name="136"><font color="#888888 "><i>  136   </i></font></a>      <b>}</b>
@@ -235,86 +235,86 @@
 <a name="223"><font color="#888888 "><i>  223   </i></font></a>  <b>}</b>
 <a name="224"><font color="#888888 "><i>  224   </i></font></a>
 <a name="225"><font color="#888888 "><i>  225   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxFree_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxFree_creal_T');" target="_self"><font color="#1122aa">emxFree_creal_T</font></a>(&amp;y);
-<a name="226"><font color="#888888 "><i>  226   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxInit_boolean_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxInit_boolean_T');" target="_self"><font color="#1122aa">emxInit_boolean_T</font></a>(&amp;r3, 2);
+<a name="226"><font color="#888888 "><i>  226   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxInit_boolean_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxInit_boolean_T');" target="_self"><font color="#1122aa">emxInit_boolean_T</font></a>(&amp;r2, 2);
 <a name="227"><font color="#888888 "><i>  227   </i></font></a>
 <a name="228"><font color="#888888 "><i>  228   </i></font></a>  <font color="#117755"><i>/*  Happens when whole spectrum range has 0 power. */</i></font>
-<a name="229"><font color="#888888 "><i>  229   </i></font></a>  i8 = r3-&gt;size[0] * r3-&gt;size[1];
-<a name="230"><font color="#888888 "><i>  230   </i></font></a>  r3-&gt;size[0] = power_range-&gt;size[0];
-<a name="231"><font color="#888888 "><i>  231   </i></font></a>  r3-&gt;size[1] = power_range-&gt;size[1];
-<a name="232"><font color="#888888 "><i>  232   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)r3, i8, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_boolean_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_boolean_T');" target="_self"><font color="#1122aa">boolean_T</font></a>));
+<a name="229"><font color="#888888 "><i>  229   </i></font></a>  i7 = r2-&gt;size[0] * r2-&gt;size[1];
+<a name="230"><font color="#888888 "><i>  230   </i></font></a>  r2-&gt;size[0] = power_range-&gt;size[0];
+<a name="231"><font color="#888888 "><i>  231   </i></font></a>  r2-&gt;size[1] = power_range-&gt;size[1];
+<a name="232"><font color="#888888 "><i>  232   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)r2, i7, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_boolean_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_boolean_T');" target="_self"><font color="#1122aa">boolean_T</font></a>));
 <a name="233"><font color="#888888 "><i>  233   </i></font></a>  vlen = power_range-&gt;size[0] * power_range-&gt;size[1];
-<a name="234"><font color="#888888 "><i>  234   </i></font></a>  <font color="#112266"><b>for</b></font> (i8 = 0; i8 &lt; vlen; i8++) <b>{</b>
-<a name="235"><font color="#888888 "><i>  235   </i></font></a>    r3-&gt;data[i8] = <a href="rt_nonfinite_c.html#fcn_rtIsNaN" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtIsNaN');" target="_self"><font color="#1122aa">rtIsNaN</font></a>(power_range-&gt;data[i8].re);
+<a name="234"><font color="#888888 "><i>  234   </i></font></a>  <font color="#112266"><b>for</b></font> (i7 = 0; i7 &lt; vlen; i7++) <b>{</b>
+<a name="235"><font color="#888888 "><i>  235   </i></font></a>    r2-&gt;data[i7] = <a href="rt_nonfinite_c.html#fcn_rtIsNaN" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtIsNaN');" target="_self"><font color="#1122aa">rtIsNaN</font></a>(power_range-&gt;data[i7].re);
 <a name="236"><font color="#888888 "><i>  236   </i></font></a>  <b>}</b>
 <a name="237"><font color="#888888 "><i>  237   </i></font></a>
-<a name="238"><font color="#888888 "><i>  238   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxInit_boolean_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxInit_boolean_T');" target="_self"><font color="#1122aa">emxInit_boolean_T</font></a>(&amp;r4, 2);
-<a name="239"><font color="#888888 "><i>  239   </i></font></a>  i8 = r4-&gt;size[0] * r4-&gt;size[1];
-<a name="240"><font color="#888888 "><i>  240   </i></font></a>  r4-&gt;size[0] = power_range-&gt;size[0];
-<a name="241"><font color="#888888 "><i>  241   </i></font></a>  r4-&gt;size[1] = power_range-&gt;size[1];
-<a name="242"><font color="#888888 "><i>  242   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)r4, i8, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_boolean_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_boolean_T');" target="_self"><font color="#1122aa">boolean_T</font></a>));
+<a name="238"><font color="#888888 "><i>  238   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxInit_boolean_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxInit_boolean_T');" target="_self"><font color="#1122aa">emxInit_boolean_T</font></a>(&amp;r3, 2);
+<a name="239"><font color="#888888 "><i>  239   </i></font></a>  i7 = r3-&gt;size[0] * r3-&gt;size[1];
+<a name="240"><font color="#888888 "><i>  240   </i></font></a>  r3-&gt;size[0] = power_range-&gt;size[0];
+<a name="241"><font color="#888888 "><i>  241   </i></font></a>  r3-&gt;size[1] = power_range-&gt;size[1];
+<a name="242"><font color="#888888 "><i>  242   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)r3, i7, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_boolean_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_boolean_T');" target="_self"><font color="#1122aa">boolean_T</font></a>));
 <a name="243"><font color="#888888 "><i>  243   </i></font></a>  vlen = power_range-&gt;size[0] * power_range-&gt;size[1];
-<a name="244"><font color="#888888 "><i>  244   </i></font></a>  <font color="#112266"><b>for</b></font> (i8 = 0; i8 &lt; vlen; i8++) <b>{</b>
-<a name="245"><font color="#888888 "><i>  245   </i></font></a>    r4-&gt;data[i8] = <a href="rt_nonfinite_c.html#fcn_rtIsNaN" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtIsNaN');" target="_self"><font color="#1122aa">rtIsNaN</font></a>(power_range-&gt;data[i8].im);
+<a name="244"><font color="#888888 "><i>  244   </i></font></a>  <font color="#112266"><b>for</b></font> (i7 = 0; i7 &lt; vlen; i7++) <b>{</b>
+<a name="245"><font color="#888888 "><i>  245   </i></font></a>    r3-&gt;data[i7] = <a href="rt_nonfinite_c.html#fcn_rtIsNaN" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtIsNaN');" target="_self"><font color="#1122aa">rtIsNaN</font></a>(power_range-&gt;data[i7].im);
 <a name="246"><font color="#888888 "><i>  246   </i></font></a>  <b>}</b>
 <a name="247"><font color="#888888 "><i>  247   </i></font></a>
-<a name="248"><font color="#888888 "><i>  248   </i></font></a>  i8 = r3-&gt;size[0] * r3-&gt;size[1];
-<a name="249"><font color="#888888 "><i>  249   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)r3, i8, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_boolean_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_boolean_T');" target="_self"><font color="#1122aa">boolean_T</font></a>));
-<a name="250"><font color="#888888 "><i>  250   </i></font></a>  i8 = r3-&gt;size[0];
-<a name="251"><font color="#888888 "><i>  251   </i></font></a>  xoffset = r3-&gt;size[1];
-<a name="252"><font color="#888888 "><i>  252   </i></font></a>  vlen = i8 * xoffset;
-<a name="253"><font color="#888888 "><i>  253   </i></font></a>  <font color="#112266"><b>for</b></font> (i8 = 0; i8 &lt; vlen; i8++) <b>{</b>
-<a name="254"><font color="#888888 "><i>  254   </i></font></a>    r3-&gt;data[i8] = (r3-&gt;data[i8] || r4-&gt;data[i8]);
+<a name="248"><font color="#888888 "><i>  248   </i></font></a>  i7 = r2-&gt;size[0] * r2-&gt;size[1];
+<a name="249"><font color="#888888 "><i>  249   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)r2, i7, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_boolean_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_boolean_T');" target="_self"><font color="#1122aa">boolean_T</font></a>));
+<a name="250"><font color="#888888 "><i>  250   </i></font></a>  i7 = r2-&gt;size[0];
+<a name="251"><font color="#888888 "><i>  251   </i></font></a>  xoffset = r2-&gt;size[1];
+<a name="252"><font color="#888888 "><i>  252   </i></font></a>  vlen = i7 * xoffset;
+<a name="253"><font color="#888888 "><i>  253   </i></font></a>  <font color="#112266"><b>for</b></font> (i7 = 0; i7 &lt; vlen; i7++) <b>{</b>
+<a name="254"><font color="#888888 "><i>  254   </i></font></a>    r2-&gt;data[i7] = (r2-&gt;data[i7] || r3-&gt;data[i7]);
 <a name="255"><font color="#888888 "><i>  255   </i></font></a>  <b>}</b>
 <a name="256"><font color="#888888 "><i>  256   </i></font></a>
-<a name="257"><font color="#888888 "><i>  257   </i></font></a>  i8 = r4-&gt;size[0] * r4-&gt;size[1];
-<a name="258"><font color="#888888 "><i>  258   </i></font></a>  r4-&gt;size[0] = power_range-&gt;size[0];
-<a name="259"><font color="#888888 "><i>  259   </i></font></a>  r4-&gt;size[1] = power_range-&gt;size[1];
-<a name="260"><font color="#888888 "><i>  260   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)r4, i8, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_boolean_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_boolean_T');" target="_self"><font color="#1122aa">boolean_T</font></a>));
+<a name="257"><font color="#888888 "><i>  257   </i></font></a>  i7 = r3-&gt;size[0] * r3-&gt;size[1];
+<a name="258"><font color="#888888 "><i>  258   </i></font></a>  r3-&gt;size[0] = power_range-&gt;size[0];
+<a name="259"><font color="#888888 "><i>  259   </i></font></a>  r3-&gt;size[1] = power_range-&gt;size[1];
+<a name="260"><font color="#888888 "><i>  260   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)r3, i7, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_boolean_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_boolean_T');" target="_self"><font color="#1122aa">boolean_T</font></a>));
 <a name="261"><font color="#888888 "><i>  261   </i></font></a>  vlen = power_range-&gt;size[0] * power_range-&gt;size[1];
-<a name="262"><font color="#888888 "><i>  262   </i></font></a>  <font color="#112266"><b>for</b></font> (i8 = 0; i8 &lt; vlen; i8++) <b>{</b>
-<a name="263"><font color="#888888 "><i>  263   </i></font></a>    r4-&gt;data[i8] = ((power_range-&gt;data[i8].re == 0.0) &amp;&amp; (power_range-&gt;data[i8].
+<a name="262"><font color="#888888 "><i>  262   </i></font></a>  <font color="#112266"><b>for</b></font> (i7 = 0; i7 &lt; vlen; i7++) <b>{</b>
+<a name="263"><font color="#888888 "><i>  263   </i></font></a>    r3-&gt;data[i7] = ((power_range-&gt;data[i7].re == 0.0) &amp;&amp; (power_range-&gt;data[i7].
 <a name="264"><font color="#888888 "><i>  264   </i></font></a>      im == 0.0));
 <a name="265"><font color="#888888 "><i>  265   </i></font></a>  <b>}</b>
 <a name="266"><font color="#888888 "><i>  266   </i></font></a>
-<a name="267"><font color="#888888 "><i>  267   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxInit_int32_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxInit_int32_T');" target="_self"><font color="#1122aa">emxInit_int32_T</font></a>(&amp;r5, 1);
-<a name="268"><font color="#888888 "><i>  268   </i></font></a>  xoffset = r3-&gt;size[0] * r3-&gt;size[1] - 1;
+<a name="267"><font color="#888888 "><i>  267   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxInit_int32_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxInit_int32_T');" target="_self"><font color="#1122aa">emxInit_int32_T</font></a>(&amp;r4, 1);
+<a name="268"><font color="#888888 "><i>  268   </i></font></a>  xoffset = r2-&gt;size[0] * r2-&gt;size[1] - 1;
 <a name="269"><font color="#888888 "><i>  269   </i></font></a>  vlen = 0;
 <a name="270"><font color="#888888 "><i>  270   </i></font></a>  <font color="#112266"><b>for</b></font> (asub = 0; asub &lt;= xoffset; asub++) <b>{</b>
-<a name="271"><font color="#888888 "><i>  271   </i></font></a>    <font color="#112266"><b>if</b></font> (r3-&gt;data[asub] || r4-&gt;data[asub]) <b>{</b>
+<a name="271"><font color="#888888 "><i>  271   </i></font></a>    <font color="#112266"><b>if</b></font> (r2-&gt;data[asub] || r3-&gt;data[asub]) <b>{</b>
 <a name="272"><font color="#888888 "><i>  272   </i></font></a>      vlen++;
 <a name="273"><font color="#888888 "><i>  273   </i></font></a>    <b>}</b>
 <a name="274"><font color="#888888 "><i>  274   </i></font></a>  <b>}</b>
 <a name="275"><font color="#888888 "><i>  275   </i></font></a>
-<a name="276"><font color="#888888 "><i>  276   </i></font></a>  i8 = r5-&gt;size[0];
-<a name="277"><font color="#888888 "><i>  277   </i></font></a>  r5-&gt;size[0] = vlen;
-<a name="278"><font color="#888888 "><i>  278   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)r5, i8, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<font color="#112266"><b>int</b></font>));
+<a name="276"><font color="#888888 "><i>  276   </i></font></a>  i7 = r4-&gt;size[0];
+<a name="277"><font color="#888888 "><i>  277   </i></font></a>  r4-&gt;size[0] = vlen;
+<a name="278"><font color="#888888 "><i>  278   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)r4, i7, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<font color="#112266"><b>int</b></font>));
 <a name="279"><font color="#888888 "><i>  279   </i></font></a>  vlen = 0;
 <a name="280"><font color="#888888 "><i>  280   </i></font></a>  <font color="#112266"><b>for</b></font> (asub = 0; asub &lt;= xoffset; asub++) <b>{</b>
-<a name="281"><font color="#888888 "><i>  281   </i></font></a>    <font color="#112266"><b>if</b></font> (r3-&gt;data[asub] || r4-&gt;data[asub]) <b>{</b>
-<a name="282"><font color="#888888 "><i>  282   </i></font></a>      r5-&gt;data[vlen] = asub + 1;
+<a name="281"><font color="#888888 "><i>  281   </i></font></a>    <font color="#112266"><b>if</b></font> (r2-&gt;data[asub] || r3-&gt;data[asub]) <b>{</b>
+<a name="282"><font color="#888888 "><i>  282   </i></font></a>      r4-&gt;data[vlen] = asub + 1;
 <a name="283"><font color="#888888 "><i>  283   </i></font></a>      vlen++;
 <a name="284"><font color="#888888 "><i>  284   </i></font></a>    <b>}</b>
 <a name="285"><font color="#888888 "><i>  285   </i></font></a>  <b>}</b>
 <a name="286"><font color="#888888 "><i>  286   </i></font></a>
-<a name="287"><font color="#888888 "><i>  287   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxFree_boolean_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxFree_boolean_T');" target="_self"><font color="#1122aa">emxFree_boolean_T</font></a>(&amp;r4);
-<a name="288"><font color="#888888 "><i>  288   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxFree_boolean_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxFree_boolean_T');" target="_self"><font color="#1122aa">emxFree_boolean_T</font></a>(&amp;r3);
-<a name="289"><font color="#888888 "><i>  289   </i></font></a>  vlen = r5-&gt;size[0];
-<a name="290"><font color="#888888 "><i>  290   </i></font></a>  <font color="#112266"><b>for</b></font> (i8 = 0; i8 &lt; vlen; i8++) <b>{</b>
-<a name="291"><font color="#888888 "><i>  291   </i></font></a>    power_range-&gt;data[r5-&gt;data[i8] - 1].re = 1.0E-100;
-<a name="292"><font color="#888888 "><i>  292   </i></font></a>    power_range-&gt;data[r5-&gt;data[i8] - 1].im = 0.0;
+<a name="287"><font color="#888888 "><i>  287   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxFree_boolean_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxFree_boolean_T');" target="_self"><font color="#1122aa">emxFree_boolean_T</font></a>(&amp;r3);
+<a name="288"><font color="#888888 "><i>  288   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxFree_boolean_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxFree_boolean_T');" target="_self"><font color="#1122aa">emxFree_boolean_T</font></a>(&amp;r2);
+<a name="289"><font color="#888888 "><i>  289   </i></font></a>  vlen = r4-&gt;size[0];
+<a name="290"><font color="#888888 "><i>  290   </i></font></a>  <font color="#112266"><b>for</b></font> (i7 = 0; i7 &lt; vlen; i7++) <b>{</b>
+<a name="291"><font color="#888888 "><i>  291   </i></font></a>    power_range-&gt;data[r4-&gt;data[i7] - 1].re = 1.0E-100;
+<a name="292"><font color="#888888 "><i>  292   </i></font></a>    power_range-&gt;data[r4-&gt;data[i7] - 1].im = 0.0;
 <a name="293"><font color="#888888 "><i>  293   </i></font></a>  <b>}</b>
 <a name="294"><font color="#888888 "><i>  294   </i></font></a>
-<a name="295"><font color="#888888 "><i>  295   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxFree_int32_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxFree_int32_T');" target="_self"><font color="#1122aa">emxFree_int32_T</font></a>(&amp;r5);
+<a name="295"><font color="#888888 "><i>  295   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxFree_int32_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxFree_int32_T');" target="_self"><font color="#1122aa">emxFree_int32_T</font></a>(&amp;r4);
 <a name="296"><font color="#888888 "><i>  296   </i></font></a>
 <a name="297"><font color="#888888 "><i>  297   </i></font></a>  <font color="#117755"><i>/*  Use normalized entropy. */</i></font>
-<a name="298"><font color="#888888 "><i>  298   </i></font></a>  <font color="#112266"><b>for</b></font> (i8 = 0; i8 &lt; 2; i8++) <b>{</b>
-<a name="299"><font color="#888888 "><i>  299   </i></font></a>    uv0[i8] = (<font color="#112266"><b>unsigned</b></font> <font color="#112266"><b>int</b></font>)power_range-&gt;size[i8];
+<a name="298"><font color="#888888 "><i>  298   </i></font></a>  <font color="#112266"><b>for</b></font> (i7 = 0; i7 &lt; 2; i7++) <b>{</b>
+<a name="299"><font color="#888888 "><i>  299   </i></font></a>    uv0[i7] = (<font color="#112266"><b>unsigned</b></font> <font color="#112266"><b>int</b></font>)power_range-&gt;size[i7];
 <a name="300"><font color="#888888 "><i>  300   </i></font></a>  <b>}</b>
 <a name="301"><font color="#888888 "><i>  301   </i></font></a>
-<a name="302"><font color="#888888 "><i>  302   </i></font></a>  i8 = a-&gt;size[0] * a-&gt;size[1];
+<a name="302"><font color="#888888 "><i>  302   </i></font></a>  i7 = a-&gt;size[0] * a-&gt;size[1];
 <a name="303"><font color="#888888 "><i>  303   </i></font></a>  a-&gt;size[0] = (<font color="#112266"><b>int</b></font>)uv0[0];
 <a name="304"><font color="#888888 "><i>  304   </i></font></a>  a-&gt;size[1] = (<font color="#112266"><b>int</b></font>)uv0[1];
-<a name="305"><font color="#888888 "><i>  305   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)a, i8, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_creal_T');" target="_self"><font color="#1122aa">creal_T</font></a>));
+<a name="305"><font color="#888888 "><i>  305   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)a, i7, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_creal_T');" target="_self"><font color="#1122aa">creal_T</font></a>));
 <a name="306"><font color="#888888 "><i>  306   </i></font></a>  vlen = power_range-&gt;size[0] * power_range-&gt;size[1];
 <a name="307"><font color="#888888 "><i>  307   </i></font></a>  <font color="#112266"><b>for</b></font> (k = 0; k + 1 &lt;= vlen; k++) <b>{</b>
 <a name="308"><font color="#888888 "><i>  308   </i></font></a>    <font color="#112266"><b>if</b></font> ((power_range-&gt;data[k].im == 0.0) &amp;&amp; <a href="rt_nonfinite_c.html#fcn_rtIsNaN" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_rtIsNaN');" target="_self"><font color="#1122aa">rtIsNaN</font></a>(power_range-&gt;data[k].re)) <b>{</b>
@@ -337,32 +337,32 @@
 <a name="325"><font color="#888888 "><i>  325   </i></font></a>    a-&gt;data[k].im = s_im;
 <a name="326"><font color="#888888 "><i>  326   </i></font></a>  <b>}</b>
 <a name="327"><font color="#888888 "><i>  327   </i></font></a>
-<a name="328"><font color="#888888 "><i>  328   </i></font></a>  i8 = a-&gt;size[0] * a-&gt;size[1];
+<a name="328"><font color="#888888 "><i>  328   </i></font></a>  i7 = a-&gt;size[0] * a-&gt;size[1];
 <a name="329"><font color="#888888 "><i>  329   </i></font></a>  a-&gt;size[0] = power_range-&gt;size[0];
 <a name="330"><font color="#888888 "><i>  330   </i></font></a>  a-&gt;size[1] = power_range-&gt;size[1];
-<a name="331"><font color="#888888 "><i>  331   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)a, i8, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_creal_T');" target="_self"><font color="#1122aa">creal_T</font></a>));
+<a name="331"><font color="#888888 "><i>  331   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)a, i7, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_creal_T');" target="_self"><font color="#1122aa">creal_T</font></a>));
 <a name="332"><font color="#888888 "><i>  332   </i></font></a>  vlen = power_range-&gt;size[0] * power_range-&gt;size[1];
-<a name="333"><font color="#888888 "><i>  333   </i></font></a>  <font color="#112266"><b>for</b></font> (i8 = 0; i8 &lt; vlen; i8++) <b>{</b>
-<a name="334"><font color="#888888 "><i>  334   </i></font></a>    s_re = power_range-&gt;data[i8].re;
-<a name="335"><font color="#888888 "><i>  335   </i></font></a>    s_im = power_range-&gt;data[i8].im;
-<a name="336"><font color="#888888 "><i>  336   </i></font></a>    brm = a-&gt;data[i8].re;
-<a name="337"><font color="#888888 "><i>  337   </i></font></a>    y_re = a-&gt;data[i8].im;
-<a name="338"><font color="#888888 "><i>  338   </i></font></a>    a-&gt;data[i8].re = s_re * brm - s_im * y_re;
-<a name="339"><font color="#888888 "><i>  339   </i></font></a>    a-&gt;data[i8].im = s_re * y_re + s_im * brm;
+<a name="333"><font color="#888888 "><i>  333   </i></font></a>  <font color="#112266"><b>for</b></font> (i7 = 0; i7 &lt; vlen; i7++) <b>{</b>
+<a name="334"><font color="#888888 "><i>  334   </i></font></a>    s_re = power_range-&gt;data[i7].re;
+<a name="335"><font color="#888888 "><i>  335   </i></font></a>    s_im = power_range-&gt;data[i7].im;
+<a name="336"><font color="#888888 "><i>  336   </i></font></a>    brm = a-&gt;data[i7].re;
+<a name="337"><font color="#888888 "><i>  337   </i></font></a>    y_re = a-&gt;data[i7].im;
+<a name="338"><font color="#888888 "><i>  338   </i></font></a>    a-&gt;data[i7].re = s_re * brm - s_im * y_re;
+<a name="339"><font color="#888888 "><i>  339   </i></font></a>    a-&gt;data[i7].im = s_re * y_re + s_im * brm;
 <a name="340"><font color="#888888 "><i>  340   </i></font></a>  <b>}</b>
 <a name="341"><font color="#888888 "><i>  341   </i></font></a>
-<a name="342"><font color="#888888 "><i>  342   </i></font></a>  i8 = entr-&gt;size[0] * entr-&gt;size[1];
+<a name="342"><font color="#888888 "><i>  342   </i></font></a>  i7 = entr-&gt;size[0] * entr-&gt;size[1];
 <a name="343"><font color="#888888 "><i>  343   </i></font></a>  entr-&gt;size[0] = 1;
 <a name="344"><font color="#888888 "><i>  344   </i></font></a>  entr-&gt;size[1] = a-&gt;size[1];
-<a name="345"><font color="#888888 "><i>  345   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)entr, i8, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_creal_T');" target="_self"><font color="#1122aa">creal_T</font></a>));
+<a name="345"><font color="#888888 "><i>  345   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)entr, i7, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_creal_T');" target="_self"><font color="#1122aa">creal_T</font></a>));
 <a name="346"><font color="#888888 "><i>  346   </i></font></a>  <font color="#112266"><b>if</b></font> ((a-&gt;size[0] == 0) || (a-&gt;size[1] == 0)) <b>{</b>
-<a name="347"><font color="#888888 "><i>  347   </i></font></a>    i8 = entr-&gt;size[0] * entr-&gt;size[1];
+<a name="347"><font color="#888888 "><i>  347   </i></font></a>    i7 = entr-&gt;size[0] * entr-&gt;size[1];
 <a name="348"><font color="#888888 "><i>  348   </i></font></a>    entr-&gt;size[0] = 1;
-<a name="349"><font color="#888888 "><i>  349   </i></font></a>    <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)entr, i8, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_creal_T');" target="_self"><font color="#1122aa">creal_T</font></a>));
+<a name="349"><font color="#888888 "><i>  349   </i></font></a>    <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)entr, i7, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_creal_T');" target="_self"><font color="#1122aa">creal_T</font></a>));
 <a name="350"><font color="#888888 "><i>  350   </i></font></a>    vlen = entr-&gt;size[1];
-<a name="351"><font color="#888888 "><i>  351   </i></font></a>    <font color="#112266"><b>for</b></font> (i8 = 0; i8 &lt; vlen; i8++) <b>{</b>
-<a name="352"><font color="#888888 "><i>  352   </i></font></a>      entr-&gt;data[entr-&gt;size[0] * i8].re = 0.0;
-<a name="353"><font color="#888888 "><i>  353   </i></font></a>      entr-&gt;data[entr-&gt;size[0] * i8].im = 0.0;
+<a name="351"><font color="#888888 "><i>  351   </i></font></a>    <font color="#112266"><b>for</b></font> (i7 = 0; i7 &lt; vlen; i7++) <b>{</b>
+<a name="352"><font color="#888888 "><i>  352   </i></font></a>      entr-&gt;data[entr-&gt;size[0] * i7].re = 0.0;
+<a name="353"><font color="#888888 "><i>  353   </i></font></a>      entr-&gt;data[entr-&gt;size[0] * i7].im = 0.0;
 <a name="354"><font color="#888888 "><i>  354   </i></font></a>    <b>}</b>
 <a name="355"><font color="#888888 "><i>  355   </i></font></a>  <b>}</b> <font color="#112266"><b>else</b></font> <b>{</b>
 <a name="356"><font color="#888888 "><i>  356   </i></font></a>    vlen = a-&gt;size[0];
@@ -382,24 +382,24 @@
 <a name="370"><font color="#888888 "><i>  370   </i></font></a>
 <a name="371"><font color="#888888 "><i>  371   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxFree_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxFree_creal_T');" target="_self"><font color="#1122aa">emxFree_creal_T</font></a>(&amp;a);
 <a name="372"><font color="#888888 "><i>  372   </i></font></a>  s_re = <a href="log21_c.html#fcn_scalar_real_log2" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_scalar_real_log2');" target="_self"><font color="#1122aa">scalar_real_log2</font></a>(power_range-&gt;size[0]);
-<a name="373"><font color="#888888 "><i>  373   </i></font></a>  i8 = entr-&gt;size[0] * entr-&gt;size[1];
+<a name="373"><font color="#888888 "><i>  373   </i></font></a>  i7 = entr-&gt;size[0] * entr-&gt;size[1];
 <a name="374"><font color="#888888 "><i>  374   </i></font></a>  entr-&gt;size[0] = 1;
-<a name="375"><font color="#888888 "><i>  375   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)entr, i8, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_creal_T');" target="_self"><font color="#1122aa">creal_T</font></a>));
+<a name="375"><font color="#888888 "><i>  375   </i></font></a>  <a href="extract_vitals_tk1_emxutil_c.html#fcn_emxEnsureCapacity" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'fcn_emxEnsureCapacity');" target="_self"><font color="#1122aa">emxEnsureCapacity</font></a>((<a href="extract_vitals_tk1_types_h.html#type_emxArray__common" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_emxArray__common');" target="_self"><font color="#1122aa">emxArray__common</font></a> *)entr, i7, (<font color="#112266"><b>int</b></font>)<font color="#112266"><b>sizeof</b></font>(<a href="rtwtypes_h.html#type_creal_T" onclick="if (top) if (top.docHiliteMe) top.docHiliteMe(window, 'type_creal_T');" target="_self"><font color="#1122aa">creal_T</font></a>));
 <a name="376"><font color="#888888 "><i>  376   </i></font></a>  vlen = entr-&gt;size[0];
 <a name="377"><font color="#888888 "><i>  377   </i></font></a>  xoffset = entr-&gt;size[1];
 <a name="378"><font color="#888888 "><i>  378   </i></font></a>  vlen *= xoffset;
-<a name="379"><font color="#888888 "><i>  379   </i></font></a>  <font color="#112266"><b>for</b></font> (i8 = 0; i8 &lt; vlen; i8++) <b>{</b>
-<a name="380"><font color="#888888 "><i>  380   </i></font></a>    s_im = -entr-&gt;data[i8].re;
-<a name="381"><font color="#888888 "><i>  381   </i></font></a>    brm = -entr-&gt;data[i8].im;
+<a name="379"><font color="#888888 "><i>  379   </i></font></a>  <font color="#112266"><b>for</b></font> (i7 = 0; i7 &lt; vlen; i7++) <b>{</b>
+<a name="380"><font color="#888888 "><i>  380   </i></font></a>    s_im = -entr-&gt;data[i7].re;
+<a name="381"><font color="#888888 "><i>  381   </i></font></a>    brm = -entr-&gt;data[i7].im;
 <a name="382"><font color="#888888 "><i>  382   </i></font></a>    <font color="#112266"><b>if</b></font> (brm == 0.0) <b>{</b>
-<a name="383"><font color="#888888 "><i>  383   </i></font></a>      entr-&gt;data[i8].re = s_im / s_re;
-<a name="384"><font color="#888888 "><i>  384   </i></font></a>      entr-&gt;data[i8].im = 0.0;
+<a name="383"><font color="#888888 "><i>  383   </i></font></a>      entr-&gt;data[i7].re = s_im / s_re;
+<a name="384"><font color="#888888 "><i>  384   </i></font></a>      entr-&gt;data[i7].im = 0.0;
 <a name="385"><font color="#888888 "><i>  385   </i></font></a>    <b>}</b> <font color="#112266"><b>else</b></font> <font color="#112266"><b>if</b></font> (s_im == 0.0) <b>{</b>
-<a name="386"><font color="#888888 "><i>  386   </i></font></a>      entr-&gt;data[i8].re = 0.0;
-<a name="387"><font color="#888888 "><i>  387   </i></font></a>      entr-&gt;data[i8].im = brm / s_re;
+<a name="386"><font color="#888888 "><i>  386   </i></font></a>      entr-&gt;data[i7].re = 0.0;
+<a name="387"><font color="#888888 "><i>  387   </i></font></a>      entr-&gt;data[i7].im = brm / s_re;
 <a name="388"><font color="#888888 "><i>  388   </i></font></a>    <b>}</b> <font color="#112266"><b>else</b></font> <b>{</b>
-<a name="389"><font color="#888888 "><i>  389   </i></font></a>      entr-&gt;data[i8].re = s_im / s_re;
-<a name="390"><font color="#888888 "><i>  390   </i></font></a>      entr-&gt;data[i8].im = brm / s_re;
+<a name="389"><font color="#888888 "><i>  389   </i></font></a>      entr-&gt;data[i7].re = s_im / s_re;
+<a name="390"><font color="#888888 "><i>  390   </i></font></a>      entr-&gt;data[i7].im = brm / s_re;
 <a name="391"><font color="#888888 "><i>  391   </i></font></a>    <b>}</b>
 <a name="392"><font color="#888888 "><i>  392   </i></font></a>  <b>}</b>
 <a name="393"><font color="#888888 "><i>  393   </i></font></a>
