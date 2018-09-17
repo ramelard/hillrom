@@ -1,5 +1,6 @@
 import cv2
 import logging
+import numpy as np
 
 
 
@@ -10,6 +11,8 @@ if __name__ == '__main__':
     ret, frame = video_capture.read()
 
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+#    gray = np.rot90(gray, 3)
+    gray_64F = np.divide(gray, 255.)
     try:
       faces = faceCascade.detectMultiScale(
           gray,
@@ -22,7 +25,7 @@ if __name__ == '__main__':
       # Draw a rectangle around the faces
       for (x, y, w, h) in faces:
         cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
-      cv2.imshow('Video', frame)
+      cv2.imshow('Video', gray)
     except:
       logging.warning('Error detecting faces')
 
