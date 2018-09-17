@@ -150,10 +150,17 @@ def track_and_display():
     tnow = time()
     q.put((frame, tnow))
     nframes += 1
-    
+
     if tlast-tstart > 2./30:
       logging.warning('Detected an unexpectedly large delay between frames (%gs)' % tlast-tstart)
   logging.debug('[INFO] Acquisition speed: %.2f fps', nframes / (time() - tstart))
+
+  # Capture 1 frame at the end of test and save
+  ret, frame = camera.read()
+  cv2.imwrite('./output/frame_%s.png' % save_unix_time_string, frame)
+
+  # When everything is done, release the capture
+  camera.release()
 
 
   # ----------------------------------------------------------------------------
@@ -231,12 +238,7 @@ def track_and_display():
   f.write('Respiratory Rate @ %s: \t %s \n' % (save_unix_time_string, rr))
   f.close()
 
-  # Capture 1 frame at the end of test and save
-  ret, frame = camera.read()
-  cv2.imwrite('./output/frame_%s.png' % save_unix_time_string, frame)
-
   # When everything is done, release the capture
-  camera.release()
   cv2.destroyAllWindows()
 
 
