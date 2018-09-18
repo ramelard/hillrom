@@ -62,7 +62,7 @@ def find_face(cascade_xml, gray, q):
               gray,
               scaleFactor=1.1,
               minNeighbors=5,
-              minSize=(100, 100),
+              minSize=(30, 30),
               flags=cv2.CASCADE_SCALE_IMAGE
             )
     if faces.any():
@@ -79,19 +79,19 @@ def find_face(cascade_xml, gray, q):
 def worker(q, lock):
   # TODO: have to worry about thread safety? atomic blocks?
   global face_roi
-  global flip_lr
+  # global flip_lr
   # TODO: Only finds face once (i.e. assumes they're motionless). Change this, and maybe add facial landmarks?
   while True:
     frame, t = q.get(block=True)
     # logging.debug('Extracted frame; q.size()=%u', q.qsize())
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    gray = np.rot90(gray, 3)
+    # gray = np.rot90(gray, 3)
     gray_64F = np.divide(gray, 255.)
     #if flip_lr:
     #  gray_64F = np.fliplr(gray_64F)
     if not face_roi:
       # We only want 1 thread to find a face. So prohibit multiple threads from getting in here at the beginning.
-      flip_lr = False  # start with false, and set to true if we needed to flip profile view
+      # flip_lr = False  # start with false, and set to true if we needed to flip profile view
       lock.acquire()
       if not face_roi:
         face_roi = find_face('haarcascade_frontalface_default.xml', gray, q)
@@ -156,6 +156,7 @@ def track_and_display():
   logging.debug('[INFO] Acquisition speed: %.2f fps', nframes / (time() - tstart))
 
   # Capture 1 frame at the end of test and save
+  save_unix_time_string = strftime('%Y-%m-%d %H:%M:%S', localtime(time()))
   ret, frame = camera.read()
   cv2.imwrite('./output/frame_%s.png' % save_unix_time_string, frame)
 
@@ -187,14 +188,13 @@ def track_and_display():
   # ----------------------------------------------------------------------------
   #                                                               Demonstration
   # ----------------------------------------------------------------------------
-#  for i in range_function(len(face_frames)):
+  # for i in range_function(len(face_frames)):
   for i in range(30):
     face = face_frames[i][0]
     body = body_frames[i][0]
     cv2.imshow('face', face)
     cv2.imshow('body', body)
     cv2.waitKey(32)
-
 
   # ----------------------------------------------------------------------------
   #                                                              Extract Vitals
@@ -212,11 +212,11 @@ def track_and_display():
       block_size)
   except:
     logging.debug('[WARNING] Camera captured different size frames!')
-    (hr, rr) = extract_vitals( \
-      stack_uneven(faces), \
-      stack_uneven(bodys), \
-      np.stack(timestamps), \
-      block_size)
+    # (hr, rr) = extract_vitals( \
+    #   stack_uneven(faces), \
+    #   stack_uneven(bodys), \
+    #   np.stack(timestamps), \
+    #   block_size)
 
 
   # ----------------------------------------------------------------------------
@@ -225,8 +225,6 @@ def track_and_display():
   fileout = 'frames_%s-hr%u-rr%u' % (strftime('%H%M'), hr, rr)
   logging.debug('Writing frames to ./output/%s', fileout)
   write_frames_to_mat(faces, bodys, timestamps, fileout)
-
-  save_unix_time_string = strftime('%Y-%m-%d %H:%M:%S', localtime(time()))
 
   # Append results to ./output/hr.txt
   f = open('./output/hr.txt', 'a+')
@@ -237,6 +235,8 @@ def track_and_display():
   f = open('./output/rr.txt', 'a+')
   f.write('Respiratory Rate @ %s: \t %s \n' % (save_unix_time_string, rr))
   f.close()
+
+  
 
   # When everything is done, release the capture
   cv2.destroyAllWindows()
