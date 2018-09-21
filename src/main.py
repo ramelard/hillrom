@@ -85,7 +85,7 @@ def worker(q, lock):
     frame, t = q.get(block=True)
     # logging.debug('Extracted frame; q.size()=%u', q.qsize())
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    # gray = np.rot90(gray, 3)
+    gray = np.rot90(gray, 1)
     gray_64F = np.divide(gray, 255.)
     #if flip_lr:
     #  gray_64F = np.fliplr(gray_64F)
