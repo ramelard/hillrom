@@ -5,7 +5,7 @@
  * File: log.h
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 06-Sep-2018 16:44:03
+ * C/C++ source code generated on  : 27-Mar-2019 00:43:16
  */
 
 #ifndef LOG_H
@@ -22,9 +22,7 @@
 #include "extract_vitals_tk1_types.h"
 
 /* Function Declarations */
-extern void b_log(const emxArray_real_T *x, emxArray_real_T *b_x);
-extern void c_log(emxArray_real_T *x);
-extern void d_log(emxArray_real_T *x);
+extern void b_log(emxArray_real_T *x);
 
 #endif
 

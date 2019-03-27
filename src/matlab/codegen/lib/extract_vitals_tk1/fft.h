@@ -5,7 +5,7 @@
  * File: fft.h
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 06-Sep-2018 16:44:03
+ * C/C++ source code generated on  : 27-Mar-2019 00:43:16
  */
 
 #ifndef FFT_H
@@ -22,9 +22,6 @@
 #include "extract_vitals_tk1_types.h"
 
 /* Function Declarations */
-extern void b_fft(const emxArray_real_T *x, emxArray_creal_T *y);
-extern void c_fft(const emxArray_real_T *x, double varargin_1, emxArray_creal_T *
-                  y);
 extern void fft(const emxArray_real_T *x, double varargin_1, emxArray_creal_T *y);
 
 #endif

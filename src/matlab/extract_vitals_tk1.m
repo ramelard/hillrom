@@ -46,8 +46,12 @@ Ahead = -log(1+Rhead_interp);
 % heartrate = mean(Ahead,2);
 
 % Get rid of breathing component of heartrate signal.
-low_freq = 50/60; % low_freq = 30/60;
-high_freq = 80/60; % high_freq = 350/60;
+rr_lowf = 2/60;
+rr_highf = 25/60;
+hr_lowf = 40/60;
+hr_highf = 100/60;
+% low_freq = 40/60; % low_freq = 30/60;
+% high_freq = 100/60; % high_freq = 350/60;
 % x_ts = timeseries(Ahead, [0:T-1]./60);
 % x_filt = idealfilter(x_ts, [low_freq high_freq], 'pass');
 % Ahead_filt = x_filt.Data;
@@ -55,10 +59,10 @@ high_freq = 80/60; % high_freq = 350/60;
 % butter() requires constant valued inputs, so put in if statements.
 if abs(fps-30) < 0.1
   nyq = 15;
-  [b,a] = butter(3,[low_freq high_freq]./nyq,'bandpass');
+  [b,a] = butter(3,[hr_lowf hr_highf]./nyq,'bandpass');
 elseif abs(fps-60) < 0.1
   nyq = 30;
-  [b,a] = butter(3,[low_freq high_freq]./nyq,'bandpass');
+  [b,a] = butter(3,[hr_lowf hr_highf]./nyq,'bandpass');
 else
   error('Unsupported frame rate needed for constant nyq criterion in butter(). Please update if statements in the code.');
 end
@@ -67,14 +71,12 @@ for i = 1:size(Ahead_filt,2)
   Ahead_filt(:,i) = filter(b, a, Ahead(:,i));
 end
 
-low_freq = 10/60;
-high_freq = 30/60;
 if abs(fps-30) < 0.1
   nyq = 15;  % fs/2
-  [b,a] = butter(3,[low_freq high_freq]./nyq,'bandpass');
+  [b,a] = butter(3,[rr_lowf hr_highf]./nyq,'bandpass');
 elseif abs(fps-60) < 0.1
   nyq = 30;  % fs/2
-  [b,a] = butter(3,[low_freq high_freq]./nyq,'bandpass');
+  [b,a] = butter(3,[rr_lowf hr_highf]./nyq,'bandpass');
 else
   error('Unsupported frame rate needed for constant nyq criterion in butter(). Please update if statements in the code.');
 end
@@ -92,35 +94,46 @@ end
 % power = (a^2+b^2)/N
 % Should be same as 1/N*abs(Y)^2
 npts = size(Abody,1);
+freq = fps/npts * (0:floor(npts/2)-1);
 Fheartrate = zeros(floor(npts/2), size(Ahead,2));
 Fbreathing = zeros(floor(npts/2), size(Abody,2));
 
 Y = fft(Abody, npts);
 Pyy = Y.*conj(Y)/npts;
-freq = fps/npts * (0:floor(npts/2)-1);
 Fbreathing = Pyy(1:floor(npts/2),:);
+
 Y = fft(Ahead, npts);
 Pyy = Y.*conj(Y)/npts;
-freq = fps/npts * (0:floor(npts/2)-1);
 Fheartrate = Pyy(1:floor(npts/2),:);
 
 % [freq, Fbreathing] = plot_power_spectrum(Abody, 60);
 % [freq, Fheartrate] = plot_power_spectrum(Ahead_filt, 60);
-idx1 = find(freq>10/60, 1, 'first') - 1;
-idx2 = find(freq>30/60, 1, 'first');
+idx1 = find(freq>rr_lowf, 1, 'first') - 1;
+idx2 = find(freq>rr_highf, 1, 'first');
 Fbreathing([1:idx1, idx2:end],:) = 0;
-Fheartrate(1,:) = 0;
-% Fbreathing(1,:) = zeros(1, size(Fbreathing,2));
-% Fheartrate(1,:) = zeros(1, size(Fheartrate,2));
+
+idx1 = find(freq>hr_lowf, 1, 'first') - 1;
+idx2 = find(freq>hr_highf, 1, 'first');
+% Fheartrate(1,:) = 0;
+Fheartrate([1,idx2:end],:) = 0; % possible error
 
 HRentr = get_spectral_entropy(Fheartrate);
 whr = 1-HRentr;
+entr_thresh = 0.1;
+whr = max(whr-entr_thresh, 0);
 whr = whr./sum(whr);
-heartrate = Ahead_filt * whr';
+heartrate = Fheartrate*whr';
+[~,maxidx] = max(heartrate);
+hr = 60*freq(maxidx);
 
 RRentr = get_spectral_entropy(Fbreathing);
 wrr = 1-RRentr;
 wrr = wrr./sum(wrr);
+breathing = Fbreathing * wrr(:);
+[~,maxidx] = max(breathing);
+rr = 60*freq(maxidx);
+
+
 % % trust neighborhoods of high weight
 % B = reshape(wrr,size(Bbody(:,:,1)));
 % % B2 = colfilt(B,[2 2],'sliding',@min);
@@ -139,26 +152,20 @@ wrr = wrr./sum(wrr);
 % !!
 % wrr = ones(size(wrr))./numel(wrr);
 
+% sigmam = 1.4e-3;
+% sigmap = 2.3e-5;
+% R = exp(-heartrate)-1;
+% xhat = kalmanfilt(R', sigmap, sigmam);
+% heartrate = -log(xhat+1);
 
-% Use fft to get rid of phase differences between signals.
-F = abs(fft(Abody));
-F(1) = 0;
-F([1:idx1, idx2:end],:) = 0;
-% breathing = ifft(F * wrr');
-breathing = F * wrr(:);
-% breathing = Abody * wrr';
+% [~,maxidx] = max(whr);
+% heartrate_best = Ahead_filt(:,maxidx);
+% R = exp(-heartrate_best)-1;
+% xhat = kalmanfilt(R', sigmap, sigmam);
+% heartrate_best = -log(xhat+1);
 
-sigmam = 1.4e-3;
-sigmap = 2.3e-5;
-R = exp(-heartrate)-1;
-xhat = kalmanfilt(R', sigmap, sigmam);
-heartrate = -log(xhat+1);
 
-[~,maxidx] = max(whr);
-heartrate_best = Ahead_filt(:,maxidx);
-R = exp(-heartrate_best)-1;
-xhat = kalmanfilt(R', sigmap, sigmam);
-heartrate_best = -log(xhat+1);
+
 %
 % figure;
 % subplot(1,2,1),
@@ -171,19 +178,23 @@ heartrate_best = -log(xhat+1);
 % title('Breathing weights')
 
 %% Find vitals
-[freq, Fbreathing] = plot_power_spectrum(breathing, fps);
-[freq, Fheartrate] = plot_power_spectrum(heartrate, fps);
+% [freq, Fbreathing] = plot_power_spectrum(breathing, fps);
+% [freq, Fheartrate] = plot_power_spectrum(heartrate, fps);
+% 
+% % idx1 = find(freq<5/60, 1, 'first');
+% % idx2 = find(freq>25/60, 1, 'first');
+% % Fbreathing([1:idx1, idx2:end],:) = 0;
+% Fbreathing = breathing(1:floor(numel(breathing)/2));
+% Fheartrate(1) = 0;
+% 
+% [~,maxidx] = max(Fheartrate);
+% hr = 60*freq(maxidx);
+% [~,maxidx] = max(Fbreathing);
+% rr = 60*freq(maxidx);
 
-% idx1 = find(freq<5/60, 1, 'first');
-% idx2 = find(freq>25/60, 1, 'first');
-% Fbreathing([1:idx1, idx2:end],:) = 0;
-Fbreathing = breathing(1:floor(numel(breathing)/2));
-Fheartrate(1) = 0;
 
-[~,maxidx] = max(Fheartrate);
-hr = 60*freq(maxidx);
-[~,maxidx] = max(Fbreathing);
-rr = 60*freq(maxidx);
+
+
 
 % t = [0:numel(heartrate_best)-1] ./ 60;
 % figure;

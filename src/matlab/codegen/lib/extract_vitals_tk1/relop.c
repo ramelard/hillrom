@@ -5,7 +5,7 @@
  * File: relop.c
  *
  * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 06-Sep-2018 16:44:03
+ * C/C++ source code generated on  : 27-Mar-2019 00:43:16
  */
 
 /* Include Files */
@@ -21,7 +21,7 @@
  *                const creal_T b
  * Return Type  : boolean_T
  */
-boolean_T relop(const creal_T a, const creal_T b)
+boolean_T b_relop(const creal_T a, const creal_T b)
 {
   boolean_T p;
   double absbi;
@@ -194,6 +194,63 @@ boolean_T relop(const creal_T a, const creal_T b)
   }
 
   return absbi > y;
+}
+
+/*
+ * Arguments    : const creal_T a
+ * Return Type  : boolean_T
+ */
+boolean_T relop(const creal_T a)
+{
+  double absar;
+  double absai;
+  double Ma;
+  if ((fabs(a.re) > 8.9884656743115785E+307) || (fabs(a.im) >
+       8.9884656743115785E+307)) {
+    absar = rt_hypotd_snf(a.re / 2.0, a.im / 2.0);
+  } else {
+    absar = rt_hypotd_snf(a.re, a.im);
+  }
+
+  if (fabs(0.0 - absar) < 4.94065645841247E-324) {
+    absar = fabs(a.re);
+    absai = fabs(a.im);
+    if (absar > absai) {
+      Ma = absar;
+      absar = absai;
+    } else {
+      Ma = absai;
+    }
+
+    if (Ma > 0.0) {
+      absar = Ma;
+    }
+
+    if (fabs(0.0 - absar) < 4.94065645841247E-324) {
+      absar = rt_atan2d_snf(a.im, a.re);
+      if (fabs(0.0 - absar) < 4.94065645841247E-324) {
+        if (absar > 0.78539816339744828) {
+          if (absar > 2.3561944901923448) {
+            absar = -a.im;
+          } else {
+            absar = -a.re;
+          }
+        } else if (absar > -0.78539816339744828) {
+          absar = a.im;
+        } else if (absar > -2.3561944901923448) {
+          absar = a.re;
+        } else {
+          absar = -a.im;
+        }
+
+        if (fabs(0.0 - absar) < 4.94065645841247E-324) {
+          absar = 0.0;
+        }
+      }
+    }
+  }
+
+  return absar > 0.0;
 }
 
 /*
