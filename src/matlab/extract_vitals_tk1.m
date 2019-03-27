@@ -17,7 +17,7 @@ timestamps = floor(timestamps * c_interp) / c_interp; % ???
 
 % Bbody = permute(frames_body, [2 3 1]);  % make it h x w x t
 Bbody = frames_body;
-Bbody = imresize(Bbody, 1/block_size, 'box');
+% Bbody = imresize(Bbody, 1/block_size, 'box');
 assert(size(Bbody,3) == length(timestamps))
 Rbody = reshape(permute(Bbody, [3 1 2]), numel(timestamps), []);
 % Interpolate between uneven timestamped measurements
@@ -29,7 +29,7 @@ Abody = -log(1+Rbody_interp);
 
 % Bhead = permute(frames_head, [2 3 1]);  % make it h x w x t
 Bhead = frames_head;
-Bhead = imresize(Bhead, 1/block_size, 'box');
+% Bhead = imresize(Bhead, 1/block_size, 'box');
 assert(size(Bhead,3) == length(timestamps))
 Rhead = reshape(permute(Bhead, [3 1 2]), numel(timestamps), []);
 % Interpolate between uneven timestamped measurements
@@ -164,9 +164,6 @@ rr = 60*freq(maxidx);
 % xhat = kalmanfilt(R', sigmap, sigmam);
 % heartrate_best = -log(xhat+1);
 
-
-
-%
 % figure;
 % subplot(1,2,1),
 % [H,W,~] = size(Bhead);
@@ -196,28 +193,28 @@ rr = 60*freq(maxidx);
 
 
 
-% t = [0:numel(heartrate_best)-1] ./ 60;
-% figure;
-% subplot(2,2,1), plot(t,heartrate_best), title('Heart rate')
-% hold on, plot(t,heartrate,'--k')
-% xlabel('time (s)')
-% ylabel('blood volume (a.u.)')
-% legend('strongest signal','weighted average')
-%
-% subplot(2,2,2), plot(t,breathing), title('Breathing')
-% xlabel('time (s)')
-% ylabel('breathing amplitude (a.u.)')
-%
-% subplot(2,2,3), plot(60*freq,Fheartrate), title(sprintf('HR=%u bpm',round(hr*60)))
-% [~,maxidx] = max(Fheartrate);
-% hold on, plot(60*freq(maxidx),Fheartrate(maxidx),'or')
-% xlim([0 300])
-% xlabel('frequency (1/min)')
-% ylabel('spectral power (dB)')
-%
-% subplot(2,2,4), plot(60*freq,Fbreathing), title(sprintf('RR=%u bpm',round(rr*60)))
-% [~,maxidx] = max(Fbreathing);
-% hold on, plot(60*freq(maxidx),Fbreathing(maxidx),'or')
-% xlim([0 300])
-% xlabel('frequency (1/min)')
-% ylabel('spectral power (dB)')
+t = [0:numel(heartrate_best)-1] ./ 60;
+figure;
+subplot(2,2,1), plot(t,heartrate_best), title('Heart rate')
+hold on, plot(t,heartrate,'--k')
+xlabel('time (s)')
+ylabel('blood volume (a.u.)')
+legend('strongest signal','weighted average')
+
+subplot(2,2,2), plot(t,breathing), title('Breathing')
+xlabel('time (s)')
+ylabel('breathing amplitude (a.u.)')
+
+subplot(2,2,3), plot(60*freq,Fheartrate), title(sprintf('HR=%u bpm',round(hr*60)))
+[~,maxidx] = max(Fheartrate);
+hold on, plot(60*freq(maxidx),Fheartrate(maxidx),'or')
+xlim([0 300])
+xlabel('frequency (1/min)')
+ylabel('spectral power (dB)')
+
+subplot(2,2,4), plot(60*freq,Fbreathing), title(sprintf('RR=%u bpm',round(rr*60)))
+[~,maxidx] = max(Fbreathing);
+hold on, plot(60*freq(maxidx),Fbreathing(maxidx),'or')
+xlim([0 300])
+xlabel('frequency (1/min)')
+ylabel('spectral power (dB)')
