@@ -46,8 +46,8 @@ Ahead = -log(1+Rhead_interp);
 % heartrate = mean(Ahead,2);
 
 % Get rid of breathing component of heartrate signal.
-rr_lowf = 2/60;
-rr_highf = 25/60;
+rr_lowf = 1/60;
+rr_highf = 35/60;
 hr_lowf = 40/60;
 hr_highf = 100/60;
 % low_freq = 40/60; % low_freq = 30/60;
@@ -115,7 +115,7 @@ Fbreathing([1:idx1, idx2:end],:) = 0;
 idx1 = find(freq>hr_lowf, 1, 'first') - 1;
 idx2 = find(freq>hr_highf, 1, 'first');
 % Fheartrate(1,:) = 0;
-Fheartrate([1,idx2:end],:) = 0; % possible error
+Fheartrate([1:idx1,idx2:end],:) = 0; % possible error
 
 HRentr = get_spectral_entropy(Fheartrate);
 whr = 1-HRentr;
@@ -193,28 +193,28 @@ rr = 60*freq(maxidx);
 
 
 
-t = [0:numel(heartrate_best)-1] ./ 60;
-figure;
-subplot(2,2,1), plot(t,heartrate_best), title('Heart rate')
-hold on, plot(t,heartrate,'--k')
-xlabel('time (s)')
-ylabel('blood volume (a.u.)')
-legend('strongest signal','weighted average')
-
-subplot(2,2,2), plot(t,breathing), title('Breathing')
-xlabel('time (s)')
-ylabel('breathing amplitude (a.u.)')
-
-subplot(2,2,3), plot(60*freq,Fheartrate), title(sprintf('HR=%u bpm',round(hr*60)))
-[~,maxidx] = max(Fheartrate);
-hold on, plot(60*freq(maxidx),Fheartrate(maxidx),'or')
-xlim([0 300])
-xlabel('frequency (1/min)')
-ylabel('spectral power (dB)')
-
-subplot(2,2,4), plot(60*freq,Fbreathing), title(sprintf('RR=%u bpm',round(rr*60)))
-[~,maxidx] = max(Fbreathing);
-hold on, plot(60*freq(maxidx),Fbreathing(maxidx),'or')
-xlim([0 300])
-xlabel('frequency (1/min)')
-ylabel('spectral power (dB)')
+% t = [0:numel(heartrate_best)-1] ./ 60;
+% figure;
+% subplot(2,2,1), plot(t,heartrate_best), title('Heart rate')
+% hold on, plot(t,heartrate,'--k')
+% xlabel('time (s)')
+% ylabel('blood volume (a.u.)')
+% legend('strongest signal','weighted average')
+% 
+% subplot(2,2,2), plot(t,breathing), title('Breathing')
+% xlabel('time (s)')
+% ylabel('breathing amplitude (a.u.)')
+% 
+% subplot(2,2,3), plot(60*freq,Fheartrate), title(sprintf('HR=%u bpm',round(hr*60)))
+% [~,maxidx] = max(Fheartrate);
+% hold on, plot(60*freq(maxidx),Fheartrate(maxidx),'or')
+% xlim([0 300])
+% xlabel('frequency (1/min)')
+% ylabel('spectral power (dB)')
+% 
+% subplot(2,2,4), plot(60*freq,Fbreathing), title(sprintf('RR=%u bpm',round(rr*60)))
+% [~,maxidx] = max(Fbreathing);
+% hold on, plot(60*freq(maxidx),Fbreathing(maxidx),'or')
+% xlim([0 300])
+% xlabel('frequency (1/min)')
+% ylabel('spectral power (dB)')
