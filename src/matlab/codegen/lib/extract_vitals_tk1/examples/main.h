@@ -4,8 +4,8 @@
  * government, commercial, or other organizational use.
  * File: main.h
  *
- * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 18-Apr-2018 17:29:29
+ * MATLAB Coder version            : 4.0
+ * C/C++ source code generated on  : 08-Aug-2019 11:00:09
  */
 
 /*************************************************************************/
@@ -36,12 +36,8 @@
 #define MAIN_H
 
 /* Include Files */
-#include <math.h>
 #include <stddef.h>
 #include <stdlib.h>
-#include <string.h>
-#include "rt_defines.h"
-#include "rt_nonfinite.h"
 #include "rtwtypes.h"
 #include "extract_vitals_tk1_types.h"
 

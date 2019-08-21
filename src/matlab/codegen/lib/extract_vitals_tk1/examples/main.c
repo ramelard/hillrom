@@ -4,8 +4,8 @@
  * government, commercial, or other organizational use.
  * File: main.c
  *
- * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 18-Apr-2018 17:29:29
+ * MATLAB Coder version            : 4.0
+ * C/C++ source code generated on  : 08-Aug-2019 11:00:09
  */
 
 /*************************************************************************/
@@ -41,11 +41,37 @@
 #include "extract_vitals_tk1_initialize.h"
 
 /* Function Declarations */
+static emxArray_real_T *argInit_1xUnbounded_real_T(void);
 static double argInit_real_T(void);
 static emxArray_real_T *c_argInit_UnboundedxUnboundedxU(void);
 static void main_extract_vitals_tk1(void);
 
 /* Function Definitions */
+
+/*
+ * Arguments    : void
+ * Return Type  : emxArray_real_T *
+ */
+static emxArray_real_T *argInit_1xUnbounded_real_T(void)
+{
+  emxArray_real_T *result;
+  static int iv2[2] = { 1, 2 };
+
+  int idx1;
+
+  /* Set the size of the array.
+     Change this size to the value that the application requires. */
+  result = emxCreateND_real_T(2, iv2);
+
+  /* Loop over the array to initialize each element. */
+  for (idx1 = 0; idx1 < result->size[1U]; idx1++) {
+    /* Set the value of the array element.
+       Change this value to the value that the application requires. */
+    result->data[result->size[0] * idx1] = argInit_real_T();
+  }
+
+  return result;
+}
 
 /*
  * Arguments    : void
@@ -63,7 +89,7 @@ static double argInit_real_T(void)
 static emxArray_real_T *c_argInit_UnboundedxUnboundedxU(void)
 {
   emxArray_real_T *result;
-  static int iv9[3] = { 2, 2, 2 };
+  static int iv1[3] = { 2, 2, 2 };
 
   int idx0;
   int idx1;
@@ -71,7 +97,7 @@ static emxArray_real_T *c_argInit_UnboundedxUnboundedxU(void)
 
   /* Set the size of the array.
      Change this size to the value that the application requires. */
-  result = emxCreateND_real_T(3, iv9);
+  result = emxCreateND_real_T(3, iv1);
 
   /* Loop over the array to initialize each element. */
   for (idx0 = 0; idx0 < result->size[0U]; idx0++) {
@@ -96,6 +122,7 @@ static void main_extract_vitals_tk1(void)
 {
   emxArray_real_T *frames_head;
   emxArray_real_T *frames_body;
+  emxArray_real_T *timestamps;
   double hr;
   double rr;
 
@@ -106,9 +133,13 @@ static void main_extract_vitals_tk1(void)
   /* Initialize function input argument 'frames_body'. */
   frames_body = c_argInit_UnboundedxUnboundedxU();
 
+  /* Initialize function input argument 'timestamps'. */
+  timestamps = argInit_1xUnbounded_real_T();
+
   /* Call the entry-point 'extract_vitals_tk1'. */
-  extract_vitals_tk1(frames_head, frames_body, argInit_real_T(), argInit_real_T(),
-                     &hr, &rr);
+  extract_vitals_tk1(frames_head, frames_body, timestamps, argInit_real_T(),
+                     argInit_real_T(), &hr, &rr);
+  emxDestroyArray_real_T(timestamps);
   emxDestroyArray_real_T(frames_body);
   emxDestroyArray_real_T(frames_head);
 }
