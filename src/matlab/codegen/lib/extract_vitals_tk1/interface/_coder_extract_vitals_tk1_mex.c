@@ -4,8 +4,8 @@
  * government, commercial, or other organizational use.
  * File: _coder_extract_vitals_tk1_mex.c
  *
- * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 27-Mar-2019 00:43:16
+ * MATLAB Coder version            : 4.0
+ * C/C++ source code generated on  : 08-Aug-2019 11:00:09
  */
 
 /* Include Files */
@@ -20,7 +20,7 @@ static void extract_vitals_tk1_mexFunction(int32_T nlhs, mxArray *plhs[2],
 
 /*
  * Arguments    : int32_T nlhs
- *                const mxArray *plhs[2]
+ *                mxArray *plhs[2]
  *                int32_T nrhs
  *                const mxArray *prhs[5]
  * Return Type  : void
@@ -28,8 +28,6 @@ static void extract_vitals_tk1_mexFunction(int32_T nlhs, mxArray *plhs[2],
 static void extract_vitals_tk1_mexFunction(int32_T nlhs, mxArray *plhs[2],
   int32_T nrhs, const mxArray *prhs[5])
 {
-  int32_T n;
-  const mxArray *inputs[5];
   const mxArray *outputs[2];
   int32_T b_nlhs;
   emlrtStack st = { NULL,              /* site */
@@ -50,13 +48,8 @@ static void extract_vitals_tk1_mexFunction(int32_T nlhs, mxArray *plhs[2],
                         "extract_vitals_tk1");
   }
 
-  /* Temporary copy for mex inputs. */
-  for (n = 0; n < nrhs; n++) {
-    inputs[n] = prhs[n];
-  }
-
   /* Call the function. */
-  extract_vitals_tk1_api(inputs, outputs);
+  extract_vitals_tk1_api(prhs, nlhs, outputs);
 
   /* Copy over outputs to the caller. */
   if (nlhs < 1) {
@@ -73,7 +66,7 @@ static void extract_vitals_tk1_mexFunction(int32_T nlhs, mxArray *plhs[2],
 
 /*
  * Arguments    : int32_T nlhs
- *                const mxArray * const plhs[]
+ *                mxArray * const plhs[]
  *                int32_T nrhs
  *                const mxArray * const prhs[]
  * Return Type  : void

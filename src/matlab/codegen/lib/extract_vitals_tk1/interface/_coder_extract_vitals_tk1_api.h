@@ -4,8 +4,8 @@
  * government, commercial, or other organizational use.
  * File: _coder_extract_vitals_tk1_api.h
  *
- * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 27-Mar-2019 00:43:16
+ * MATLAB Coder version            : 4.0
+ * C/C++ source code generated on  : 08-Aug-2019 11:00:09
  */
 
 #ifndef _CODER_EXTRACT_VITALS_TK1_API_H
@@ -49,7 +49,8 @@ extern emlrtContext emlrtContextGlobal;
 extern void extract_vitals_tk1(emxArray_real_T *frames_head, emxArray_real_T
   *frames_body, emxArray_real_T *timestamps, real_T fps, real_T block_size,
   real_T *hr, real_T *rr);
-extern void extract_vitals_tk1_api(const mxArray *prhs[5], const mxArray *plhs[2]);
+extern void extract_vitals_tk1_api(const mxArray * const prhs[5], int32_T nlhs,
+  const mxArray *plhs[2]);
 extern void extract_vitals_tk1_atexit(void);
 extern void extract_vitals_tk1_initialize(void);
 extern void extract_vitals_tk1_terminate(void);
