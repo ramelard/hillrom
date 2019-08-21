@@ -4,8 +4,8 @@
  * government, commercial, or other organizational use.
  * File: rt_nonfinite.c
  *
- * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 27-Mar-2019 00:43:16
+ * MATLAB Coder version            : 4.0
+ * C/C++ source code generated on  : 08-Aug-2019 11:00:09
  */
 
 /*
@@ -31,7 +31,7 @@ real32_T rtNaNF;
  */
 void rt_InitInfAndNaN(size_t realSize)
 {
-  (void) (realSize);
+  (void)realSize;
   rtNaN = rtGetNaN();
   rtNaNF = rtGetNaNF();
   rtInf = rtGetInf();
@@ -64,17 +64,7 @@ boolean_T rtIsInfF(real32_T value)
  */
 boolean_T rtIsNaN(real_T value)
 {
-
-#if defined(_MSC_VER) && (_MSC_VER <= 1200)
-
-  return _isnan(value)? TRUE:FALSE;
-
-#else
-
   return (value!=value)? 1U:0U;
-
-#endif
-
 }
 
 /* Function: rtIsNaNF =================================================
@@ -83,17 +73,7 @@ boolean_T rtIsNaN(real_T value)
  */
 boolean_T rtIsNaNF(real32_T value)
 {
-
-#if defined(_MSC_VER) && (_MSC_VER <= 1200)
-
-  return _isnan((real_T)value)? true:false;
-
-#else
-
   return (value!=value)? 1U:0U;
-
-#endif
-
 }
 
 /*

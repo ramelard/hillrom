@@ -4,11 +4,12 @@
  * government, commercial, or other organizational use.
  * File: log21.c
  *
- * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 27-Mar-2019 00:43:16
+ * MATLAB Coder version            : 4.0
+ * C/C++ source code generated on  : 08-Aug-2019 11:00:09
  */
 
 /* Include Files */
+#include <math.h>
 #include "rt_nonfinite.h"
 #include "extract_vitals_tk1.h"
 #include "log21.h"
@@ -30,6 +31,8 @@ double scalar_real_log2(double x)
     t = frexp(x, &eint);
     if (t == 0.5) {
       y = (double)eint - 1.0;
+    } else if ((eint == 1) && (t < 0.75)) {
+      y = log(2.0 * t) / 0.69314718055994529;
     } else {
       y = log(t) / 0.69314718055994529 + (double)eint;
     }

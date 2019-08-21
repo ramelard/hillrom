@@ -4,17 +4,18 @@
  * government, commercial, or other organizational use.
  * File: get_spectral_entropy.c
  *
- * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 27-Mar-2019 00:43:16
+ * MATLAB Coder version            : 4.0
+ * C/C++ source code generated on  : 08-Aug-2019 11:00:09
  */
 
 /* Include Files */
+#include <math.h>
 #include "rt_nonfinite.h"
 #include "extract_vitals_tk1.h"
 #include "get_spectral_entropy.h"
-#include "extract_vitals_tk1_emxutil.h"
-#include "relop.h"
 #include "log21.h"
+#include "extract_vitals_tk1_emxutil.h"
+#include "combineVectorElements.h"
 #include "extract_vitals_tk1_rtwutil.h"
 
 /* Function Definitions */
@@ -26,368 +27,322 @@
  */
 void get_spectral_entropy(emxArray_creal_T *power_range, emxArray_creal_T *entr)
 {
-  int vlen;
+  int sck;
+  int ib;
   emxArray_creal_T *y;
-  int i5;
-  int asub;
-  int xoffset;
   emxArray_creal_T *a;
-  double s_re;
-  double s_im;
-  int k;
-  int na1;
-  emxArray_creal_T *av;
+  unsigned int sz[2];
+  int csz_idx_0;
+  int acoef;
   emxArray_boolean_T *r1;
-  int bsub;
-  int ak;
-  int bk;
-  int nc1;
-  int ck;
+  int k;
+  int ia;
+  int szc;
+  int b_acoef;
+  int b_k;
   emxArray_boolean_T *r2;
-  emxArray_creal_T *cv;
+  double a_re;
+  double a_im;
   double y_re;
   double y_im;
-  double av_re;
-  double av_im;
   double brm;
+  double bim;
   emxArray_int32_T *r3;
-  unsigned int uv0[2];
 
   /*  Get normalized entropy from spectral power range. */
   if (power_range->size[0] == 1) {
-    vlen = power_range->size[1];
-    i5 = power_range->size[0] * power_range->size[1];
-    power_range->size[0] = vlen;
+    sck = power_range->size[1];
+    ib = power_range->size[0] * power_range->size[1];
+    power_range->size[0] = sck;
     power_range->size[1] = 1;
-    emxEnsureCapacity((emxArray__common *)power_range, i5, (int)sizeof(creal_T));
+    emxEnsureCapacity_creal_T(power_range, ib);
   }
-
-  emxInit_creal_T(&y, 2);
 
   /*    A = sqrt(power_range); */
   /*  Make spectrum a PDF */
-  i5 = y->size[0] * y->size[1];
-  y->size[0] = 1;
-  y->size[1] = power_range->size[1];
-  emxEnsureCapacity((emxArray__common *)y, i5, (int)sizeof(creal_T));
+  emxInit_creal_T(&y, 2);
   if ((power_range->size[0] == 0) || (power_range->size[1] == 0)) {
-    i5 = y->size[0] * y->size[1];
+    for (ib = 0; ib < 2; ib++) {
+      sz[ib] = (unsigned int)power_range->size[ib];
+    }
+
+    ib = y->size[0] * y->size[1];
     y->size[0] = 1;
-    emxEnsureCapacity((emxArray__common *)y, i5, (int)sizeof(creal_T));
-    vlen = y->size[1];
-    for (i5 = 0; i5 < vlen; i5++) {
-      y->data[y->size[0] * i5].re = 0.0;
-      y->data[y->size[0] * i5].im = 0.0;
+    y->size[1] = (int)sz[1];
+    emxEnsureCapacity_creal_T(y, ib);
+    sck = (int)sz[1];
+    for (ib = 0; ib < sck; ib++) {
+      y->data[ib].re = 0.0;
+      y->data[ib].im = 0.0;
     }
   } else {
-    vlen = power_range->size[0];
-    for (asub = 0; asub + 1 <= power_range->size[1]; asub++) {
-      xoffset = asub * vlen;
-      s_re = power_range->data[xoffset].re;
-      s_im = power_range->data[xoffset].im;
-      for (k = 2; k <= vlen; k++) {
-        s_re += power_range->data[(xoffset + k) - 1].re;
-        s_im += power_range->data[(xoffset + k) - 1].im;
-      }
-
-      y->data[asub].re = s_re;
-      y->data[asub].im = s_im;
-    }
+    colMajorFlatIter(power_range, power_range->size[0], y);
   }
 
   emxInit_creal_T(&a, 2);
-  i5 = a->size[0] * a->size[1];
+  ib = a->size[0] * a->size[1];
   a->size[0] = power_range->size[0];
   a->size[1] = power_range->size[1];
-  emxEnsureCapacity((emxArray__common *)a, i5, (int)sizeof(creal_T));
-  vlen = power_range->size[0] * power_range->size[1];
-  for (i5 = 0; i5 < vlen; i5++) {
-    a->data[i5] = power_range->data[i5];
+  emxEnsureCapacity_creal_T(a, ib);
+  sck = power_range->size[0] * power_range->size[1];
+  for (ib = 0; ib < sck; ib++) {
+    a->data[ib] = power_range->data[ib];
   }
 
-  na1 = power_range->size[0];
-  vlen = power_range->size[0];
-  if (power_range->size[1] <= y->size[1]) {
-    xoffset = power_range->size[1];
+  csz_idx_0 = power_range->size[0];
+  sck = y->size[1];
+  acoef = power_range->size[1];
+  if (sck < acoef) {
+    acoef = sck;
+  }
+
+  if (y->size[1] == 1) {
+    sck = power_range->size[1];
+  } else if (power_range->size[1] == 1) {
+    sck = y->size[1];
+  } else if (power_range->size[1] == y->size[1]) {
+    sck = power_range->size[1];
   } else {
-    xoffset = y->size[1];
+    sck = acoef;
   }
 
-  i5 = power_range->size[0] * power_range->size[1];
-  power_range->size[0] = vlen;
-  power_range->size[1] = xoffset;
-  emxEnsureCapacity((emxArray__common *)power_range, i5, (int)sizeof(creal_T));
+  ib = power_range->size[0] * power_range->size[1];
+  power_range->size[0] = csz_idx_0;
+  power_range->size[1] = sck;
+  emxEnsureCapacity_creal_T(power_range, ib);
   if (!((power_range->size[0] == 0) || (power_range->size[1] == 0))) {
-    emxInit_creal_T1(&av, 1);
-    i5 = av->size[0];
-    av->size[0] = na1;
-    emxEnsureCapacity((emxArray__common *)av, i5, (int)sizeof(creal_T));
-    asub = 1;
-    bsub = 1;
-    ak = -1;
-    bk = 0;
-    nc1 = power_range->size[0];
-    i5 = power_range->size[0] * power_range->size[1] - power_range->size[0];
-    ck = 0;
-    emxInit_creal_T1(&cv, 1);
-    while (ck <= i5) {
-      for (k = 1; k <= na1; k++) {
-        av->data[k - 1] = a->data[ak + k];
-      }
-
-      y_re = y->data[bk].re;
-      y_im = y->data[bk].im;
-      xoffset = cv->size[0];
-      cv->size[0] = av->size[0];
-      emxEnsureCapacity((emxArray__common *)cv, xoffset, (int)sizeof(creal_T));
-      vlen = av->size[0];
-      for (xoffset = 0; xoffset < vlen; xoffset++) {
-        av_re = av->data[xoffset].re;
-        av_im = av->data[xoffset].im;
+    sck = power_range->size[1];
+    acoef = (a->size[1] != 1);
+    csz_idx_0 = (y->size[1] != 1);
+    for (k = 0; k < sck; k++) {
+      ia = acoef * k;
+      ib = csz_idx_0 * k;
+      szc = power_range->size[0];
+      b_acoef = (a->size[0] != 1);
+      for (b_k = 0; b_k < szc; b_k++) {
+        a_re = a->data[b_acoef * b_k + a->size[0] * ia].re;
+        a_im = a->data[b_acoef * b_k + a->size[0] * ia].im;
+        y_re = y->data[y->size[0] * ib].re;
+        y_im = y->data[y->size[0] * ib].im;
         if (y_im == 0.0) {
-          if (av_im == 0.0) {
-            cv->data[xoffset].re = av_re / y_re;
-            cv->data[xoffset].im = 0.0;
-          } else if (av_re == 0.0) {
-            cv->data[xoffset].re = 0.0;
-            cv->data[xoffset].im = av_im / y_re;
+          if (a_im == 0.0) {
+            power_range->data[b_k + power_range->size[0] * k].re = a_re / y_re;
+            power_range->data[b_k + power_range->size[0] * k].im = 0.0;
+          } else if (a_re == 0.0) {
+            power_range->data[b_k + power_range->size[0] * k].re = 0.0;
+            power_range->data[b_k + power_range->size[0] * k].im = a_im / y_re;
           } else {
-            cv->data[xoffset].re = av_re / y_re;
-            cv->data[xoffset].im = av_im / y_re;
+            power_range->data[b_k + power_range->size[0] * k].re = a_re / y_re;
+            power_range->data[b_k + power_range->size[0] * k].im = a_im / y_re;
           }
         } else if (y_re == 0.0) {
-          if (av_re == 0.0) {
-            cv->data[xoffset].re = av_im / y_im;
-            cv->data[xoffset].im = 0.0;
-          } else if (av_im == 0.0) {
-            cv->data[xoffset].re = 0.0;
-            cv->data[xoffset].im = -(av_re / y_im);
+          if (a_re == 0.0) {
+            power_range->data[b_k + power_range->size[0] * k].re = a_im / y_im;
+            power_range->data[b_k + power_range->size[0] * k].im = 0.0;
+          } else if (a_im == 0.0) {
+            power_range->data[b_k + power_range->size[0] * k].re = 0.0;
+            power_range->data[b_k + power_range->size[0] * k].im = -(a_re / y_im);
           } else {
-            cv->data[xoffset].re = av_im / y_im;
-            cv->data[xoffset].im = -(av_re / y_im);
+            power_range->data[b_k + power_range->size[0] * k].re = a_im / y_im;
+            power_range->data[b_k + power_range->size[0] * k].im = -(a_re / y_im);
           }
         } else {
           brm = fabs(y_re);
-          s_re = fabs(y_im);
-          if (brm > s_re) {
-            s_re = y_im / y_re;
-            s_im = y_re + s_re * y_im;
-            cv->data[xoffset].re = (av_re + s_re * av_im) / s_im;
-            cv->data[xoffset].im = (av_im - s_re * av_re) / s_im;
-          } else if (s_re == brm) {
+          bim = fabs(y_im);
+          if (brm > bim) {
+            brm = y_im / y_re;
+            bim = y_re + brm * y_im;
+            power_range->data[b_k + power_range->size[0] * k].re = (a_re + brm *
+              a_im) / bim;
+            power_range->data[b_k + power_range->size[0] * k].im = (a_im - brm *
+              a_re) / bim;
+          } else if (bim == brm) {
             if (y_re > 0.0) {
-              s_re = 0.5;
+              y_re = 0.5;
             } else {
-              s_re = -0.5;
+              y_re = -0.5;
             }
 
             if (y_im > 0.0) {
-              s_im = 0.5;
+              bim = 0.5;
             } else {
-              s_im = -0.5;
+              bim = -0.5;
             }
 
-            cv->data[xoffset].re = (av_re * s_re + av_im * s_im) / brm;
-            cv->data[xoffset].im = (av_im * s_re - av_re * s_im) / brm;
+            power_range->data[b_k + power_range->size[0] * k].re = (a_re * y_re
+              + a_im * bim) / brm;
+            power_range->data[b_k + power_range->size[0] * k].im = (a_im * y_re
+              - a_re * bim) / brm;
           } else {
-            s_re = y_re / y_im;
-            s_im = y_im + s_re * y_re;
-            cv->data[xoffset].re = (s_re * av_re + av_im) / s_im;
-            cv->data[xoffset].im = (s_re * av_im - av_re) / s_im;
+            brm = y_re / y_im;
+            bim = y_im + brm * y_re;
+            power_range->data[b_k + power_range->size[0] * k].re = (brm * a_re +
+              a_im) / bim;
+            power_range->data[b_k + power_range->size[0] * k].im = (brm * a_im -
+              a_re) / bim;
           }
         }
       }
-
-      for (k = 1; k <= nc1; k++) {
-        power_range->data[(ck + k) - 1] = cv->data[k - 1];
-      }
-
-      if (asub < a->size[1]) {
-        ak += na1;
-        bk++;
-        bsub++;
-        asub++;
-      } else if (bsub < y->size[1]) {
-        bk++;
-        bsub++;
-      } else {
-        asub = 1;
-        bsub = 1;
-      }
-
-      ck += nc1;
     }
-
-    emxFree_creal_T(&cv);
-    emxFree_creal_T(&av);
   }
 
   emxFree_creal_T(&y);
   emxInit_boolean_T(&r1, 2);
 
   /*  Happens when whole spectrum range has 0 power. */
-  i5 = r1->size[0] * r1->size[1];
+  ib = r1->size[0] * r1->size[1];
   r1->size[0] = power_range->size[0];
   r1->size[1] = power_range->size[1];
-  emxEnsureCapacity((emxArray__common *)r1, i5, (int)sizeof(boolean_T));
-  vlen = power_range->size[0] * power_range->size[1];
-  for (i5 = 0; i5 < vlen; i5++) {
-    r1->data[i5] = rtIsNaN(power_range->data[i5].re);
+  emxEnsureCapacity_boolean_T(r1, ib);
+  sck = power_range->size[0] * power_range->size[1];
+  for (ib = 0; ib < sck; ib++) {
+    r1->data[ib] = rtIsNaN(power_range->data[ib].re);
   }
 
   emxInit_boolean_T(&r2, 2);
-  i5 = r2->size[0] * r2->size[1];
+  ib = r2->size[0] * r2->size[1];
   r2->size[0] = power_range->size[0];
   r2->size[1] = power_range->size[1];
-  emxEnsureCapacity((emxArray__common *)r2, i5, (int)sizeof(boolean_T));
-  vlen = power_range->size[0] * power_range->size[1];
-  for (i5 = 0; i5 < vlen; i5++) {
-    r2->data[i5] = rtIsNaN(power_range->data[i5].im);
+  emxEnsureCapacity_boolean_T(r2, ib);
+  sck = power_range->size[0] * power_range->size[1];
+  for (ib = 0; ib < sck; ib++) {
+    r2->data[ib] = rtIsNaN(power_range->data[ib].im);
   }
 
-  i5 = r1->size[0] * r1->size[1];
-  emxEnsureCapacity((emxArray__common *)r1, i5, (int)sizeof(boolean_T));
-  i5 = r1->size[0];
-  xoffset = r1->size[1];
-  vlen = i5 * xoffset;
-  for (i5 = 0; i5 < vlen; i5++) {
-    r1->data[i5] = (r1->data[i5] || r2->data[i5]);
+  sck = r1->size[0] * r1->size[1] - 1;
+  ib = r1->size[0] * r1->size[1];
+  emxEnsureCapacity_boolean_T(r1, ib);
+  for (ib = 0; ib <= sck; ib++) {
+    r1->data[ib] = (r1->data[ib] || r2->data[ib]);
   }
 
-  i5 = r2->size[0] * r2->size[1];
+  ib = r2->size[0] * r2->size[1];
   r2->size[0] = power_range->size[0];
   r2->size[1] = power_range->size[1];
-  emxEnsureCapacity((emxArray__common *)r2, i5, (int)sizeof(boolean_T));
-  vlen = power_range->size[0] * power_range->size[1];
-  for (i5 = 0; i5 < vlen; i5++) {
-    r2->data[i5] = ((power_range->data[i5].re == 0.0) && (power_range->data[i5].
+  emxEnsureCapacity_boolean_T(r2, ib);
+  sck = power_range->size[0] * power_range->size[1];
+  for (ib = 0; ib < sck; ib++) {
+    r2->data[ib] = ((power_range->data[ib].re == 0.0) && (power_range->data[ib].
       im == 0.0));
   }
 
-  emxInit_int32_T(&r3, 1);
-  xoffset = r1->size[0] * r1->size[1] - 1;
-  vlen = 0;
-  for (asub = 0; asub <= xoffset; asub++) {
-    if (r1->data[asub] || r2->data[asub]) {
-      vlen++;
+  ia = r1->size[0] * r1->size[1] - 1;
+  sck = 0;
+  for (csz_idx_0 = 0; csz_idx_0 <= ia; csz_idx_0++) {
+    if (r1->data[csz_idx_0] || r2->data[csz_idx_0]) {
+      sck++;
     }
   }
 
-  i5 = r3->size[0];
-  r3->size[0] = vlen;
-  emxEnsureCapacity((emxArray__common *)r3, i5, (int)sizeof(int));
-  vlen = 0;
-  for (asub = 0; asub <= xoffset; asub++) {
-    if (r1->data[asub] || r2->data[asub]) {
-      r3->data[vlen] = asub + 1;
-      vlen++;
+  emxInit_int32_T(&r3, 1);
+  ib = r3->size[0];
+  r3->size[0] = sck;
+  emxEnsureCapacity_int32_T(r3, ib);
+  acoef = 0;
+  for (csz_idx_0 = 0; csz_idx_0 <= ia; csz_idx_0++) {
+    if (r1->data[csz_idx_0] || r2->data[csz_idx_0]) {
+      r3->data[acoef] = csz_idx_0 + 1;
+      acoef++;
     }
   }
 
   emxFree_boolean_T(&r2);
   emxFree_boolean_T(&r1);
-  vlen = r3->size[0];
-  for (i5 = 0; i5 < vlen; i5++) {
-    power_range->data[r3->data[i5] - 1].re = 1.0E-100;
-    power_range->data[r3->data[i5] - 1].im = 0.0;
+  sck = r3->size[0] - 1;
+  for (ib = 0; ib <= sck; ib++) {
+    power_range->data[r3->data[ib] - 1].re = 1.0E-100;
+    power_range->data[r3->data[ib] - 1].im = 0.0;
   }
 
   emxFree_int32_T(&r3);
 
   /*  Use normalized entropy. */
-  for (i5 = 0; i5 < 2; i5++) {
-    uv0[i5] = (unsigned int)power_range->size[i5];
+  acoef = power_range->size[0] * power_range->size[1];
+  for (ib = 0; ib < 2; ib++) {
+    sz[ib] = (unsigned int)power_range->size[ib];
   }
 
-  i5 = a->size[0] * a->size[1];
-  a->size[0] = (int)uv0[0];
-  a->size[1] = (int)uv0[1];
-  emxEnsureCapacity((emxArray__common *)a, i5, (int)sizeof(creal_T));
-  vlen = power_range->size[0] * power_range->size[1];
-  for (k = 0; k + 1 <= vlen; k++) {
-    if ((power_range->data[k].im == 0.0) && rtIsNaN(power_range->data[k].re)) {
-      s_re = power_range->data[k].re;
-      s_im = power_range->data[k].im;
+  ib = a->size[0] * a->size[1];
+  a->size[0] = (int)sz[0];
+  a->size[1] = (int)sz[1];
+  emxEnsureCapacity_creal_T(a, ib);
+  for (k = 0; k < acoef; k++) {
+    if (power_range->data[k].im == 0.0) {
+      if (power_range->data[k].re < 0.0) {
+        brm = scalar_real_log2(fabs(power_range->data[k].re));
+        bim = 4.5323601418271942;
+      } else {
+        brm = scalar_real_log2(fabs(power_range->data[k].re));
+        bim = 0.0;
+      }
     } else if ((fabs(power_range->data[k].re) > 8.9884656743115785E+307) ||
                (fabs(power_range->data[k].im) > 8.9884656743115785E+307)) {
-      s_re = scalar_real_log2(rt_hypotd_snf(power_range->data[k].re / 2.0,
-        power_range->data[k].im / 2.0)) + 1.0;
-      s_im = rt_atan2d_snf(power_range->data[k].im, power_range->data[k].re) /
+      bim = scalar_real_log2(rt_hypotd_snf(power_range->data[k].re / 2.0,
+        power_range->data[k].im / 2.0));
+      brm = bim + 1.0;
+      bim = rt_atan2d_snf(power_range->data[k].im, power_range->data[k].re) /
         0.69314718055994529;
     } else {
-      s_re = scalar_real_log2(rt_hypotd_snf(power_range->data[k].re,
+      brm = scalar_real_log2(rt_hypotd_snf(power_range->data[k].re,
         power_range->data[k].im));
-      s_im = rt_atan2d_snf(power_range->data[k].im, power_range->data[k].re) /
+      bim = rt_atan2d_snf(power_range->data[k].im, power_range->data[k].re) /
         0.69314718055994529;
     }
 
-    a->data[k].re = s_re;
-    a->data[k].im = s_im;
+    a->data[k].re = brm;
+    a->data[k].im = bim;
   }
 
-  i5 = a->size[0] * a->size[1];
+  sck = power_range->size[0] * power_range->size[1] - 1;
+  ib = a->size[0] * a->size[1];
   a->size[0] = power_range->size[0];
   a->size[1] = power_range->size[1];
-  emxEnsureCapacity((emxArray__common *)a, i5, (int)sizeof(creal_T));
-  vlen = power_range->size[0] * power_range->size[1];
-  for (i5 = 0; i5 < vlen; i5++) {
-    s_re = power_range->data[i5].re;
-    s_im = power_range->data[i5].im;
-    brm = a->data[i5].re;
-    y_re = a->data[i5].im;
-    a->data[i5].re = s_re * brm - s_im * y_re;
-    a->data[i5].im = s_re * y_re + s_im * brm;
+  emxEnsureCapacity_creal_T(a, ib);
+  for (ib = 0; ib <= sck; ib++) {
+    brm = power_range->data[ib].re;
+    y_re = power_range->data[ib].im;
+    a_re = a->data[ib].re;
+    a_im = a->data[ib].im;
+    a->data[ib].re = brm * a_re - y_re * a_im;
+    a->data[ib].im = brm * a_im + y_re * a_re;
   }
 
-  i5 = entr->size[0] * entr->size[1];
-  entr->size[0] = 1;
-  entr->size[1] = a->size[1];
-  emxEnsureCapacity((emxArray__common *)entr, i5, (int)sizeof(creal_T));
   if ((a->size[0] == 0) || (a->size[1] == 0)) {
-    i5 = entr->size[0] * entr->size[1];
+    for (ib = 0; ib < 2; ib++) {
+      sz[ib] = (unsigned int)a->size[ib];
+    }
+
+    ib = entr->size[0] * entr->size[1];
     entr->size[0] = 1;
-    emxEnsureCapacity((emxArray__common *)entr, i5, (int)sizeof(creal_T));
-    vlen = entr->size[1];
-    for (i5 = 0; i5 < vlen; i5++) {
-      entr->data[entr->size[0] * i5].re = 0.0;
-      entr->data[entr->size[0] * i5].im = 0.0;
+    entr->size[1] = (int)sz[1];
+    emxEnsureCapacity_creal_T(entr, ib);
+    sck = (int)sz[1];
+    for (ib = 0; ib < sck; ib++) {
+      entr->data[ib].re = 0.0;
+      entr->data[ib].im = 0.0;
     }
   } else {
-    vlen = a->size[0];
-    for (asub = 0; asub + 1 <= a->size[1]; asub++) {
-      xoffset = asub * vlen;
-      s_re = a->data[xoffset].re;
-      s_im = a->data[xoffset].im;
-      for (k = 2; k <= vlen; k++) {
-        s_re += a->data[(xoffset + k) - 1].re;
-        s_im += a->data[(xoffset + k) - 1].im;
-      }
-
-      entr->data[asub].re = s_re;
-      entr->data[asub].im = s_im;
-    }
+    colMajorFlatIter(a, a->size[0], entr);
   }
 
   emxFree_creal_T(&a);
-  s_re = scalar_real_log2(power_range->size[0]);
-  i5 = entr->size[0] * entr->size[1];
+  bim = scalar_real_log2(power_range->size[0]);
+  sck = entr->size[0] * entr->size[1] - 1;
+  ib = entr->size[0] * entr->size[1];
   entr->size[0] = 1;
-  emxEnsureCapacity((emxArray__common *)entr, i5, (int)sizeof(creal_T));
-  vlen = entr->size[0];
-  xoffset = entr->size[1];
-  vlen *= xoffset;
-  for (i5 = 0; i5 < vlen; i5++) {
-    s_im = -entr->data[i5].re;
-    brm = -entr->data[i5].im;
-    if (brm == 0.0) {
-      entr->data[i5].re = s_im / s_re;
-      entr->data[i5].im = 0.0;
-    } else if (s_im == 0.0) {
-      entr->data[i5].re = 0.0;
-      entr->data[i5].im = brm / s_re;
+  emxEnsureCapacity_creal_T(entr, ib);
+  for (ib = 0; ib <= sck; ib++) {
+    brm = -entr->data[ib].re;
+    y_re = -entr->data[ib].im;
+    if (y_re == 0.0) {
+      entr->data[ib].re = brm / bim;
+      entr->data[ib].im = 0.0;
+    } else if (brm == 0.0) {
+      entr->data[ib].re = 0.0;
+      entr->data[ib].im = y_re / bim;
     } else {
-      entr->data[i5].re = s_im / s_re;
-      entr->data[i5].im = brm / s_re;
+      entr->data[ib].re = brm / bim;
+      entr->data[ib].im = y_re / bim;
     }
   }
 

@@ -4,13 +4,14 @@
  * government, commercial, or other organizational use.
  * File: extract_vitals_tk1_rtwutil.c
  *
- * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 27-Mar-2019 00:43:16
+ * MATLAB Coder version            : 4.0
+ * C/C++ source code generated on  : 08-Aug-2019 11:00:09
  */
 
 /* Include Files */
+#include <math.h>
+#include "rt_defines.h"
 #include "rt_nonfinite.h"
-#include "extract_vitals_tk1.h"
 #include "extract_vitals_tk1_rtwutil.h"
 
 /* Function Definitions */

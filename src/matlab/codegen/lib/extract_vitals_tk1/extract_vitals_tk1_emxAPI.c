@@ -4,11 +4,12 @@
  * government, commercial, or other organizational use.
  * File: extract_vitals_tk1_emxAPI.c
  *
- * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 27-Mar-2019 00:43:16
+ * MATLAB Coder version            : 4.0
+ * C/C++ source code generated on  : 08-Aug-2019 11:00:09
  */
 
 /* Include Files */
+#include <stdlib.h>
 #include "rt_nonfinite.h"
 #include "extract_vitals_tk1.h"
 #include "extract_vitals_tk1_emxAPI.h"
@@ -26,7 +27,7 @@ emxArray_real_T *emxCreateND_real_T(int numDimensions, int *size)
   emxArray_real_T *emx;
   int numEl;
   int i;
-  emxInit_real_T(&emx, numDimensions);
+  emxInit_real_T1(&emx, numDimensions);
   numEl = 1;
   for (i = 0; i < numDimensions; i++) {
     numEl *= size[i];
@@ -51,7 +52,7 @@ emxArray_real_T *emxCreateWrapperND_real_T(double *data, int numDimensions, int 
   emxArray_real_T *emx;
   int numEl;
   int i;
-  emxInit_real_T(&emx, numDimensions);
+  emxInit_real_T1(&emx, numDimensions);
   numEl = 1;
   for (i = 0; i < numDimensions; i++) {
     numEl *= size[i];
@@ -79,7 +80,7 @@ emxArray_real_T *emxCreateWrapper_real_T(double *data, int rows, int cols)
   int i;
   size[0] = rows;
   size[1] = cols;
-  emxInit_real_T(&emx, 2);
+  emxInit_real_T1(&emx, 2);
   numEl = 1;
   for (i = 0; i < 2; i++) {
     numEl *= size[i];
@@ -106,7 +107,7 @@ emxArray_real_T *emxCreate_real_T(int rows, int cols)
   int i;
   size[0] = rows;
   size[1] = cols;
-  emxInit_real_T(&emx, 2);
+  emxInit_real_T1(&emx, 2);
   numEl = 1;
   for (i = 0; i < 2; i++) {
     numEl *= size[i];
@@ -135,7 +136,7 @@ void emxDestroyArray_real_T(emxArray_real_T *emxArray)
  */
 void emxInitArray_real_T(emxArray_real_T **pEmxArray, int numDimensions)
 {
-  emxInit_real_T(pEmxArray, numDimensions);
+  emxInit_real_T1(pEmxArray, numDimensions);
 }
 
 /*

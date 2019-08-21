@@ -4,14 +4,12 @@
  * government, commercial, or other organizational use.
  * File: rtwtypes.h
  *
- * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 27-Mar-2019 00:43:16
+ * MATLAB Coder version            : 4.0
+ * C/C++ source code generated on  : 08-Aug-2019 11:00:09
  */
 
 #ifndef RTWTYPES_H
 #define RTWTYPES_H
-#ifndef __TMWTYPES__
-#define __TMWTYPES__
 
 /*=======================================================================*
  * Target hardware information
@@ -121,7 +119,7 @@ typedef struct {
 #define MIN_uint32_T                   ((uint32_T)(0))
 
 /* Logical type definitions */
-#if !defined(__cplusplus) && !defined(__true_false_are_keywords)
+#if !defined(__cplusplus) && !defined(__true_false_are_keywords) && !defined(__bool_true_false_are_defined)
 #  ifndef false
 #   define false                       (0U)
 #  endif
@@ -137,7 +135,6 @@ typedef struct {
  * rt_logging.c and rt_matrx.c.
  */
 #define TMW_NAME_LENGTH_MAX            64
-#endif
 #endif
 
 /*

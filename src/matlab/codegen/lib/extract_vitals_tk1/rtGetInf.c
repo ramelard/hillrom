@@ -4,8 +4,8 @@
  * government, commercial, or other organizational use.
  * File: rtGetInf.c
  *
- * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 27-Mar-2019 00:43:16
+ * MATLAB Coder version            : 4.0
+ * C/C++ source code generated on  : 08-Aug-2019 11:00:09
  */
 
 /*
@@ -13,51 +13,44 @@
  *       MATLAB for code generation function to initialize non-finite, Inf and MinusInf
  */
 #include "rtGetInf.h"
-#define NumBitsPerChar                 8U
 
 /* Function: rtGetInf ==================================================
  * Abstract:
  * Initialize rtInf needed by the generated code.
- * Inf is initialized as non-signaling. Assumes IEEE.
  */
 real_T rtGetInf(void)
 {
-  size_t bitsPerReal = sizeof(real_T) * (NumBitsPerChar);
   real_T inf = 0.0;
-  if (bitsPerReal == 32U) {
-    inf = rtGetInfF();
-  } else {
-    uint16_T one = 1U;
-    enum {
-      LittleEndian,
-      BigEndian
-    } machByteOrder = (*((uint8_T *) &one) == 1U) ? LittleEndian : BigEndian;
-    switch (machByteOrder) {
-     case LittleEndian:
-      {
-        union {
-          LittleEndianIEEEDouble bitVal;
-          real_T fltVal;
-        } tmpVal;
+  uint16_T one = 1U;
+  enum {
+    LittleEndian,
+    BigEndian
+  } machByteOrder = (*((uint8_T *) &one) == 1U) ? LittleEndian : BigEndian;
+  switch (machByteOrder) {
+   case LittleEndian:
+    {
+      union {
+        LittleEndianIEEEDouble bitVal;
+        real_T fltVal;
+      } tmpVal;
 
-        tmpVal.bitVal.words.wordH = 0x7FF00000U;
-        tmpVal.bitVal.words.wordL = 0x00000000U;
-        inf = tmpVal.fltVal;
-        break;
-      }
+      tmpVal.bitVal.words.wordH = 0x7FF00000U;
+      tmpVal.bitVal.words.wordL = 0x00000000U;
+      inf = tmpVal.fltVal;
+      break;
+    }
 
-     case BigEndian:
-      {
-        union {
-          BigEndianIEEEDouble bitVal;
-          real_T fltVal;
-        } tmpVal;
+   case BigEndian:
+    {
+      union {
+        BigEndianIEEEDouble bitVal;
+        real_T fltVal;
+      } tmpVal;
 
-        tmpVal.bitVal.words.wordH = 0x7FF00000U;
-        tmpVal.bitVal.words.wordL = 0x00000000U;
-        inf = tmpVal.fltVal;
-        break;
-      }
+      tmpVal.bitVal.words.wordH = 0x7FF00000U;
+      tmpVal.bitVal.words.wordL = 0x00000000U;
+      inf = tmpVal.fltVal;
+      break;
     }
   }
 
@@ -67,7 +60,6 @@ real_T rtGetInf(void)
 /* Function: rtGetInfF ==================================================
  * Abstract:
  * Initialize rtInfF needed by the generated code.
- * Inf is initialized as non-signaling. Assumes IEEE.
  */
 real32_T rtGetInfF(void)
 {
@@ -79,46 +71,40 @@ real32_T rtGetInfF(void)
 /* Function: rtGetMinusInf ==================================================
  * Abstract:
  * Initialize rtMinusInf needed by the generated code.
- * Inf is initialized as non-signaling. Assumes IEEE.
  */
 real_T rtGetMinusInf(void)
 {
-  size_t bitsPerReal = sizeof(real_T) * (NumBitsPerChar);
   real_T minf = 0.0;
-  if (bitsPerReal == 32U) {
-    minf = rtGetMinusInfF();
-  } else {
-    uint16_T one = 1U;
-    enum {
-      LittleEndian,
-      BigEndian
-    } machByteOrder = (*((uint8_T *) &one) == 1U) ? LittleEndian : BigEndian;
-    switch (machByteOrder) {
-     case LittleEndian:
-      {
-        union {
-          LittleEndianIEEEDouble bitVal;
-          real_T fltVal;
-        } tmpVal;
+  uint16_T one = 1U;
+  enum {
+    LittleEndian,
+    BigEndian
+  } machByteOrder = (*((uint8_T *) &one) == 1U) ? LittleEndian : BigEndian;
+  switch (machByteOrder) {
+   case LittleEndian:
+    {
+      union {
+        LittleEndianIEEEDouble bitVal;
+        real_T fltVal;
+      } tmpVal;
 
-        tmpVal.bitVal.words.wordH = 0xFFF00000U;
-        tmpVal.bitVal.words.wordL = 0x00000000U;
-        minf = tmpVal.fltVal;
-        break;
-      }
+      tmpVal.bitVal.words.wordH = 0xFFF00000U;
+      tmpVal.bitVal.words.wordL = 0x00000000U;
+      minf = tmpVal.fltVal;
+      break;
+    }
 
-     case BigEndian:
-      {
-        union {
-          BigEndianIEEEDouble bitVal;
-          real_T fltVal;
-        } tmpVal;
+   case BigEndian:
+    {
+      union {
+        BigEndianIEEEDouble bitVal;
+        real_T fltVal;
+      } tmpVal;
 
-        tmpVal.bitVal.words.wordH = 0xFFF00000U;
-        tmpVal.bitVal.words.wordL = 0x00000000U;
-        minf = tmpVal.fltVal;
-        break;
-      }
+      tmpVal.bitVal.words.wordH = 0xFFF00000U;
+      tmpVal.bitVal.words.wordL = 0x00000000U;
+      minf = tmpVal.fltVal;
+      break;
     }
   }
 
@@ -128,7 +114,6 @@ real_T rtGetMinusInf(void)
 /* Function: rtGetMinusInfF ==================================================
  * Abstract:
  * Initialize rtMinusInfF needed by the generated code.
- * Inf is initialized as non-signaling. Assumes IEEE.
  */
 real32_T rtGetMinusInfF(void)
 {

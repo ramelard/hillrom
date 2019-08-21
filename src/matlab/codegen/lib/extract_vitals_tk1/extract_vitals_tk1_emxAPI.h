@@ -4,20 +4,16 @@
  * government, commercial, or other organizational use.
  * File: extract_vitals_tk1_emxAPI.h
  *
- * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 27-Mar-2019 00:43:16
+ * MATLAB Coder version            : 4.0
+ * C/C++ source code generated on  : 08-Aug-2019 11:00:09
  */
 
 #ifndef EXTRACT_VITALS_TK1_EMXAPI_H
 #define EXTRACT_VITALS_TK1_EMXAPI_H
 
 /* Include Files */
-#include <math.h>
 #include <stddef.h>
 #include <stdlib.h>
-#include <string.h>
-#include "rt_defines.h"
-#include "rt_nonfinite.h"
 #include "rtwtypes.h"
 #include "extract_vitals_tk1_types.h"
 

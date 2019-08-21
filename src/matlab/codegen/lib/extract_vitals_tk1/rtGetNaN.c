@@ -4,8 +4,8 @@
  * government, commercial, or other organizational use.
  * File: rtGetNaN.c
  *
- * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 27-Mar-2019 00:43:16
+ * MATLAB Coder version            : 4.0
+ * C/C++ source code generated on  : 08-Aug-2019 11:00:09
  */
 
 /*
@@ -13,7 +13,6 @@
  *       MATLAB for code generation function to initialize non-finite, NaN
  */
 #include "rtGetNaN.h"
-#define NumBitsPerChar                 8U
 
 /* Function: rtGetNaN ==================================================
  * Abstract:
@@ -22,42 +21,37 @@
  */
 real_T rtGetNaN(void)
 {
-  size_t bitsPerReal = sizeof(real_T) * (NumBitsPerChar);
   real_T nan = 0.0;
-  if (bitsPerReal == 32U) {
-    nan = rtGetNaNF();
-  } else {
-    uint16_T one = 1U;
-    enum {
-      LittleEndian,
-      BigEndian
-    } machByteOrder = (*((uint8_T *) &one) == 1U) ? LittleEndian : BigEndian;
-    switch (machByteOrder) {
-     case LittleEndian:
-      {
-        union {
-          LittleEndianIEEEDouble bitVal;
-          real_T fltVal;
-        } tmpVal;
+  uint16_T one = 1U;
+  enum {
+    LittleEndian,
+    BigEndian
+  } machByteOrder = (*((uint8_T *) &one) == 1U) ? LittleEndian : BigEndian;
+  switch (machByteOrder) {
+   case LittleEndian:
+    {
+      union {
+        LittleEndianIEEEDouble bitVal;
+        real_T fltVal;
+      } tmpVal;
 
-        tmpVal.bitVal.words.wordH = 0xFFF80000U;
-        tmpVal.bitVal.words.wordL = 0x00000000U;
-        nan = tmpVal.fltVal;
-        break;
-      }
+      tmpVal.bitVal.words.wordH = 0xFFF80000U;
+      tmpVal.bitVal.words.wordL = 0x00000000U;
+      nan = tmpVal.fltVal;
+      break;
+    }
 
-     case BigEndian:
-      {
-        union {
-          BigEndianIEEEDouble bitVal;
-          real_T fltVal;
-        } tmpVal;
+   case BigEndian:
+    {
+      union {
+        BigEndianIEEEDouble bitVal;
+        real_T fltVal;
+      } tmpVal;
 
-        tmpVal.bitVal.words.wordH = 0x7FFFFFFFU;
-        tmpVal.bitVal.words.wordL = 0xFFFFFFFFU;
-        nan = tmpVal.fltVal;
-        break;
-      }
+      tmpVal.bitVal.words.wordH = 0x7FFFFFFFU;
+      tmpVal.bitVal.words.wordL = 0xFFFFFFFFU;
+      nan = tmpVal.fltVal;
+      break;
     }
   }
 

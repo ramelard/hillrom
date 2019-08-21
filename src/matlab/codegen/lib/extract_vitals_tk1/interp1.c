@@ -4,8 +4,8 @@
  * government, commercial, or other organizational use.
  * File: interp1.c
  *
- * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 27-Mar-2019 00:43:16
+ * MATLAB Coder version            : 4.0
+ * C/C++ source code generated on  : 08-Aug-2019 11:00:09
  */
 
 /* Include Files */
@@ -36,21 +36,21 @@ void interp1(const emxArray_real_T *varargin_1, const emxArray_real_T
   int exitg1;
   int mid_i;
   double r;
-  emxInit_real_T1(&y, 2);
+  emxInit_real_T(&y, 2);
   low_ip1 = y->size[0] * y->size[1];
   y->size[0] = 1;
   y->size[1] = varargin_2->size[1];
-  emxEnsureCapacity((emxArray__common *)y, low_ip1, (int)sizeof(double));
+  emxEnsureCapacity_real_T(y, low_ip1);
   nd2 = varargin_2->size[0] * varargin_2->size[1];
   for (low_ip1 = 0; low_ip1 < nd2; low_ip1++) {
     y->data[low_ip1] = varargin_2->data[low_ip1];
   }
 
-  emxInit_real_T1(&x, 2);
+  emxInit_real_T(&x, 2);
   low_ip1 = x->size[0] * x->size[1];
   x->size[0] = 1;
   x->size[1] = varargin_1->size[1];
-  emxEnsureCapacity((emxArray__common *)x, low_ip1, (int)sizeof(double));
+  emxEnsureCapacity_real_T(x, low_ip1);
   nd2 = varargin_1->size[0] * varargin_1->size[1];
   for (low_ip1 = 0; low_ip1 < nd2; low_ip1++) {
     x->data[low_ip1] = varargin_1->data[low_ip1];
@@ -64,7 +64,7 @@ void interp1(const emxArray_real_T *varargin_1, const emxArray_real_T
   low_ip1 = Vq->size[0] * Vq->size[1];
   Vq->size[0] = 1;
   Vq->size[1] = (int)outsize[1];
-  emxEnsureCapacity((emxArray__common *)Vq, low_ip1, (int)sizeof(double));
+  emxEnsureCapacity_real_T(Vq, low_ip1);
   nd2 = (int)outsize[1];
   for (low_ip1 = 0; low_ip1 < nd2; low_ip1++) {
     Vq->data[low_ip1] = rtNaN;
@@ -98,7 +98,7 @@ void interp1(const emxArray_real_T *varargin_1, const emxArray_real_T
           }
         }
 
-        for (k = 0; k + 1 <= varargin_3->size[1]; k++) {
+        for (k = 0; k < varargin_3->size[1]; k++) {
           r = Vq->data[k];
           if (rtIsNaN(varargin_3->data[k])) {
             r = rtNaN;

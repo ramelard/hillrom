@@ -4,8 +4,8 @@
  * government, commercial, or other organizational use.
  * File: rt_defines.h
  *
- * MATLAB Coder version            : 3.2
- * C/C++ source code generated on  : 27-Mar-2019 00:43:16
+ * MATLAB Coder version            : 4.0
+ * C/C++ source code generated on  : 08-Aug-2019 11:00:09
  */
 
 #ifndef RT_DEFINES_H
